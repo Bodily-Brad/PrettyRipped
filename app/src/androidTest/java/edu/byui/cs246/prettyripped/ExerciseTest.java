@@ -9,12 +9,9 @@ import edu.byui.cs246.prettyripped.models.IExercise;
  * Created by bradb on 11/3/2015.
  */
 public class ExerciseTest extends InstrumentationTestCase {
-    // Local Variables
-    IExercise exercise;
-    public ExerciseTest() {
-        exercise = new Exercise();
-    }
-    public void getGroupTest() {
+
+    public void testSetGroupTest() {
+        IExercise exercise = new Exercise();
         exercise.setGroup("test");
         String expected = "test";
         String actual = exercise.getGroup();
