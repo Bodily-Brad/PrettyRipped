@@ -10,11 +10,23 @@ import edu.byui.cs246.prettyripped.models.IExercise;
  */
 public class ExerciseTest extends InstrumentationTestCase {
 
-    public void testSetGroupTest() {
+    public void testSetGroup() {
         IExercise exercise = new Exercise();
-        exercise.setGroup("test");
-        String expected = "test";
+
+        String expected = "testGroup";
+        exercise.setGroup(expected);
         String actual = exercise.getGroup();
+
+        assertEquals(expected, actual);
+    }
+
+    public void testSetName() {
+        IExercise exercise = new Exercise();
+
+        String expected = "testName";
+        exercise.setName(expected);
+        String actual = exercise.getName();
+
         assertEquals(expected, actual);
     }
 }
