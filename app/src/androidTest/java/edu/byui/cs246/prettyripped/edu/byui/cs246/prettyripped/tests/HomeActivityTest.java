@@ -3,7 +3,7 @@ package edu.byui.cs246.prettyripped.edu.byui.cs246.prettyripped.tests;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
-import edu.byui.cs246.prettyripped.HomeActivity;
+import edu.byui.cs246.prettyripped.view.HomeActivity;
 import edu.byui.cs246.prettyripped.R;
 
 /**

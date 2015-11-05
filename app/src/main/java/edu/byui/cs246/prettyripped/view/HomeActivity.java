@@ -1,7 +1,9 @@
-package edu.byui.cs246.prettyripped;
+package edu.byui.cs246.prettyripped.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import edu.byui.cs246.prettyripped.R;
 
 public class HomeActivity extends AppCompatActivity {
 
