@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped.edu.byui.cs246.prettyripped.tests;
+package edu.byui.cs246.prettyripped;
 
 import android.test.InstrumentationTestCase;
 
@@ -20,9 +20,9 @@ public class SessionTest extends InstrumentationTestCase {
         List<IExercise> exerciseList = new ArrayList<>();
 
         testSession.addExercise(new Exercise());
-        testSession.getExercises(exerciseList);
+        exerciseList = testSession.getExercises();
 
-        assertNotNull(exerciseList.size() == 1);
+        assertEquals(1, exerciseList.size());
         assertEquals(new Exercise(), exerciseList.get(0));
     }
 
@@ -45,7 +45,7 @@ public class SessionTest extends InstrumentationTestCase {
         for (IExercise tempExercise : testExerciseList) {
             testSession.removeExercise(tempExercise);
 
-            testSession.getExercises(exerciseList);
+            exerciseList = testSession.getExercises();
             assertFalse(exerciseList.contains(tempExercise));
 
         }

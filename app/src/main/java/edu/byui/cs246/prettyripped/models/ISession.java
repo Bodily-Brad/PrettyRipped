@@ -9,7 +9,7 @@ import java.util.List;
 public interface ISession {
     public void addExercise(IExercise exercise);
     public void removeExercise(IExercise exercise);
-    public void getExercises(List<IExercise> exercises);
+    List<IExercise> getExercises();
     public Date getTime();
     public void setTime(Date date);
 
