@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped.view;
+package edu.byui.cs246.prettyripped.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

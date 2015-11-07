@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped.view;
+package edu.byui.cs246.prettyripped.views;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,12 +9,12 @@ import android.view.View;
 
 import edu.byui.cs246.prettyripped.R;
 
-public class SessionsActivity extends AppCompatActivity {
+public class SessionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sessions);
+        setContentView(R.layout.activity_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -26,6 +26,11 @@ public class SessionsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // To-do: Get rid of this, this is just a test to see if it will
+        // set the title in the "blue bar"
+        this.setTitle("Date");
     }
 
 }
