@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="lbs"
-        android:id="@+id/textViewName" />
+        android:id="@+id/labelWeight" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Reps"
-        android:id="@+id/textViewReps" />
+        android:id="@+id/labelReps" />
 
 </LinearLayout>
