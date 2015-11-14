@@ -53,7 +53,7 @@ public class SessionActivity extends AppCompatActivity {
         // set the title in the "blue bar"
         this.setTitle("Date");
 
-        // Make up some data
+        // Make up some data tha
         createDefaultData();
 
         // Set up expandable list
@@ -79,6 +79,7 @@ public class SessionActivity extends AppCompatActivity {
 
         // Set of 10lb x 5
         set = new Set();
+        set.setCompleted(true);
         set.setReps(5);
         set.setWeight(10);
         ex.addSet(set);

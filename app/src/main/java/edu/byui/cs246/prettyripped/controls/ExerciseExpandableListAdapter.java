@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,10 +148,16 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.set_view, null);
         }
 
+        // Get controls
+        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBoxCompleted);
+        TextView labelSetNumber = (TextView) convertView.findViewById(R.id.labelSetNumber);
         EditText editWeight = (EditText) convertView.findViewById(R.id.editWeight);
         EditText editReps = (EditText) convertView.findViewById(R.id.editReps);
 
-        editWeight.setText( Float.toString( set.getWeight() ) );
+        // Set controls to match underlying Set
+        checkBox.setChecked(set.getCompleted());
+        labelSetNumber.setText( context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1) );
+        editWeight.setText( Float.toString(set.getWeight()) );
         editReps.setText( Float.toString( set.getReps() ) );
 
         return convertView;

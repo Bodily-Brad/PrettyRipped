@@ -13,9 +13,29 @@ public class Set implements ISet {
 
     private static final String ERROR_MESSAGE_INVALID_REP_ARGUMENT = "Invalid rep argument";
     private static final String ERROR_MESSAGE_INVALID_WEIGHT_ARGUMENT = "Invalid weight argument";
+
     // LOCAL VARIABLES
+    private boolean completed = false;
     private int reps = 0;
     private float weight = 0.0f;
+
+    /**
+     * Gets the completed flag for this Set
+     * @return the completed flag for this Set
+     */
+    @Override
+    public boolean getCompleted() {
+        return completed;
+    }
+
+    /**
+     * Sets the completed flag for this Set
+     * @param completed a flag indicating whether or not this set was completed
+     */
+    @Override
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 
     /**
      * Gets the number of reps in this Set

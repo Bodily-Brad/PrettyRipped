@@ -5,8 +5,14 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set #"
         android:id="@+id/checkBoxCompleted" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Set #"
+        android:id="@+id/labelSetNumber" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -21,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="lbs"
+        android:text="@string/label_weight_unit"
         android:id="@+id/labelWeight" />
 
     <EditText
@@ -37,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Reps"
+        android:text="@string/label_reps"
         android:id="@+id/labelReps" />
 
 </LinearLayout>

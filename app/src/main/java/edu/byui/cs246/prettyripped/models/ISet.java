@@ -9,6 +9,18 @@ package edu.byui.cs246.prettyripped.models;
  */
 public interface ISet {
     /**
+     * Gets the completed flag for this Set
+     * @return the completed flag for this Set
+     */
+    public boolean getCompleted();
+
+    /**
+     * Sets the completed flag for this Set
+     * @param completed a flag indicating whether or not this set was completed
+     */
+    public void setCompleted(boolean completed);
+
+    /**
      * Gets the number of reps in this Set
      * @return the number of reps in the Set
      */
