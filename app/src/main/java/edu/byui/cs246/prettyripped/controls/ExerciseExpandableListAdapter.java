@@ -28,8 +28,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Creates a new instance of ExerciseExpandableListAdapter
-     * @param context
-     * @param exercises
+     * @param context Context
+     * @param exercises list of exercises to list
      */
     public ExerciseExpandableListAdapter(Context context, List<IExercise> exercises) {
         this.context = context;

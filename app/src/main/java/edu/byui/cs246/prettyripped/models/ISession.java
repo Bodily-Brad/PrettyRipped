@@ -1,6 +1,6 @@
 package edu.byui.cs246.prettyripped.models;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
