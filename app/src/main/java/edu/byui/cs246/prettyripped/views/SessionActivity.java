@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -20,6 +21,9 @@ import edu.byui.cs246.prettyripped.models.ISet;
 import edu.byui.cs246.prettyripped.models.Set;
 
 public class SessionActivity extends AppCompatActivity {
+    // CONSTANTS & SETTINGS
+    private final static String TAG = "SessionActivity";
+
     // LOCAL VARIABLES
     private List<IExercise> exercises;
 
@@ -28,6 +32,9 @@ public class SessionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.i(TAG, "onCreate()");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -61,6 +68,7 @@ public class SessionActivity extends AppCompatActivity {
     }
 
     private void createDefaultData() {
+        Log.i(TAG, "createDefaultData()");
         // Just make some dummy data
         exercises = new ArrayList<IExercise>();
 
