@@ -50,7 +50,7 @@ public class SessionActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // To-do: Get rid of this, this is just a test to see if it will
+        // Todo: Get rid of this, this is just a test to see if it will
         // set the title in the "blue bar"
         this.setTitle("Date");
 

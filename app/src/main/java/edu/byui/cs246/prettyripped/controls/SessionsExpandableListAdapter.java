@@ -23,6 +23,8 @@ import edu.byui.cs246.prettyripped.models.ISession;
  * Created by bradb on 11/14/2015.
  */
 public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
+    // CONSTANTS & SETTINGS
+    private final static String TAG = "SessionsExpandableListAdapter";
 
     // LOCAL VARIABLES
     private Context context;

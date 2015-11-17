@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -28,6 +29,9 @@ import edu.byui.cs246.prettyripped.models.Session;
 import edu.byui.cs246.prettyripped.models.Set;
 
 public class SessionsActivity extends AppCompatActivity {
+    // CONSTANTS & SETTINGS
+    private final static String TAG = "SessionsActivity";
+
     // LOCAL VARIABLES
     private List<ISession> sessions;
 
@@ -61,11 +65,14 @@ public class SessionsActivity extends AppCompatActivity {
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
+
+        Log.i(TAG, "onCreate() Finished");
     }
 
     public void openSessionActivity(View view) {
         // Start a SessionActivity
         // TODO: Pass a session to the session activity
+        Log.i(TAG, "openSessionActivity()");
         Intent intent = new Intent(SessionsActivity.this, SessionActivity.class);
         SessionsActivity.this.startActivity(intent);
     }
@@ -86,6 +93,9 @@ public class SessionsActivity extends AppCompatActivity {
     }
 
     private ISession buildTestSession(int year, int month, int day, int hour, int min) {
+
+        Log.i(TAG, "buildTestSession(" + year + ", " + month + ", " + day + ", "
+                                       + hour + ", " + min + ")");
         // Calendar
         Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         Date date;
