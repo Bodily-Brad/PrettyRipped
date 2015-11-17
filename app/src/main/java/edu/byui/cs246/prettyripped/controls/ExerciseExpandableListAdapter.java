@@ -1,6 +1,7 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import edu.byui.cs246.prettyripped.models.ISet;
  * Created by bradb on 11/13/2015.
  */
 public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
+    // CONSTANTS & SETTINGS
+    private final static String TAG = "ExerciseListAdapter";
 
     // LOCAL VARIABLES
     private Context context;
@@ -42,6 +45,10 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
+        // Let us know if our group is empty for some reason
+        if (exercises.size() < 1) {
+            Log.e(TAG, "getGroupCount() : exercises.size() < 1");
+        }
         return exercises.size();
     }
 
