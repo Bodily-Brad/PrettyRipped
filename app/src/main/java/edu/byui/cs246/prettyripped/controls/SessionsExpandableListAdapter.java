@@ -1,6 +1,7 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +100,8 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
             if ( dates.contains(cal.getTime()) ) {
                 children.add(session);
+            } else {
+                Log.e(TAG, "getGroup(): no matching date for session.");
             }
         }
 
