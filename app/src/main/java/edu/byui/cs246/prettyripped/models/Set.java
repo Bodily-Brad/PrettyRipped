@@ -1,5 +1,7 @@
 package edu.byui.cs246.prettyripped.models;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 
 /**
@@ -7,6 +9,8 @@ import com.orm.SugarRecord;
  */
 public class Set extends SugarRecord<Set> implements ISet {
     // CONSTANTS & SETTINGS
+    private final static String TAG = "Set";
+
     public static final int MIN_REPS = 0;
     public static final int MAX_REPS = Integer.MAX_VALUE;
 
@@ -20,6 +24,25 @@ public class Set extends SugarRecord<Set> implements ISet {
     private boolean completed = false;
     private int reps = 0;
     private float weight = 0.0f;
+
+    // CONSTRUCTORS
+    public Set() {
+        this(0, 0.0f, false);
+        Log.i(TAG, "exiting Set()");
+    }
+
+    public Set(int reps, float weight, boolean completed) {
+        Log.i(TAG, "Set(reps, weight, completed)");
+        this.reps = reps;
+        this.weight = weight;
+        this.completed = completed;
+        Log.i(TAG, "exiting Set(reps, weight, completed)");
+    }
+
+    public Set(int reps, float weight) {
+        this(reps, weight, false);
+        Log.i(TAG, "exiting Set(reps, weight)");
+    }
 
     /**
      * Gets the completed flag for this Set

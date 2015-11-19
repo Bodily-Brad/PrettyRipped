@@ -1,5 +1,7 @@
 package edu.byui.cs246.prettyripped.models;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 
 import java.util.ArrayList;
@@ -13,10 +15,27 @@ import java.util.List;
  * Represents an individual exercise activity, including a name, group, and a collection of Sets
  */
 public class Exercise extends SugarRecord<Exercise> implements IExercise{
+    // CONSTANTS & SETTINGS
+    private final static String TAG = "Exercise";
+
     // LOCAL VARIABLES
     private String name;
     private String group;
     private List<ISet> sets = new ArrayList<>();
+
+    // CONSTRUCTORS
+    public  Exercise() {
+        this("Exercise", "No Group", new ArrayList<ISet>());
+        Log.i(TAG, "exiting Exercise()");
+    }
+
+    public Exercise(String name, String group, List<ISet> sets) {
+        Log.i(TAG, "Exercise(name, group, sets)");
+        this.name = name;
+        this.group = group;
+        this.sets = sets;
+        Log.i(TAG, "exiting Exercise(name, group, sets)");
+    }
 
     /**
      * Gets the group of this Exercise

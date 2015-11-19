@@ -9,6 +9,12 @@
         <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Heartrate Monitor" />
     </group>
+    <item android:title="Development">
+        <menu>
+            <item android:id="@+id/nav_dev_sugar" android:icon="@android:drawable/ic_menu_edit"
+                android:title="Sugar ORM Testing"/>
+        </menu>
+    </item>
 
     <!--
     <item android:title="Communicate">

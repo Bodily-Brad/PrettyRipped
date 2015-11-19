@@ -4,13 +4,13 @@
     package="edu.byui.cs246.prettyripped" >
 
     <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
         android:name="com.orm.SugarApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme">
+        tools:replace="android:icon,android:theme" >
         <activity
             android:name=".views.NavActivity"
             android:label="@string/title_activity_nav"
@@ -40,7 +40,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.byui.cs246.prettyripped.views.SessionsActivity" />
         </activity>
+        <activity android:name=".views.TestSugarActivty" >
+        </activity>
 
+        <meta-data android:name="DATABASE" android:value="prettyripped.db"/>
+        <meta-data android:name="VERSION" android:value="1"/>
+        <meta-data android:name="QUERY_LOG" android:value="true"/>
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="edu.byui.cs246.prettyripped"/>
     </application>
 
 </manifest>

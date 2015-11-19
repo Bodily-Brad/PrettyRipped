@@ -1,5 +1,6 @@
 package edu.byui.cs246.prettyripped.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -88,6 +89,9 @@ public class NavActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
+        } else if (id == R.id.nav_dev_sugar) {
+            Intent intent = new Intent(NavActivity.this, TestSugarActivty.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

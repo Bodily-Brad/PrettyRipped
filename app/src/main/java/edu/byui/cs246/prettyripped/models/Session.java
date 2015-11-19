@@ -16,6 +16,17 @@ public class Session extends SugarRecord<Session> implements ISession {
     private List<IExercise> exercises = new ArrayList<>();
     private Date time;
 
+    // CONSTRUCTORS
+    public Session() {
+
+        this(new Date(), new ArrayList<IExercise>());
+    }
+
+    public Session(Date date, List<IExercise> exercises) {
+        this.time = date;
+        this.exercises = exercises;
+    }
+
     /**
      * Adds an Exercise to this Session
      * @param exercise the Exercise to add to this Session
