@@ -1,9 +1,11 @@
 package edu.byui.cs246.prettyripped.models;
 
+import com.orm.SugarRecord;
+
 /**
  * Created by bradb on 11/3/2015.
  */
-public class Set implements ISet {
+public class Set extends SugarRecord<Set> implements ISet {
     // CONSTANTS & SETTINGS
     public static final int MIN_REPS = 0;
     public static final int MAX_REPS = Integer.MAX_VALUE;

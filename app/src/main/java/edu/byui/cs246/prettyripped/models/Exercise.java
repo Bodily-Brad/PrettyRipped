@@ -1,5 +1,7 @@
 package edu.byui.cs246.prettyripped.models;
 
+import com.orm.SugarRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Represents an individual exercise activity, including a name, group, and a collection of Sets
  */
-public class Exercise implements IExercise{
+public class Exercise extends SugarRecord<Exercise> implements IExercise{
     // LOCAL VARIABLES
     private String name;
     private String group;

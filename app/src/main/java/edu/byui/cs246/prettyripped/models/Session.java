@@ -1,5 +1,7 @@
 package edu.byui.cs246.prettyripped.models;
 
+import com.orm.SugarRecord;
+
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,7 +11,7 @@ import java.util.List;
  * Created by bradb on 11/3/2015.
  * TODO: function for comparing two sets? Not sure what the best way is in Java
  */
-public class Session implements ISession {
+public class Session extends SugarRecord<Session> implements ISession {
     // LOCAL VARIABLES
     private List<IExercise> exercises = new ArrayList<>();
     private Date time;
