@@ -51,6 +51,11 @@ public class TestSugarActivty extends AppCompatActivity {
         set1.setReps(10);
         set1.setWeight(15);
 
+        // Attempt to save set1
+        Log.i(TAG, "Attempting to save set1");
+        set1.save();
+        Log.i(TAG, "set1 saved");
+
         // Create Set #2 (Exercise #1)
         Set set2 = new Set();
         set2.setReps(10);
@@ -68,8 +73,8 @@ public class TestSugarActivty extends AppCompatActivity {
         set1.save();
 
         // Save session and see what happens
-        Log.i(TAG, "attempting to save session");
-        session.save();
+        //Log.i(TAG, "attempting to save session");
+        //session.save();
     }
 
     public void loadAllSessions(View view) {

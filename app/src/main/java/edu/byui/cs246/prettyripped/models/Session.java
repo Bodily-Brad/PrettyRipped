@@ -1,5 +1,7 @@
 package edu.byui.cs246.prettyripped.models;
 
+import android.util.Log;
+
 import com.orm.SugarRecord;
 
 import java.util.Date;
@@ -12,19 +14,24 @@ import java.util.List;
  * TODO: function for comparing two sets? Not sure what the best way is in Java
  */
 public class Session extends SugarRecord<Session> implements ISession {
+    // CONSTANTS & SETTINGS
+    private final static String TAG = "Session";
+
     // LOCAL VARIABLES
     private List<IExercise> exercises = new ArrayList<>();
     private Date time;
 
     // CONSTRUCTORS
     public Session() {
-
         this(new Date(), new ArrayList<IExercise>());
+        Log.i(TAG, "exiting Session()");
     }
 
     public Session(Date date, List<IExercise> exercises) {
+        Log.i(TAG, "Session(date, exercises)");
         this.time = date;
         this.exercises = exercises;
+        Log.i(TAG, "exiting Session(date, exercises)");
     }
 
     /**

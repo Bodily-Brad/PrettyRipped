@@ -21,9 +21,9 @@ public class Set extends SugarRecord<Set> implements ISet {
     private static final String ERROR_MESSAGE_INVALID_WEIGHT_ARGUMENT = "Invalid weight argument";
 
     // LOCAL VARIABLES
-    private boolean completed = false;
-    private int reps = 0;
-    private float weight = 0.0f;
+    public boolean completed = false;
+    public int reps = 0;
+    public float weight = 0.0f;
 
     // CONSTRUCTORS
     public Set() {

@@ -19,9 +19,9 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
     private final static String TAG = "Exercise";
 
     // LOCAL VARIABLES
-    private String name;
-    private String group;
-    private List<ISet> sets = new ArrayList<>();
+    public String name;
+    public String group;
+    public List<ISet> sets = new ArrayList<>();
 
     // CONSTRUCTORS
     public  Exercise() {
