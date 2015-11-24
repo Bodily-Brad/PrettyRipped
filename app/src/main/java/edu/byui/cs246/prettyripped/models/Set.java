@@ -5,11 +5,9 @@ import android.util.Log;
 import com.orm.SugarRecord;
 
 /**
- * Created by bradb on 11/3/2015.
- */
-
-/**
  * Represents a weight lifting "set"
+ * @author Brad Bodily
+ * @since 2015-11-03
  */
 public class Set extends SugarRecord<Set> implements ISet {
     // CONSTANTS & SETTINGS
@@ -38,16 +36,35 @@ public class Set extends SugarRecord<Set> implements ISet {
     private static final String ERROR_MESSAGE_INVALID_WEIGHT_ARGUMENT = "Invalid weight argument";
 
     // LOCAL VARIABLES
+    /**
+     * A boolean flag representing whether this Set was completed or not
+     */
     public boolean completed = false;
+    /**
+     * The number of reps that this Set is comprised of
+     */
     public int reps = 0;
+    /**
+     * The value of the weight that this Set is comprised of
+     */
     public float weight = 0.0f;
 
     // CONSTRUCTORS
+
+    /**
+     * Creates a new instance of Set with the default parameters
+     */
     public Set() {
         this(0, 0.0f, false);
         Log.i(TAG, "exiting Set()");
     }
 
+    /**
+     * Creates a new instance of Set with the specified parameters
+     * @param reps the number of reps this Set is comprised of
+     * @param weight the weight value this Set is comprised of
+     * @param completed a flag indicating whether this Set is completed or not
+     */
     public Set(int reps, float weight, boolean completed) {
         Log.i(TAG, "Set(reps, weight, completed)");
         this.reps = reps;
@@ -56,6 +73,11 @@ public class Set extends SugarRecord<Set> implements ISet {
         Log.i(TAG, "exiting Set(reps, weight, completed)");
     }
 
+    /**
+     * Creates a new instance of Set with the specified parameters and flag as not completed
+     * @param reps the number of reps this Set is comprised of
+     * @param weight the weight value this Set is comprised of
+     */
     public Set(int reps, float weight) {
         this(reps, weight, false);
         Log.i(TAG, "exiting Set(reps, weight)");

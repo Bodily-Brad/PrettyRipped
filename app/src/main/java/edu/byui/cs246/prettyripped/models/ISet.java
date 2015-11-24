@@ -6,6 +6,8 @@ package edu.byui.cs246.prettyripped.models;
 
 /**
  * Represents the interface to a Set
+ * @author Brad Bodily
+ * @since 2015-03-11
  */
 public interface ISet {
     /**

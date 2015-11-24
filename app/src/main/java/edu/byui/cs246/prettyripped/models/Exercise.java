@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Brad Bodily on 11/3/2015.
- */
-
-/**
  * Represents an individual exercise activity, including a name, group, and a collection of Sets
+ * @author Brad Bodily
+ * @since 2015-11-03
  */
 public class Exercise extends SugarRecord<Exercise> implements IExercise{
     // CONSTANTS & SETTINGS

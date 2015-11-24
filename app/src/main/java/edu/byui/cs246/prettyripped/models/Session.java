@@ -10,7 +10,11 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by bradb on 11/3/2015.
+ * Represents an exercise session.
+ * <p>A Session represents a collection of exercises; typically performed together. I.e., a
+ * Session might represent all of the exercises performed during a single visit to the gym.</p>
+ * @author Brad Bodily
+ * @since 2015-11-03
  * TODO: function for comparing two sets? Not sure what the best way is in Java
  */
 public class Session extends SugarRecord<Session> implements ISession {

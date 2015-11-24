@@ -1,13 +1,11 @@
 package edu.byui.cs246.prettyripped.models;
 
-/**
- * Created by Brad Bodily on 11/3/2015.
- */
-
 import java.util.List;
 
 /**
  * Represents the interface for an Exercise
+ * @author Brad Bodily
+ * @since 2015-11-03
  */
 public interface IExercise {
     // GETTERS & SETTERS

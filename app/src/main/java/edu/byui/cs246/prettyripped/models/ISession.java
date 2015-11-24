@@ -4,13 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Brad Bodily on 11/3/2015.
- * A Session represents a collection of exercises; typically performed together.
- * I.e., a Session might represent all of the exercises performed during a single visit to the Gym.
- */
-
-/**
  * Represents the interface to a Session
+ * <p>A Session represents a collection of exercises; typically performed together. I.e., a
+ * Session might represent all of the exercises performed during a single visit to the gym.</p>
+ * @author Brad Bodily
+ * @since 2015-11-03
  */
 public interface ISession {
     /**
