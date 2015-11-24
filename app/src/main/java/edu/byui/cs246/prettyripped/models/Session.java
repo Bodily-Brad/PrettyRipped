@@ -15,9 +15,10 @@ import java.util.List;
  * Session might represent all of the exercises performed during a single visit to the gym.</p>
  * @author Brad Bodily
  * @since 2015-11-03
- * TODO: function for comparing two sets? Not sure what the best way is in Java
  */
 public class Session extends SugarRecord<Session> implements ISession {
+    /* TODO: function for comparing two sets? Not sure what the best way is in Java */
+
     // CONSTANTS & SETTINGS
     private final static String TAG = "Session";
 
