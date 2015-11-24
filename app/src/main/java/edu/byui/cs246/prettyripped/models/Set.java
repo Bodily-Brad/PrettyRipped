@@ -7,14 +7,31 @@ import com.orm.SugarRecord;
 /**
  * Created by bradb on 11/3/2015.
  */
+
+/**
+ * Represents a weight lifting "set"
+ */
 public class Set extends SugarRecord<Set> implements ISet {
     // CONSTANTS & SETTINGS
     private final static String TAG = "Set";
 
+    /**
+     * The minimum number that constitutes a valid number of reps for a Set
+     */
     public static final int MIN_REPS = 0;
+    /**
+     * The maximum number that constitutes a valid number of reps for a Set
+     */
     public static final int MAX_REPS = Integer.MAX_VALUE;
 
+    /**
+     * The minimum number that constitutes a valid weight value for a Set
+     */
     public static final float MIN_WEIGHT = 0.0f;
+
+    /**
+     * The maximum number that constitutes a valid weight value for a Set
+     */
     public static final float MAX_WEIGHT = Float.MAX_VALUE;
 
     private static final String ERROR_MESSAGE_INVALID_REP_ARGUMENT = "Invalid rep argument";

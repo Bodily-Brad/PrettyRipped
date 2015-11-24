@@ -19,16 +19,37 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
     private final static String TAG = "Exercise";
 
     // LOCAL VARIABLES
+    /**
+     * The name of the Exercise
+     */
     public String name;
+
+    /**
+     * A string "group" descriptor that categorizes this Exercise
+     */
     public String group;
+
+    /**
+     * A collection of Sets that comprise this Exercise's sets
+     */
     public List<ISet> sets = new ArrayList<>();
 
     // CONSTRUCTORS
+
+    /**
+     * Creates a new instance of Exercise with the default parameters
+     */
     public  Exercise() {
         this("Exercise", "No Group", new ArrayList<ISet>());
         Log.i(TAG, "exiting Exercise()");
     }
 
+    /**
+     * Creates a new instance of Exercise with the specified parameters
+     * @param name the name of this Exercise
+     * @param group a group descriptor for this Exercise
+     * @param sets a collection of Sets for this Exercise
+     */
     public Exercise(String name, String group, List<ISet> sets) {
         Log.i(TAG, "Exercise(name, group, sets)");
         this.name = name;

@@ -22,11 +22,20 @@ public class Session extends SugarRecord<Session> implements ISession {
     private Date time;
 
     // CONSTRUCTORS
+
+    /**
+     * Creates a new instance of Session with the default parameters
+     */
     public Session() {
         this(new Date(), new ArrayList<IExercise>());
         Log.i(TAG, "exiting Session()");
     }
 
+    /**
+     * Creates a new instance of Session with the specified parameters
+     * @param date the date of this Session
+     * @param exercises a collection of Exercises that this Session will be comprised of
+     */
     public Session(Date date, List<IExercise> exercises) {
         Log.i(TAG, "Session(date, exercises)");
         this.time = date;
@@ -66,8 +75,8 @@ public class Session extends SugarRecord<Session> implements ISession {
     }
 
     /**
-     *
-     * @return
+     * Gets the time of this Session
+     * @return the time of this Session (date it took place)
      */
     @Override
     public Date getTime() {
