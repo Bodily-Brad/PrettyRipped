@@ -20,6 +20,12 @@ import edu.byui.cs246.prettyripped.models.IExercise;
 import edu.byui.cs246.prettyripped.models.ISet;
 import edu.byui.cs246.prettyripped.models.Set;
 
+/**
+ * Displays a session
+ *
+ * @author Brad Bodily
+ * @since 2015-11-03
+ */
 public class SessionActivity extends AppCompatActivity {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionActivity";
@@ -30,6 +36,11 @@ public class SessionActivity extends AppCompatActivity {
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
 
+    /**
+     * Called when the activity is created, sets up layout and data
+     *
+     * @param savedInstanceState Instance state information
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -111,10 +122,6 @@ public class SessionActivity extends AppCompatActivity {
         ex.addSet(set);
 
         exercises.add(ex);
-
-
-
-
     }
 
 }
