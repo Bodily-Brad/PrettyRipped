@@ -17,16 +17,31 @@ import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.Session;
 import edu.byui.cs246.prettyripped.models.Set;
 
+/**
+ * An activity for testing SugarORM integration
+ *
+ * @author Brad Bodily
+ * @since 2015-11-18
+ */
 public class TestSugarActivty extends AppCompatActivity {
     // CONSTANTS & SETTINGS
     private final static String TAG = "TestSugarActivty";
 
+    /**
+     * Is called on creation
+     * @param savedInstanceState instace state information
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_sugar_activty);
     }
 
+    /**
+     * Creates some testing data
+     *
+     * @param view Calling view
+     */
     public void createDefaultData(View view) {
         Log.i(TAG,"createDefaultData");
 
@@ -77,6 +92,11 @@ public class TestSugarActivty extends AppCompatActivity {
         //session.save();
     }
 
+    /**
+     * Attenots to load all saved Sessions from the store
+     *
+     * @param view Calling view
+     */
     public void loadAllSessions(View view) {
         List<Session> sessions;
 
