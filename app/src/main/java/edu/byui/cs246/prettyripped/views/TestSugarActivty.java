@@ -93,7 +93,7 @@ public class TestSugarActivty extends AppCompatActivity {
     }
 
     /**
-     * Attenots to load all saved Sessions from the store
+     * Attempts to load all saved Sessions from the store
      *
      * @param view Calling view
      */
