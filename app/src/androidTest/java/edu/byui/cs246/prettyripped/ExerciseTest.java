@@ -10,7 +10,10 @@ import edu.byui.cs246.prettyripped.models.ISet;
 import edu.byui.cs246.prettyripped.models.Set;
 
 /**
- * Created by Brad Bodily on 11/3/2015.
+ * Tests our Exercise class
+ *
+ * @author Brad
+ * @since 2015-11-03
  */
 public class ExerciseTest extends InstrumentationTestCase {
 
@@ -91,6 +94,5 @@ public class ExerciseTest extends InstrumentationTestCase {
         // Make sure the set is (still) not there
         flag = exercise.getSets().contains(set);
         assertEquals(false, flag);
-
     }
 }

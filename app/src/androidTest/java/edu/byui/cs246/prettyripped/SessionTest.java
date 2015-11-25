@@ -11,10 +11,16 @@ import edu.byui.cs246.prettyripped.models.ISession;
 import edu.byui.cs246.prettyripped.models.Session;
 
 /**
- * Created by Brandon on 11/4/2015.
+ * Tests our Session class
+ *
+ * @author Brandon
+ * @since 2015-11-04
  */
 public class SessionTest extends InstrumentationTestCase {
 
+    /**
+     * Tests addExercise()
+     */
     public void testAddExercise() {
         ISession testSession = new Session();
         List<IExercise> exerciseList = new ArrayList<>();
@@ -26,6 +32,9 @@ public class SessionTest extends InstrumentationTestCase {
         assertEquals(new Exercise(), exerciseList.get(0));
     }
 
+    /**
+     * Tests removeExercise()
+     */
     public void testRemoveExercise() {
         ISession testSession = new Session();
         List<IExercise> exerciseList = new ArrayList<>();
@@ -53,10 +62,4 @@ public class SessionTest extends InstrumentationTestCase {
 
         assertNotNull(exerciseList.size() == 0);
     }
-
-
-
-
-
-
 }
