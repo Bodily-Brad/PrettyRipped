@@ -65,6 +65,11 @@ public class SessionsFragment extends Fragment implements AbsListView.OnItemClic
     public SessionsFragment() {
     }
 
+    /**
+     * Is called on creation
+     *
+     * @param savedInstanceState saved instance data
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,14 @@ public class SessionsFragment extends Fragment implements AbsListView.OnItemClic
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
     }
 
+    /**
+     * Is called when the view is created
+     *
+     * @param inflater inflater used
+     * @param container container of this view
+     * @param savedInstanceState saved instance data
+     * @return the created view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,6 +107,11 @@ public class SessionsFragment extends Fragment implements AbsListView.OnItemClic
         return view;
     }
 
+    /**
+     * Is called when this activity is attached (presumably)
+     *
+     * @param activity Activity being attached to
+     */
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -105,12 +123,23 @@ public class SessionsFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
 
+    /**
+     * Is called when this activity is detached (one can only assume)
+     */
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    /**
+     * Is called when an item is clicked
+     *
+     * @param parent the parent adapterView
+     * @param view the calling view
+     * @param position the position of the child
+     * @param id the item id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
