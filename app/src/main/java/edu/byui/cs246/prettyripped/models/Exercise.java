@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Represents an individual exercise activity, including a name, group, and a collection of Sets
+ *
  * @author Brad Bodily
  * @since 2015-11-03
  */
@@ -44,6 +45,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Creates a new instance of Exercise with the specified parameters
+     *
      * @param name the name of this Exercise
      * @param group a group descriptor for this Exercise
      * @param sets a collection of Sets for this Exercise
@@ -58,6 +60,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Gets the group of this Exercise
+     *
      * @return the group of this Exercise
      */
     @Override
@@ -67,6 +70,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Sets the group of this Exercise
+     *
      * @param group the group to assign to this exercise
      */
     @Override
@@ -76,6 +80,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Gets the name of this Exercise
+     *
      * @return the name of this Exercise
      */
     @Override
@@ -85,6 +90,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Sets the name of this Exercise
+     *
      * @param name the name to assign to this exercise
      */
     @Override
@@ -94,6 +100,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Gets the Sets of this Exercise
+     *
      * @return a List containing the Sets of this Exercise
      */
     @Override
@@ -103,6 +110,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Adds a Set to this Exercise
+     *
      * @param set Set to add to this Exercise
      */
     @Override
@@ -112,6 +120,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise{
 
     /**
      * Removes a Set from this Exercise
+     *
      * @param set Set to remove from this Exercise
      */
     @Override

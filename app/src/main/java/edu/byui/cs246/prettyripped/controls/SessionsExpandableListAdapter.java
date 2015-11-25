@@ -21,11 +21,14 @@ import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.models.ISession;
 
 /**
- * Created by bradb on 11/14/2015.
+ * Represents an adapter between a list of sessions and an expandable list
+ *
+ * @author Brad Bodliy
+ * @since 2015-11-14
  */
 public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
     // CONSTANTS & SETTINGS
-    private final static String TAG = "SessionsExpandableListAdapter";
+    private final static String TAG = "SessionsListAdapter";
 
     // LOCAL VARIABLES
     private Context context;
@@ -34,6 +37,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Creates a new instance of SessionsExpandableListAdapter
+     *
      * @param context Context
      * @param sessions list of sessions to list
      */
@@ -57,11 +61,22 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         }
     }
 
+    /**
+     * Gets the number of group elements
+     *
+     * @return the number of group elements
+     */
     @Override
     public int getGroupCount() {
         return dates.size();
     }
 
+    /**
+     * Gets the number of children elements within a specified group
+     *
+     * @param groupPosition the specified group
+     * @return the number of children elements within the specified group
+     */
     @Override
     public int getChildrenCount(int groupPosition) {
         // Get date
@@ -84,6 +99,12 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
     }
 
+    /**
+     * Gets the object at a specified position
+     *
+     * @param groupPosition the specified group position
+     * @return the object at the specified group position
+     */
     @Override
     public Object getGroup(int groupPosition) {
         // Get date
@@ -108,28 +129,61 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         return children;
     }
 
-
+    /**
+     * Gets a child object from a specified position
+     *
+     * @param groupPosition position of the group within the group list
+     * @param childPosition position of the child within the child list
+     * @return the child at the specified position
+     */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         List<ISession> children = (List<ISession>) getGroup(groupPosition);
         return children.get(childPosition);
     }
 
+    /**
+     * Returns the id for a particular groupPosition
+     *
+     * @param groupPosition groupPosition in question
+     * @return the id of the groupPosition
+     */
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
 
+    /**
+     * Returns the id for a particular childPosition
+     *
+     * @param groupPosition groupPosition of the childPosition in question
+     * @param childPosition childPosition in question
+     * @return the id of the childPosition
+     */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
+    /**
+     * Gets a flag indicator of whether the IDs are stable or not
+     *
+     * @return true if the IDs are stable; otherwise, false.
+     */
     @Override
     public boolean hasStableIds() {
         return true;
     }
 
+    /**
+     * Gets a view for a group element (Session)
+     *
+     * @param groupPosition group position within the session list
+     * @param isExpanded
+     * @param convertView destination view
+     * @param parent parent ViewGroup
+     * @return a view representing the group element
+     */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
@@ -149,6 +203,16 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * Gets a view for a child element (Set)
+     *
+     * @param groupPosition group position within the exercises list
+     * @param childPosition child position within the specific exercise
+     * @param isLastChild boolean indicator as to whether this is the last child in the list
+     * @param convertView destination view
+     * @param parent parent ViewGroup
+     * @return a view representing the child element
+     */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ISession session = (ISession) getChild(groupPosition, childPosition);
@@ -164,6 +228,13 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * Returns a flag indicating whether or not a specified child is selectable
+     *
+     * @param groupPosition group position within the exercises list
+     * @param childPosition child position within the specific exercise
+     * @return true if the child is selectable; otherwise, false.
+     */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;

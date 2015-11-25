@@ -6,6 +6,7 @@ import com.orm.SugarRecord;
 
 /**
  * Represents a weight lifting "set"
+ *
  * @author Brad Bodily
  * @since 2015-11-03
  */
@@ -61,6 +62,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Creates a new instance of Set with the specified parameters
+     *
      * @param reps the number of reps this Set is comprised of
      * @param weight the weight value this Set is comprised of
      * @param completed a flag indicating whether this Set is completed or not
@@ -75,6 +77,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Creates a new instance of Set with the specified parameters and flag as not completed
+     *
      * @param reps the number of reps this Set is comprised of
      * @param weight the weight value this Set is comprised of
      */
@@ -85,6 +88,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Gets the completed flag for this Set
+     *
      * @return the completed flag for this Set
      */
     @Override
@@ -94,6 +98,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Sets the completed flag for this Set
+     *
      * @param completed a flag indicating whether or not this set was completed
      */
     @Override
@@ -103,6 +108,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Gets the number of reps in this Set
+     *
      * @return the number of reps in the Set
      */
     @Override
@@ -112,6 +118,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Sets the number of reps in this Set
+     *
      * @param reps the number of reps
      * @throws IllegalArgumentException
      */
@@ -127,6 +134,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Gets the amount of weight used in this Set
+     *
      * @return the amount of weight used in this Set
      */
     @Override
@@ -136,6 +144,7 @@ public class Set extends SugarRecord<Set> implements ISet {
 
     /**
      * Sets the weight used in this Set
+     *
      * @param weight the amount of weight used in this Set
      * @throws IllegalArgumentException
      */

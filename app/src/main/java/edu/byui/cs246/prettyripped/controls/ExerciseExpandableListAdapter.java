@@ -19,7 +19,10 @@ import edu.byui.cs246.prettyripped.models.IExercise;
 import edu.byui.cs246.prettyripped.models.ISet;
 
 /**
- * Created by bradb on 11/13/2015.
+ * Represents an adapter between a List of exercises and an expandable list
+ *
+ * @author Brad Bodily
+ * @since 2015-11-13
  */
 public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     // CONSTANTS & SETTINGS
@@ -31,6 +34,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Creates a new instance of ExerciseExpandableListAdapter
+     *
      * @param context Context
      * @param exercises list of exercises to list
      */
@@ -41,6 +45,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Gets the number of groups (i.e. the number of exercises within our exercise list)
+     *
      * @return the number of groups
      */
     @Override
@@ -54,6 +59,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Gets the number of children within a particular group
+     *
      * @param groupPosition the position of the group in question
      * @return the number of children within the specified group
      */
@@ -64,6 +70,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Gets the Exercise at the specified position
+     *
      * @param groupPosition position of the Exercise within the exercises list
      * @return the Exercise at the specified location within the exercises list
      */
@@ -74,10 +81,9 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Gets a Set from the child list
-     * @param groupPosition position of the Exercise within the exercise list to get the set
-     *                      from
-     * @param childPosition position of the Set within the Exercise's set list to get the set
-     *                      from
+     *
+     * @param groupPosition position of the group within the group list
+     * @param childPosition position of the child within the child list
      * @return the Set at the specified position within the specified Exercise
      */
     @Override
@@ -88,6 +94,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Returns the id for a particular groupPosition
+     *
      * @param groupPosition groupPosition in question
      * @return the id of the groupPosition
      */
@@ -98,6 +105,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Returns the id for a particular childPosition
+     *
      * @param groupPosition groupPosition of the childPosition in question
      * @param childPosition childPosition in question
      * @return the id of the childPosition
@@ -107,6 +115,11 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         return childPosition;
     }
 
+    /**
+     * Gets a flag indicator of whether the IDs are stable or not
+     *
+     * @return true if the IDs are stable; otherwise, false.
+     */
     @Override
     public boolean hasStableIds() {
         return true;
@@ -114,6 +127,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Gets a view for a group element (Exercise)
+     *
      * @param groupPosition group position within the exercises list
      * @param isExpanded
      * @param convertView destination view
@@ -137,6 +151,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     /**
      * Gets a view for a child element (Set)
+     *
      * @param groupPosition group position within the exercises list
      * @param childPosition child position within the specific exercise
      * @param isLastChild boolean indicator as to whether this is the last child in the list
@@ -170,6 +185,13 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * Returns a flag indicating whether or not a specified child is selectable
+     *
+     * @param groupPosition group position within the exercises list
+     * @param childPosition child position within the specific exercise
+     * @return true if the child is selectable; otherwise, false.
+     */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
