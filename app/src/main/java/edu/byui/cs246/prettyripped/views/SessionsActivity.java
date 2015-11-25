@@ -28,6 +28,12 @@ import edu.byui.cs246.prettyripped.models.ISet;
 import edu.byui.cs246.prettyripped.models.Session;
 import edu.byui.cs246.prettyripped.models.Set;
 
+/**
+ * Displays a list of selectable sessions
+ *
+ * @author Brad Bodily
+ * @since 2015-11-03
+ */
 public class SessionsActivity extends AppCompatActivity {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionsActivity";
@@ -38,6 +44,11 @@ public class SessionsActivity extends AppCompatActivity {
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
 
+    /**
+     * Called when the activity is created, sets up layout and data
+     *
+     * @param savedInstanceState Instance state information
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +80,11 @@ public class SessionsActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate() Finished");
     }
 
+    /**
+     * Start a SessionActivity with a given session
+     *
+     * @param view The view to run under
+     */
     public void openSessionActivity(View view) {
         // Start a SessionActivity
         // TODO: Pass a session to the session activity
@@ -93,7 +109,6 @@ public class SessionsActivity extends AppCompatActivity {
     }
 
     private ISession buildTestSession(int year, int month, int day, int hour, int min) {
-
         Log.i(TAG, "buildTestSession(" + year + ", " + month + ", " + day + ", "
                                        + hour + ", " + min + ")");
         // Calendar
