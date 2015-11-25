@@ -13,6 +13,7 @@ import java.util.List;
  * Represents an exercise session.
  * <p>A Session represents a collection of exercises; typically performed together. I.e., a
  * Session might represent all of the exercises performed during a single visit to the gym.</p>
+ *
  * @author Brad Bodily
  * @since 2015-11-03
  */
@@ -38,6 +39,7 @@ public class Session extends SugarRecord<Session> implements ISession {
 
     /**
      * Creates a new instance of Session with the specified parameters
+     *
      * @param date the date of this Session
      * @param exercises a collection of Exercises that this Session will be comprised of
      */
@@ -50,6 +52,7 @@ public class Session extends SugarRecord<Session> implements ISession {
 
     /**
      * Adds an Exercise to this Session
+     *
      * @param exercise the Exercise to add to this Session
      */
     @Override
@@ -59,6 +62,7 @@ public class Session extends SugarRecord<Session> implements ISession {
 
     /**
      * Removes an Exercise from this Session
+     *
      * @param exercise the Exercise to remove from this Session
      */
     @Override
@@ -72,6 +76,7 @@ public class Session extends SugarRecord<Session> implements ISession {
 
     /**
      * Gets a list of the Exercises contained within this Session
+     *
      * @return a list of the Exercises contained within this Session
      */
     @Override
@@ -81,6 +86,7 @@ public class Session extends SugarRecord<Session> implements ISession {
 
     /**
      * Gets the time of this Session
+     *
      * @return the time of this Session (date it took place)
      */
     @Override
@@ -90,6 +96,7 @@ public class Session extends SugarRecord<Session> implements ISession {
 
     /**
      * Sets the time of this Session
+     *
      * @param time the time to assign to this Session
      */
     @Override
