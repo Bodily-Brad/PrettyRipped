@@ -135,7 +135,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      * Gets a view for a groupDescription element (Exercise)
      *
      * @param groupPosition groupDescription position within the exercises list
-     * @param isExpanded
+     * @param isExpanded flag describing whether the group is expanded or not
      * @param convertView destination view
      * @param parent parent ViewGroup
      * @return a view representing the groupDescription element

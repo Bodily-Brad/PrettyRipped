@@ -136,7 +136,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      * Gets a view for a groupDescription element (Session)
      *
      * @param groupPosition groupDescription position within the session list
-     * @param isExpanded
+     * @param isExpanded flag describing whether the group is expanded or not
      * @param convertView destination view
      * @param parent parent ViewGroup
      * @return a view representing the groupDescription element
