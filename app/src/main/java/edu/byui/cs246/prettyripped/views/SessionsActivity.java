@@ -6,19 +6,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.SessionTextView;
+import edu.byui.cs246.prettyripped.RippedTextView;
 import edu.byui.cs246.prettyripped.controls.SessionsExpandableListAdapter;
-import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.Session;
 
 /**
@@ -76,10 +73,10 @@ public class SessionsActivity extends AppCompatActivity {
      */
     public void openSessionActivity(View view) {
         // Cast to SessionTextView so we can retrieve the session ID from it
-        SessionTextView sessionTextView = (SessionTextView)view;
+        RippedTextView rippedTextView = (RippedTextView)view;
 
         // Start SessionActivity with the specified SessionID
-        startSessionActivity(sessionTextView.sessionID);
+        startSessionActivity(rippedTextView.rippedID);
     }
 
     /**

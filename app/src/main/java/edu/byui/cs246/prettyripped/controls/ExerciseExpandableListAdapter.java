@@ -1,20 +1,25 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byui.cs246.prettyripped.RippedCheckBox;
+import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
+import edu.byui.cs246.prettyripped.RippedEditText;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 
@@ -172,16 +177,84 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         // Get controls
-        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBoxCompleted);
+        RippedCheckBox checkBox = (RippedCheckBox) convertView.findViewById(R.id.checkBoxCompleted);
         TextView labelSetNumber = (TextView) convertView.findViewById(R.id.labelSetNumber);
-        EditText editWeight = (EditText) convertView.findViewById(R.id.editWeight);
-        EditText editReps = (EditText) convertView.findViewById(R.id.editReps);
+        RippedEditText editWeight = (RippedEditText) convertView.findViewById(R.id.editWeight);
+        final RippedEditText editReps = (RippedEditText) convertView.findViewById(R.id.editReps);
+
+        checkBox.rippedID = exerciseSet.getId();
+        editReps.rippedID = exerciseSet.getId();
+        editWeight.rippedID = exerciseSet.getId();
 
         // ExerciseSet controls to match underlying ExerciseSet
         checkBox.setChecked(exerciseSet.getCompleted());
         labelSetNumber.setText( context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1) );
         editWeight.setText(String.format("%.0f", exerciseSet.getWeight()));
-        editReps.setText( Integer.toString( exerciseSet.getReps() ) );
+        editReps.setText(Integer.toString(exerciseSet.getReps()));
+
+        // Set up listeners
+        // Check box
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                long esID = ((RippedCheckBox) buttonView).rippedID;
+                Log.d(TAG, "CHECK CHANGED for " + esID);
+
+                // Get data handler
+                PrettyRippedData data = PrettyRippedData.getInstance();
+                ExerciseSet es = data.getSetById(esID);
+
+                es.completed = isChecked;
+                es.save();
+            }
+        });
+
+        // Reps
+        editReps.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                RippedEditText me = (RippedEditText) v;
+
+                // Get data handler
+                PrettyRippedData data = PrettyRippedData.getInstance();
+                long esID = me.rippedID;
+
+                ExerciseSet es = data.getSetById(esID);
+                if (es != null) {
+                    int newRepValue = Integer.parseInt(me.getText().toString());
+                    if (newRepValue != es.getReps()) {
+                        es.reps = newRepValue;
+                        es.save();
+                    }
+                } else {
+                    Log.e(TAG, "ExerciseSet from store doesn't match ID");
+                }
+            }
+        });
+
+        // Weight
+        editWeight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                RippedEditText me = (RippedEditText) v;
+
+                // Get data handler
+                PrettyRippedData data = PrettyRippedData.getInstance();
+                long esID = me.rippedID;
+
+                ExerciseSet es = data.getSetById(esID);
+                if (es != null) {
+                    float newWeightValue = Float.parseFloat(me.getText().toString());
+                    if (newWeightValue != es.getWeight()) {
+                        es.weight = newWeightValue;
+                        es.save();
+                    }
+                } else {
+                    Log.e(TAG, "ExerciseSet from store doesn't match ID");
+                }
+            }
+        });
+
 
         return convertView;
     }

@@ -5,7 +5,7 @@
     android:padding="@dimen/fivedp"
     >
 
-    <edu.byui.cs246.prettyripped.SessionTextView
+    <edu.byui.cs246.prettyripped.RippedTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/labelSessionDescription"

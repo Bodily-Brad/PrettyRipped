@@ -1,24 +1,21 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.SessionTextView;
+import edu.byui.cs246.prettyripped.RippedTextView;
 import edu.byui.cs246.prettyripped.models.Session;
 
 /**
@@ -177,13 +174,13 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.session_listview, null);
         }
 
-        SessionTextView label = (SessionTextView) convertView.findViewById(R.id.labelSessionDescription);
+        RippedTextView label = (RippedTextView) convertView.findViewById(R.id.labelSessionDescription);
         label.setText("Session " + Integer.toString(childPosition + 1) + ": " + Integer.toString(session.getExercises().size()) + " Exercise(s)");
         label.setText(session.toString());
 
         PrettyRippedData data = PrettyRippedData.getInstance();
         // Set session ID
-        label.sessionID = session.getId();
+        label.rippedID = session.getId();
 
         return convertView;
     }

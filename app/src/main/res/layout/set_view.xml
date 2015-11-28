@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <CheckBox
+    <edu.byui.cs246.prettyripped.RippedCheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkBoxCompleted" />
@@ -14,7 +14,7 @@
         android:text="Set #"
         android:id="@+id/labelSetNumber" />
 
-    <EditText
+    <edu.byui.cs246.prettyripped.RippedEditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -30,7 +30,7 @@
         android:text="@string/label_reps"
         android:id="@+id/labelReps" />
 
-    <EditText
+    <edu.byui.cs246.prettyripped.RippedEditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
