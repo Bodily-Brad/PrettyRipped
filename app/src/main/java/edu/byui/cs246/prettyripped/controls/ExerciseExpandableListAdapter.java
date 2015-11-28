@@ -145,7 +145,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
-        label.setText("(" + exercise.getId() + ")" + exercise.getName());
+        label.setText(exercise.getName() + " (" + exercise.getId() + ")");
 
         return convertView;
     }
@@ -180,8 +180,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         // ExerciseSet controls to match underlying ExerciseSet
         checkBox.setChecked(exerciseSet.getCompleted());
         labelSetNumber.setText( context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1) );
-        editWeight.setText( Float.toString(exerciseSet.getWeight()) );
-        editReps.setText( Float.toString( exerciseSet.getReps() ) );
+        editWeight.setText(String.format("%.0f", exerciseSet.getWeight()));
+        editReps.setText( Integer.toString( exerciseSet.getReps() ) );
 
         return convertView;
     }

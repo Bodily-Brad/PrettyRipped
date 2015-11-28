@@ -64,10 +64,6 @@ public class SessionActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Todo: Get rid of this, this is just a test to see if it will
-        // set the title in the "blue bar"
-        this.setTitle("Date");
-
         // Get data handler
         PrettyRippedData data = PrettyRippedData.getInstance();
 
@@ -76,6 +72,9 @@ public class SessionActivity extends AppCompatActivity {
 
         // Get session from data handler
         Session session = data.getSessionById(sessionID);
+
+        // Set title from session
+        this.setTitle(session.toString());
 
         // Get exercise list from session
         List<Exercise> exercises = session.getExercises();

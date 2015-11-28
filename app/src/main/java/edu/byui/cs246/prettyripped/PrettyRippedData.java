@@ -154,7 +154,7 @@ public class PrettyRippedData {
         // Create exercises
         List<Exercise> exercises = new ArrayList<>();
 
-        int exCount = (int)Math.ceil(Math.random() * 3 + 1);
+        int exCount = (int)Math.ceil(Math.random() * 2 + 1);
         for (int i=0; i < exCount; i++) {
             exercises.add(createRandomExercise());
         }
@@ -167,22 +167,38 @@ public class PrettyRippedData {
         List<ExerciseSet> exerciseSets = new ArrayList<>();
 
         // Pick name/groupDescription
-        int randomName = (int)Math.ceil(Math.random() * 2);
-        String name = "Bench Press";
-        String group = "Chest";
+        int randomName = (int)Math.ceil(Math.random() * 6);
+        String name = "";
+        String group = "";
         switch (randomName) {
             case 1:
-                name = "Curls";
-                group = "Arms";
+                name = "Squat";
+                group = "Legs";
                 break;
             case 2:
-                name = "Dead";
+                name = "Leg press";
+                group = "Hamstrings";
+                break;
+            case 3:
+                name = "Lunge";
                 group = "Legs";
+                break;
+            case 4:
+                name = "Deadlift";
+                group = "Legs";
+                break;
+            case 5:
+                name = "Push-up";
+                group = "Chest";
+                break;
+            case 6:
+                name = "Pull-up";
+                group = "Arms";
                 break;
         }
 
         // Create exerciseSets
-        int setCount = (int)Math.ceil(Math.random() * 4 + 1);
+        int setCount = (int)Math.ceil(Math.random() * 2 + 1);
         for (int i=0; i < setCount; i++) {
             exerciseSets.add(createRandomSet());
         }
@@ -191,7 +207,7 @@ public class PrettyRippedData {
     }
 
     private ExerciseSet createRandomSet() {
-        int reps = (int)Math.ceil(Math.random() * 10 + 5);
+        int reps = ((int)Math.ceil(Math.random() * 3)) * 5;
         float weight = (float)Math.ceil(Math.random() * 50 + 10);
         boolean completed = false;
 
@@ -205,7 +221,7 @@ public class PrettyRippedData {
      * @return a randomized ExerciseSet
      */
     private ExerciseSet createRandomSet(Exercise parentExercise) {
-        int reps = (int)Math.ceil(Math.random() * 10 + 5);
+        int reps = ((int)Math.ceil(Math.random() * 3)) * 5;
         float weight = (float)Math.ceil(Math.random() * 50 + 10);
         boolean completed = false;
 

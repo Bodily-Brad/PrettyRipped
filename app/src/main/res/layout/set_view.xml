@@ -19,22 +19,6 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editWeight"
-        android:layout_weight="1"
-        android:text="45" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/label_weight_unit"
-        android:id="@+id/labelWeight" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
         android:id="@+id/editReps"
         android:layout_weight="1"
         android:text="10" />
@@ -46,4 +30,19 @@
         android:text="@string/label_reps"
         android:id="@+id/labelReps" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editWeight"
+        android:layout_weight="1"
+        android:text="45" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/label_weight_unit"
+        android:id="@+id/labelWeight" />
 </LinearLayout>
