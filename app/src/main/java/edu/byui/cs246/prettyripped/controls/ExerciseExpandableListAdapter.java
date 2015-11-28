@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.R;
+import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.IExercise;
 import edu.byui.cs246.prettyripped.models.ISet;
 
@@ -30,7 +31,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     // LOCAL VARIABLES
     private Context context;
-    private List<IExercise> exercises = new ArrayList<>();
+    private List<Exercise> exercises = new ArrayList<>();
 
     /**
      * Creates a new instance of ExerciseExpandableListAdapter
@@ -38,7 +39,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      * @param context Context
      * @param exercises list of exercises to list
      */
-    public ExerciseExpandableListAdapter(Context context, List<IExercise> exercises) {
+    public ExerciseExpandableListAdapter(Context context, List<Exercise> exercises) {
         this.context = context;
         this.exercises = exercises;
     }

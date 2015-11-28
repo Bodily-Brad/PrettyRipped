@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -19,7 +20,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
+import edu.byui.cs246.prettyripped.SessionTextView;
 import edu.byui.cs246.prettyripped.controls.SessionsExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.IExercise;
@@ -37,9 +40,6 @@ import edu.byui.cs246.prettyripped.models.Set;
 public class SessionsActivity extends AppCompatActivity {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionsActivity";
-
-    // LOCAL VARIABLES
-    private List<ISession> sessions;
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
@@ -65,14 +65,14 @@ public class SessionsActivity extends AppCompatActivity {
             }
         });
 
-        // Make up some data tha
-        createDefaultData();
+        // Get data from app data singleton
+        PrettyRippedData data = PrettyRippedData.getInstance();
 
         // Set up expandable list
         listView = (ExpandableListView) findViewById(R.id.sessionList);
 
         // Create adapter
-        listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, sessions);
+        listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, data.sessions);
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
@@ -86,61 +86,22 @@ public class SessionsActivity extends AppCompatActivity {
      * @param view The view to run under
      */
     public void openSessionActivity(View view) {
+
+        SessionTextView sessionTextView = (SessionTextView)view;
+        List<IExercise> exercises = sessionTextView.exercises;
+
         // Start a SessionActivity
         // TODO: Pass a session to the session activity
         Log.i(TAG, "openSessionActivity()");
         Intent intent = new Intent(SessionsActivity.this, SessionActivity.class);
+
+        // Horrible conversion
+        ArrayList<Exercise> newList = new ArrayList<>();
+        for (IExercise iex : exercises) {
+            newList.add(new Exercise(iex.getName(), iex.getGroup(), iex.getSets()));
+        }
+        intent.putExtra(SessionActivity.SESSION_KEY, newList);
+
         SessionsActivity.this.startActivity(intent);
-    }
-
-    private void createDefaultData() {
-        // Calendar
-        Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        Date date;
-
-
-
-        // Just make some dummy data
-        sessions = new ArrayList<ISession>();
-        sessions.add(buildTestSession(2015,10,30,12,10));
-        sessions.add(buildTestSession(2015,10,30,12,10));
-        sessions.add(buildTestSession(2015,10,30,12,10));
-        sessions.add(buildTestSession(2015,10,30,12,45));
-    }
-
-    private ISession buildTestSession(int year, int month, int day, int hour, int min) {
-        Log.i(TAG, "buildTestSession(" + year + ", " + month + ", " + day + ", "
-                                       + hour + ", " + min + ")");
-        // Calendar
-        Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        Date date;
-
-        cal.set(year, month, day, hour, min,0);
-        date = cal.getTime();
-
-        ISession session = new Session();
-        session.setTime(date);
-
-        // Make some exercises
-        IExercise ex = new Exercise();
-        ISet set;
-        ex.setName("Curl");
-
-        // Set of 10lb x 5
-        set = new Set();
-        set.setCompleted(true);
-        set.setReps(5);
-        set.setWeight(10);
-        ex.addSet(set);
-
-        // Set of 12 lbs x 6
-        set = new Set();
-        set.setReps(6);
-        set.setWeight(12);
-        ex.addSet(set);
-
-        session.addExercise(ex);
-
-        return session;
     }
 }

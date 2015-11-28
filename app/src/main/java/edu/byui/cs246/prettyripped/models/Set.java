@@ -1,8 +1,12 @@
 package edu.byui.cs246.prettyripped.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+
+import java.io.Serializable;
 
 /**
  * Represents a weight lifting "set"
@@ -10,7 +14,7 @@ import com.orm.SugarRecord;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class Set extends SugarRecord<Set> implements ISet {
+public class Set extends SugarRecord<Set> implements ISet, Serializable {
     // CONSTANTS & SETTINGS
     private final static String TAG = "Set";
 

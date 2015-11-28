@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class Exercise extends SugarRecord<Exercise> implements IExercise{
+public class Exercise extends SugarRecord<Exercise> implements IExercise, Serializable {
     // CONSTANTS & SETTINGS
     private final static String TAG = "Exercise";
 

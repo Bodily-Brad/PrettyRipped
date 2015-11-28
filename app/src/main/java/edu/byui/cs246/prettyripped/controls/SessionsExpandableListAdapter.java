@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -19,6 +18,8 @@ import java.util.TimeZone;
 
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.models.ISession;
+import edu.byui.cs246.prettyripped.SessionTextView;
+import edu.byui.cs246.prettyripped.models.Session;
 
 /**
  * Represents an adapter between a list of sessions and an expandable list
@@ -214,16 +215,18 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      * @return a view representing the child element
      */
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ISession session = (ISession) getChild(groupPosition, childPosition);
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final Session session = (Session) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.session_listview, null);
         }
 
-        TextView label = (TextView) convertView.findViewById(R.id.labelSessionDescription);
+        SessionTextView label = (SessionTextView) convertView.findViewById(R.id.labelSessionDescription);
         label.setText("Session " + Integer.toString(childPosition + 1) + ": " + Integer.toString(session.getExercises().size()) + " Exercise(s)");
+        label.setText(session.toString());
+        label.exercises = session.getExercises();
 
         return convertView;
     }

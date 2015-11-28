@@ -13,11 +13,13 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.controls.ExerciseExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.IExercise;
 import edu.byui.cs246.prettyripped.models.ISet;
+import edu.byui.cs246.prettyripped.models.Session;
 import edu.byui.cs246.prettyripped.models.Set;
 
 /**
@@ -30,8 +32,9 @@ public class SessionActivity extends AppCompatActivity {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionActivity";
 
+    public final static String SESSION_KEY = "SESSION";
+
     // LOCAL VARIABLES
-    private List<IExercise> exercises;
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
@@ -66,7 +69,10 @@ public class SessionActivity extends AppCompatActivity {
         this.setTitle("Date");
 
         // Make up some data tha
-        createDefaultData();
+        PrettyRippedData data = PrettyRippedData.getInstance();
+
+        // Get session
+        ArrayList<Exercise> exercises = (ArrayList<Exercise>) getIntent().getSerializableExtra(this.SESSION_KEY);
 
         // Set up expandable list
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
@@ -76,52 +82,6 @@ public class SessionActivity extends AppCompatActivity {
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
-    }
-
-    private void createDefaultData() {
-        Log.i(TAG, "createDefaultData()");
-        // Just make some dummy data
-        exercises = new ArrayList<IExercise>();
-
-        IExercise ex;
-        ISet set;
-
-        // Exercise 1
-        ex = new Exercise();
-        ex.setName("Curl");
-
-        // Set of 10lb x 5
-        set = new Set();
-        set.setCompleted(true);
-        set.setReps(5);
-        set.setWeight(10);
-        ex.addSet(set);
-
-        // Set of 12 lbs x 6
-        set = new Set();
-        set.setReps(6);
-        set.setWeight(12);
-        ex.addSet(set);
-
-        exercises.add(ex);
-
-        // Exercise 2
-        ex = new Exercise();
-        ex.setName("Bench Press");
-
-        // Set of 60lb x 5
-        set = new Set();
-        set.setReps(5);
-        set.setWeight(60);
-        ex.addSet(set);
-
-        // Set of 72 lbs x 6
-        set = new Set();
-        set.setReps(6);
-        set.setWeight(72);
-        ex.addSet(set);
-
-        exercises.add(ex);
     }
 
 }

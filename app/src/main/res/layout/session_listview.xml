@@ -5,11 +5,12 @@
     android:padding="@dimen/fivedp"
     >
 
-    <TextView
+    <edu.byui.cs246.prettyripped.SessionTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/labelSessionDescription"
         android:onClick="openSessionActivity"
+        android:clickable="true"
         />
 
 </LinearLayout>

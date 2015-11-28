@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -102,5 +103,15 @@ public class Session extends SugarRecord<Session> implements ISession {
     @Override
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    /**
+     * String description of this object
+     *
+     * @return a string description of this object
+     */
+    @Override public String toString() {
+        java.text.DateFormat format = new java.text.SimpleDateFormat("MMM d, yyyy");
+        return format.format(time);
     }
 }
