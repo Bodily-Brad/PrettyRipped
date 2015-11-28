@@ -11,11 +11,13 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.controls.ExerciseExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
+import edu.byui.cs246.prettyripped.models.Session;
 
 /**
  * Displays a session
@@ -27,7 +29,10 @@ public class SessionActivity extends AppCompatActivity {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionActivity";
 
-    public final static String SESSION_KEY = "SESSION";
+    /**
+     * Extra key for passed Session ID
+     */
+    public final static String SESSION_ID_KEY = "SESSION_ID";
 
     // LOCAL VARIABLES
 
@@ -63,13 +68,19 @@ public class SessionActivity extends AppCompatActivity {
         // set the title in the "blue bar"
         this.setTitle("Date");
 
-        // Make up some data tha
+        // Get data handler
         PrettyRippedData data = PrettyRippedData.getInstance();
 
-        // Get session
-        ArrayList<Exercise> exercises = (ArrayList<Exercise>) getIntent().getSerializableExtra(this.SESSION_KEY);
+        // Get passed session ID
+        long sessionID = getIntent().getLongExtra(this.SESSION_ID_KEY, 0);
 
-        // ExerciseSet up expandable list
+        // Get session from data handler
+        Session session = data.getSessionById(sessionID);
+
+        // Get exercise list from session
+        List<Exercise> exercises = session.getExercises();
+
+        // Set up expandable list
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
 
         // Create adapter

@@ -14,13 +14,9 @@ import edu.byui.cs246.prettyripped.models.Exercise;
 public class SessionTextView extends TextView {
 
     // LOCAL VARIABLES
-    public List<Exercise> exercises;
+    public long sessionID;
 
     public SessionTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    public SessionTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
     }
 

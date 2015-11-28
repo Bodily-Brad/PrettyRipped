@@ -20,6 +20,9 @@ import edu.byui.cs246.prettyripped.models.Session;
  * @since 2015-11-27
  */
 public class PrettyRippedData {
+    /**
+     * Debugging Tag
+     */
     private static final String TAG = "PrettyRippedData";
 
     // LOCAL VARIABLES
@@ -56,7 +59,11 @@ public class PrettyRippedData {
      * @return the specified Exercise
      */
     public Exercise getExerciseById(long id) {
-        return Exercise.findById(Exercise.class, id);
+        Exercise exercise = Exercise.findById(Exercise.class, id);
+        // Populate Sets
+        exercise.exerciseSets = getExercisesSets(exercise);
+
+        return exercise;
     }
 
     /**
@@ -68,6 +75,30 @@ public class PrettyRippedData {
     public List<ExerciseSet> getExercisesSets(Exercise exercise) {
         List<ExerciseSet> exerciseSets = ExerciseSet.find(ExerciseSet.class, "exercise = ?", exercise.getId().toString());
         return exerciseSets;
+    }
+
+    public Session getSessionById(long id) {
+        Session session = Session.findById(Session.class, id);
+        populateSession(session);
+
+        return session;
+    }
+    /**
+     * Gets a populated list of the workout Sessions
+     *
+     * @return a list of populated Sessions
+     */
+    public List<Session> getWorkoutSessions() {
+        // Get all Sessions from the store
+        sessions = Session.listAll(Session.class);
+
+        // Populate each Session
+        for (Session session : sessions) {
+            populateSession(session);
+        }
+
+        // Return populated sessions
+        return sessions;
     }
 
     /**
@@ -222,8 +253,15 @@ public class PrettyRippedData {
 
         for (Session session : sessions) {
             session.save();
+            Log.d(TAG, "session.getExercises().size(): " + session.getExercises().size());
+
             for (Exercise exercise : session.getExercises()) {
                 exercise.save();
+                Log.d(TAG, "exercise.getId(): " + exercise.getId());
+                Log.d(TAG, "exercise.getName(): " + exercise.getName());
+
+
+                Log.d(TAG, "exercise.getExerciseSets().size(): " + exercise.getExerciseSets().size());
                 for (ExerciseSet set : exercise.getExerciseSets()) {
                     set.save();
                 }
@@ -238,6 +276,33 @@ public class PrettyRippedData {
      */
     private void loadSessionDataFromDB() {
         this.sessions = Session.listAll(Session.class);
+    }
+
+    /**
+     * Populates an Exercise with its sets
+     *
+     * @param exercise the Exercise to populate
+     */
+    private void populateExercise(Exercise exercise) {
+        // Get this Exercise's ExerciseSets from the store
+        List<ExerciseSet> sets = getExercisesSets(exercise);
+
+        // Hook up each set
+        for (ExerciseSet set : sets) {
+            exercise.addSet(set);
+        }
+    }
+
+    private void populateSession(Session session) {
+        // Get this Session's Exercises from the store
+        List<Exercise> exercises = getSessionsExercises(session);
+
+        // populate and hookup each Exercise
+        for (Exercise exercise : exercises) {
+            populateExercise(exercise);
+            session.addExercise(exercise);
+        }
+
     }
 
 }

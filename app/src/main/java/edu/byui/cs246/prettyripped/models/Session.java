@@ -124,6 +124,6 @@ public class Session extends SugarRecord<Session> {
     @Override
     public String toString() {
         java.text.DateFormat format = new java.text.SimpleDateFormat("MMM d, yyyy");
-        return format.format(time);
+        return "(" + this.id + ")" + format.format(time);
     }
 }

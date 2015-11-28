@@ -19,6 +19,7 @@ import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.SessionTextView;
 import edu.byui.cs246.prettyripped.controls.SessionsExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
+import edu.byui.cs246.prettyripped.models.Session;
 
 /**
  * Displays a list of selectable sessions
@@ -61,36 +62,39 @@ public class SessionsActivity extends AppCompatActivity {
         listView = (ExpandableListView) findViewById(R.id.sessionList);
 
         // Create adapter
+        List<Session> session = data.sessions;
         listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, data.sessions);
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
-
-        Log.i(TAG, "onCreate() Finished");
     }
 
     /**
      * Start a SessionActivity with a given session
      *
-     * @param view The view to run under
+     * @param view Calling view
      */
     public void openSessionActivity(View view) {
-
+        // Cast to SessionTextView so we can retrieve the session ID from it
         SessionTextView sessionTextView = (SessionTextView)view;
-        List<Exercise> exercises = sessionTextView.exercises;
 
+        // Start SessionActivity with the specified SessionID
+        startSessionActivity(sessionTextView.sessionID);
+    }
+
+    /**
+     * Starts a SessionActivity for the specified Session (by ID)
+     *
+     * @param sessionID ID of the Session to display in the SessionActivity
+     */
+    public void startSessionActivity(long sessionID) {
         // Start a SessionActivity
-        // TODO: Pass a session to the session activity
-        Log.i(TAG, "openSessionActivity()");
         Intent intent = new Intent(SessionsActivity.this, SessionActivity.class);
 
-        // Horrible conversion
-        ArrayList<Exercise> newList = new ArrayList<>();
-        for (Exercise iex : exercises) {
-            newList.add(new Exercise(iex.getName(), iex.getGroupDescription(), iex.getExerciseSets()));
-        }
-        intent.putExtra(SessionActivity.SESSION_KEY, newList);
+        // Add SessionID to intent, using session ID from the clicked view
+        intent.putExtra(SessionActivity.SESSION_ID_KEY, sessionID);
 
+        // Start activity
         SessionsActivity.this.startActivity(intent);
     }
 }

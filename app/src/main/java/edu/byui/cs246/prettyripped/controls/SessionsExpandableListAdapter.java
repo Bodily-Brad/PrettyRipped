@@ -16,6 +16,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.SessionTextView;
 import edu.byui.cs246.prettyripped.models.Session;
@@ -179,7 +180,10 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         SessionTextView label = (SessionTextView) convertView.findViewById(R.id.labelSessionDescription);
         label.setText("Session " + Integer.toString(childPosition + 1) + ": " + Integer.toString(session.getExercises().size()) + " Exercise(s)");
         label.setText(session.toString());
-        label.exercises = session.getExercises();
+
+        PrettyRippedData data = PrettyRippedData.getInstance();
+        // Set session ID
+        label.sessionID = session.getId();
 
         return convertView;
     }

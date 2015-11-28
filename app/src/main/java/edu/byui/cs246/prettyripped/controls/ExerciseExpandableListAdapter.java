@@ -39,6 +39,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      * @param exercises list of exercises to list
      */
     public ExerciseExpandableListAdapter(Context context, List<Exercise> exercises) {
+        Log.d(TAG, "ExerciseExpandableListAdapter(context, exercises)");
         this.context = context;
         this.exercises = exercises;
     }
@@ -144,7 +145,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
-        label.setText(exercise.getName());
+        label.setText("(" + exercise.getId() + ")" + exercise.getName());
 
         return convertView;
     }
