@@ -4,13 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.IExercise;
-import edu.byui.cs246.prettyripped.models.ISession;
-import edu.byui.cs246.prettyripped.models.Session;
 
 /**
  * Created by bradb on 11/27/2015.
@@ -18,7 +14,7 @@ import edu.byui.cs246.prettyripped.models.Session;
 public class SessionTextView extends TextView {
 
     // LOCAL VARIABLES
-    public List<IExercise> exercises;
+    public List<Exercise> exercises;
 
     public SessionTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);

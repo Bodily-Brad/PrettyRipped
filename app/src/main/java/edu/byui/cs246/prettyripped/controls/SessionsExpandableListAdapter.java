@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.models.ISession;
 import edu.byui.cs246.prettyripped.SessionTextView;
 import edu.byui.cs246.prettyripped.models.Session;
 
@@ -33,7 +32,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
     // LOCAL VARIABLES
     private Context context;
-    private List<ISession> sessions = new ArrayList<>();
+    private List<Session> sessions = new ArrayList<>();
     private List<Date> dates;
 
     /**
@@ -42,7 +41,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      * @param context Context
      * @param sessions list of sessions to list
      */
-    public SessionsExpandableListAdapter(Context context, List<ISession> sessions) {
+    public SessionsExpandableListAdapter(Context context, List<Session> sessions) {
         this.context = context;
         this.sessions = sessions;
 
@@ -53,7 +52,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 
         dates = new ArrayList<>();
-        for (ISession session : sessions) {
+        for (Session session : sessions) {
             cal.setTime(session.getTime());
             cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
             if (!dates.contains(cal.getTime() ) ) {
@@ -87,7 +86,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
         // Find sessions with matching date (not the best way to do this)
         int count = 0;
-        for (ISession session : sessions) {
+        for (Session session : sessions) {
             cal.setTime(session.getTime());
             cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 
@@ -110,13 +109,13 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
     public Object getGroup(int groupPosition) {
         // Get date
         Date date = dates.get(groupPosition);
-        List<ISession> children = new ArrayList<>();
+        List<Session> children = new ArrayList<>();
 
         Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
 
         // Find sessions with matching date (not the best way to do this)
         int count = 0;
-        for (ISession session : sessions) {
+        for (Session session : sessions) {
             cal.setTime(session.getTime());
             cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
 
@@ -139,7 +138,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        List<ISession> children = (List<ISession>) getGroup(groupPosition);
+        List<Session> children = (List<Session>) getGroup(groupPosition);
         return children.get(childPosition);
     }
 

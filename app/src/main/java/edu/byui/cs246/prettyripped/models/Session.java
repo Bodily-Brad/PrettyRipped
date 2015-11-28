@@ -18,14 +18,14 @@ import java.util.List;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class Session extends SugarRecord<Session> implements ISession {
+public class Session extends SugarRecord<Session> {
     /* TODO: function for comparing two sets? Not sure what the best way is in Java */
 
     // CONSTANTS & SETTINGS
     private final static String TAG = "Session";
 
     // LOCAL VARIABLES
-    private List<IExercise> exercises = new ArrayList<>();
+    private List<Exercise> exercises = new ArrayList<>();
     private Date time;
 
     // CONSTRUCTORS
@@ -34,7 +34,7 @@ public class Session extends SugarRecord<Session> implements ISession {
      * Creates a new instance of Session with the default parameters
      */
     public Session() {
-        this(new Date(), new ArrayList<IExercise>());
+        this(new Date(), new ArrayList<Exercise>());
         Log.i(TAG, "exiting Session()");
     }
 
@@ -44,7 +44,7 @@ public class Session extends SugarRecord<Session> implements ISession {
      * @param date the date of this Session
      * @param exercises a collection of Exercises that this Session will be comprised of
      */
-    public Session(Date date, List<IExercise> exercises) {
+    public Session(Date date, List<Exercise> exercises) {
         Log.i(TAG, "Session(date, exercises)");
         this.time = date;
         this.exercises = exercises;
@@ -56,8 +56,7 @@ public class Session extends SugarRecord<Session> implements ISession {
      *
      * @param exercise the Exercise to add to this Session
      */
-    @Override
-    public void addExercise(IExercise exercise) {
+    public void addExercise(Exercise exercise) {
         exercises.add(exercise);
     }
 
@@ -66,8 +65,7 @@ public class Session extends SugarRecord<Session> implements ISession {
      *
      * @param exercise the Exercise to remove from this Session
      */
-    @Override
-    public void removeExercise(IExercise exercise) {
+    public void removeExercise(Exercise exercise) {
         // TODO: presumably some error-checking here
         // I don't think Lists 'handle' removing invalid items on their own
         // (i.e., I don't think it causes any problems to remove an item that doesn't exist in the
@@ -80,8 +78,7 @@ public class Session extends SugarRecord<Session> implements ISession {
      *
      * @return a list of the Exercises contained within this Session
      */
-    @Override
-    public List<IExercise> getExercises() {
+    public List<Exercise> getExercises() {
         return exercises;
     }
 
@@ -90,7 +87,6 @@ public class Session extends SugarRecord<Session> implements ISession {
      *
      * @return the time of this Session (date it took place)
      */
-    @Override
     public Date getTime() {
         return time;
     }
@@ -100,7 +96,6 @@ public class Session extends SugarRecord<Session> implements ISession {
      *
      * @param time the time to assign to this Session
      */
-    @Override
     public void setTime(Date time) {
         this.time = time;
     }

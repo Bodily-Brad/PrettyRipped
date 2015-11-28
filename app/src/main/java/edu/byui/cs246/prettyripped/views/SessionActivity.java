@@ -11,16 +11,11 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.controls.ExerciseExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.IExercise;
-import edu.byui.cs246.prettyripped.models.ISet;
-import edu.byui.cs246.prettyripped.models.Session;
-import edu.byui.cs246.prettyripped.models.Set;
 
 /**
  * Displays a session

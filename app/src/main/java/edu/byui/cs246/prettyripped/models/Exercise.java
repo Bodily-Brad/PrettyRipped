@@ -3,6 +3,7 @@ package edu.byui.cs246.prettyripped.models;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class Exercise extends SugarRecord<Exercise> implements IExercise, Serializable {
+public class Exercise extends SugarRecord<Exercise> implements Serializable {
     // CONSTANTS & SETTINGS
     private final static String TAG = "Exercise";
 
@@ -32,7 +33,8 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
     /**
      * A collection of Sets that comprise this Exercise's sets
      */
-    public List<ISet> sets = new ArrayList<>();
+    @Ignore
+    public List<Set> sets = new ArrayList<>();
 
     // CONSTRUCTORS
 
@@ -40,7 +42,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      * Creates a new instance of Exercise with the default parameters
      */
     public  Exercise() {
-        this("Exercise", "No Group", new ArrayList<ISet>());
+        this("Exercise", "No Group", new ArrayList<Set>());
         Log.i(TAG, "exiting Exercise()");
     }
 
@@ -51,7 +53,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      * @param group a group descriptor for this Exercise
      * @param sets a collection of Sets for this Exercise
      */
-    public Exercise(String name, String group, List<ISet> sets) {
+    public Exercise(String name, String group, List<Set> sets) {
         Log.i(TAG, "Exercise(name, group, sets)");
         this.name = name;
         this.group = group;
@@ -64,7 +66,6 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @return the group of this Exercise
      */
-    @Override
     public String getGroup() {
         return group;
     }
@@ -74,7 +75,6 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @param group the group to assign to this exercise
      */
-    @Override
     public void setGroup(String group) {
         this.group = group;
     }
@@ -84,7 +84,6 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @return the name of this Exercise
      */
-    @Override
     public String getName() {
         return name;
     }
@@ -94,7 +93,6 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @param name the name to assign to this exercise
      */
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -104,8 +102,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @return a List containing the Sets of this Exercise
      */
-    @Override
-    public List<ISet> getSets() {
+    public List<Set> getSets() {
         return sets;
     }
 
@@ -114,8 +111,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @param set Set to add to this Exercise
      */
-    @Override
-    public void addSet(ISet set) {
+    public void addSet(Set set) {
         this.sets.add(set);
     }
 
@@ -124,8 +120,7 @@ public class Exercise extends SugarRecord<Exercise> implements IExercise, Serial
      *
      * @param set Set to remove from this Exercise
      */
-    @Override
-    public void removeSet(ISet set) {
+    public void removeSet(Set set) {
         this.sets.remove(set);
     }
 }

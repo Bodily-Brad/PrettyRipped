@@ -6,9 +6,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.IExercise;
-import edu.byui.cs246.prettyripped.models.ISession;
-import edu.byui.cs246.prettyripped.models.ISet;
 import edu.byui.cs246.prettyripped.models.Session;
 import edu.byui.cs246.prettyripped.models.Set;
 
@@ -23,7 +20,7 @@ import edu.byui.cs246.prettyripped.models.Set;
 public class PrettyRippedData {
 
     // LOCAL VARIABLES
-    public List<ISession> sessions = new ArrayList<>();
+    public List<Session> sessions = new ArrayList<>();
 
     private static PrettyRippedData ourInstance = new PrettyRippedData();
 
@@ -39,6 +36,39 @@ public class PrettyRippedData {
     private PrettyRippedData() {
         // Create our default data
         createDefaultData();
+    }
+
+    // METHODS
+
+    /**
+     * Attempts to retrieve an Exercise by Id
+     *
+     * @param id Id of the Exercise to retrieve
+     * @return the specified Exercise
+     */
+    public Exercise getExerciseById(long id) {
+        return Exercise.findById(Exercise.class, id);
+    }
+
+    /**
+     * Attempts to retrieve all of an Exercise's Sets
+     *
+     * @param exercise Exercise to retireve the Sets for
+     * @return the Sets of the specified Exercise
+     */
+    public List<Set> getExercisesSets(Exercise exercise) {
+        List<Set> sets = Set.find(Set.class, "exercise = ?", exercise.getId().toString());
+        return sets;
+    }
+
+    /**
+     * Attempts to retrieve a Set by Id
+     *
+     * @param id Id of the Set to retrieve
+     * @return the specified Set
+     */
+    public Set getSetById(long id) {
+        return Set.findById(Set.class, id);
     }
 
     /**
@@ -60,7 +90,7 @@ public class PrettyRippedData {
         cal.set(year, month, day);
 
         // Create exercises
-        List<IExercise> exercises = new ArrayList<>();
+        List<Exercise> exercises = new ArrayList<>();
 
         int exCount = (int)Math.ceil(Math.random() * 3 + 1);
         for (int i=0; i < exCount; i++) {
@@ -71,19 +101,19 @@ public class PrettyRippedData {
 
     }
 
-    private IExercise createRandomExercise() {
-        List<ISet> sets = new ArrayList<>();
+    private Exercise createRandomExercise() {
+        List<Set> sets = new ArrayList<>();
 
         // Pick name/group
-        int randomName = (int)Math.ceil(Math.random() * 3);
+        int randomName = (int)Math.ceil(Math.random() * 2);
         String name = "Bench Press";
         String group = "Chest";
         switch (randomName) {
-            case 0:
+            case 1:
                 name = "Curls";
                 group = "Arms";
                 break;
-            case 1:
+            case 2:
                 name = "Dead";
                 group = "Legs";
                 break;
@@ -98,7 +128,7 @@ public class PrettyRippedData {
         return new Exercise(name, group, sets);
     }
 
-    private ISet createRandomSet() {
+    private Set createRandomSet() {
         int reps = (int)Math.ceil(Math.random() * 10 + 5);
         float weight = (float)Math.ceil(Math.random() * 50 + 10);
         boolean completed = false;

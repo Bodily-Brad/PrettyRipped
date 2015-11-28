@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class Set extends SugarRecord<Set> implements ISet, Serializable {
+public class Set extends SugarRecord<Set> implements Serializable {
     // CONSTANTS & SETTINGS
     private final static String TAG = "Set";
 
@@ -53,6 +53,8 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      * The value of the weight that this Set is comprised of
      */
     public float weight = 0.0f;
+
+    Exercise exercise;
 
     // CONSTRUCTORS
 
@@ -95,7 +97,6 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      *
      * @return the completed flag for this Set
      */
-    @Override
     public boolean getCompleted() {
         return completed;
     }
@@ -105,7 +106,6 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      *
      * @param completed a flag indicating whether or not this set was completed
      */
-    @Override
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
@@ -115,7 +115,6 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      *
      * @return the number of reps in the Set
      */
-    @Override
     public int getReps() {
         return reps;
     }
@@ -126,7 +125,6 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      * @param reps the number of reps
      * @throws IllegalArgumentException
      */
-    @Override
     public void setReps(int reps) {
         // Range checking
         if ( (reps >= MIN_REPS) && (reps <= MAX_REPS)) {
@@ -141,7 +139,6 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      *
      * @return the amount of weight used in this Set
      */
-    @Override
     public float getWeight() {
         return weight;
     }
@@ -152,7 +149,6 @@ public class Set extends SugarRecord<Set> implements ISet, Serializable {
      * @param weight the amount of weight used in this Set
      * @throws IllegalArgumentException
      */
-    @Override
     public void setWeight(float weight) throws IllegalArgumentException {
         // Range checking
         if ( (weight >= MIN_REPS) && (weight <= MAX_REPS)) {

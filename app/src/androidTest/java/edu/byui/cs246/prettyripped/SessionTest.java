@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.IExercise;
-import edu.byui.cs246.prettyripped.models.ISession;
 import edu.byui.cs246.prettyripped.models.Session;
 
 /**
@@ -22,8 +20,8 @@ public class SessionTest extends InstrumentationTestCase {
      * Tests addExercise()
      */
     public void testAddExercise() {
-        ISession testSession = new Session();
-        List<IExercise> exerciseList = new ArrayList<>();
+        Session testSession = new Session();
+        List<Exercise> exerciseList = new ArrayList<>();
 
         testSession.addExercise(new Exercise());
         exerciseList = testSession.getExercises();
@@ -36,13 +34,13 @@ public class SessionTest extends InstrumentationTestCase {
      * Tests removeExercise()
      */
     public void testRemoveExercise() {
-        ISession testSession = new Session();
-        List<IExercise> exerciseList = new ArrayList<>();
-        List<IExercise> testExerciseList = new ArrayList<>();
+        Session testSession = new Session();
+        List<Exercise> exerciseList = new ArrayList<>();
+        List<Exercise> testExerciseList = new ArrayList<>();
 
         // populate the session with some numbered exercises
         for (int i = 1; i <= 3; ++i) {
-            IExercise tempExercise = new Exercise();
+            Exercise tempExercise = new Exercise();
             tempExercise.setName(Integer.toString(i));
             tempExercise.setGroup(Integer.toString(i));
 
@@ -51,7 +49,7 @@ public class SessionTest extends InstrumentationTestCase {
         }
 
         // remove those exercises and check to make sure each was removed properly
-        for (IExercise tempExercise : testExerciseList) {
+        for (Exercise tempExercise : testExerciseList) {
             testSession.removeExercise(tempExercise);
 
             exerciseList = testSession.getExercises();

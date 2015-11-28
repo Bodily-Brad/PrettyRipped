@@ -1,8 +1,10 @@
-package edu.byui.cs246.prettyripped.models;
+package edu.byui.cs246.prettyripped.models.obsolete;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import edu.byui.cs246.prettyripped.models.Exercise;
 
 /**
  * Represents the interface to a Session
@@ -18,21 +20,21 @@ public interface ISession {
      *
      * @param exercise the Exercise to add to this Session
      */
-    public void addExercise(IExercise exercise);
+    public void addExercise(Exercise exercise);
 
     /**
      * Removes an Exercise from this Session
      *
      * @param exercise the Exercise to remove from this Session
      */
-    public void removeExercise(IExercise exercise);
+    public void removeExercise(Exercise exercise);
 
     /**
      * Gets a list of the Exercises contained within this Session
      *
      * @return a list of the Exercises contained within this Session
      */
-    List<IExercise> getExercises();
+    List<Exercise> getExercises();
 
     /**
      * Gets the time of this Session

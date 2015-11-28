@@ -16,8 +16,7 @@ import java.util.List;
 
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.IExercise;
-import edu.byui.cs246.prettyripped.models.ISet;
+import edu.byui.cs246.prettyripped.models.Set;
 
 /**
  * Represents an adapter between a List of exercises and an expandable list
@@ -89,7 +88,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        List<ISet> sets = exercises.get(groupPosition).getSets();
+        List<Set> sets = exercises.get(groupPosition).getSets();
         return sets.get(childPosition);
     }
 
@@ -137,7 +136,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        IExercise exercise = exercises.get(groupPosition);
+        Exercise exercise = exercises.get(groupPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -164,7 +163,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         // Get the child for the specified group/child position
-        ISet set = (ISet) getChild(groupPosition, childPosition);
+        Set set = (Set) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

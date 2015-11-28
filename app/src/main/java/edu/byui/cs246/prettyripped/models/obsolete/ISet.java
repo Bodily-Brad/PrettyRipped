@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped.models;
+package edu.byui.cs246.prettyripped.models.obsolete;
 
 /**
  * Created by Brad Bodily on 11/3/2015.

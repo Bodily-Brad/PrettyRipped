@@ -8,28 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.SessionTextView;
 import edu.byui.cs246.prettyripped.controls.SessionsExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.IExercise;
-import edu.byui.cs246.prettyripped.models.ISession;
-import edu.byui.cs246.prettyripped.models.ISet;
-import edu.byui.cs246.prettyripped.models.Session;
-import edu.byui.cs246.prettyripped.models.Set;
 
 /**
  * Displays a list of selectable sessions
@@ -88,7 +77,7 @@ public class SessionsActivity extends AppCompatActivity {
     public void openSessionActivity(View view) {
 
         SessionTextView sessionTextView = (SessionTextView)view;
-        List<IExercise> exercises = sessionTextView.exercises;
+        List<Exercise> exercises = sessionTextView.exercises;
 
         // Start a SessionActivity
         // TODO: Pass a session to the session activity
@@ -97,7 +86,7 @@ public class SessionsActivity extends AppCompatActivity {
 
         // Horrible conversion
         ArrayList<Exercise> newList = new ArrayList<>();
-        for (IExercise iex : exercises) {
+        for (Exercise iex : exercises) {
             newList.add(new Exercise(iex.getName(), iex.getGroup(), iex.getSets()));
         }
         intent.putExtra(SessionActivity.SESSION_KEY, newList);
