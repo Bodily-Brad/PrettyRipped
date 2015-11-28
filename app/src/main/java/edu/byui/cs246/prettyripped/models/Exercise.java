@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an individual exercise activity, including a name, group, and a collection of Sets
+ * Represents an individual exercise activity, including a name, groupDescription, and a collection of Sets
  *
  * @author Brad Bodily
  * @since 2015-11-03
@@ -28,7 +28,7 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
     /**
      * A string "group" descriptor that categorizes this Exercise
      */
-    public String group;
+    public String groupDescription;
 
     /**
      * The Session this Exercise belongs to
@@ -55,33 +55,37 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      * Creates a new instance of Exercise with the specified parameters
      *
      * @param name the name of this Exercise
-     * @param group a group descriptor for this Exercise
+     * @param groupDescription a groupDescription descriptor for this Exercise
      * @param exerciseSets a collection of Sets for this Exercise
      */
-    public Exercise(String name, String group, List<ExerciseSet> exerciseSets) {
-        Log.i(TAG, "Exercise(name, group, exerciseSets)");
+    public Exercise(String name, String groupDescription, List<ExerciseSet> exerciseSets) {
+        Log.i(TAG, "Exercise(name, groupDescription, exerciseSets)");
         this.name = name;
-        this.group = group;
-        this.exerciseSets = exerciseSets;
-        Log.i(TAG, "exiting Exercise(name, group, exerciseSets)");
+        this.groupDescription = groupDescription;
+
+        // Add each set (this ensures the set is 'hooked up'
+        for (ExerciseSet set : exerciseSets) {
+            addSet(set);
+        }
+        Log.i(TAG, "exiting Exercise(name, groupDescription, exerciseSets)");
     }
 
     /**
-     * Gets the group of this Exercise
+     * Gets the groupDescription of this Exercise
      *
-     * @return the group of this Exercise
+     * @return the groupDescription of this Exercise
      */
-    public String getGroup() {
-        return group;
+    public String getGroupDescription() {
+        return groupDescription;
     }
 
     /**
-     * Sets the group of this Exercise
+     * Sets the groupDescription of this Exercise
      *
-     * @param group the group to assign to this exercise
+     * @param groupDescription the groupDescription to assign to this exercise
      */
-    public void setGroup(String group) {
-        this.group = group;
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
     /**
@@ -118,6 +122,9 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      * @param exerciseSet ExerciseSet to add to this Exercise
      */
     public void addSet(ExerciseSet exerciseSet) {
+        // Hook up
+        exerciseSet.exercise = this;
+        // Add to our list
         this.exerciseSets.add(exerciseSet);
     }
 

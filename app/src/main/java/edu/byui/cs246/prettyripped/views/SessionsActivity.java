@@ -87,7 +87,7 @@ public class SessionsActivity extends AppCompatActivity {
         // Horrible conversion
         ArrayList<Exercise> newList = new ArrayList<>();
         for (Exercise iex : exercises) {
-            newList.add(new Exercise(iex.getName(), iex.getGroup(), iex.getExerciseSets()));
+            newList.add(new Exercise(iex.getName(), iex.getGroupDescription(), iex.getExerciseSets()));
         }
         intent.putExtra(SessionActivity.SESSION_KEY, newList);
 

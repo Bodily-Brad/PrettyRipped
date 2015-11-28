@@ -15,7 +15,20 @@ import java.io.Serializable;
  */
 public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializable {
     // CONSTANTS & SETTINGS
+    /**
+     * Debugging tag
+     */
     private final static String TAG = "ExerciseSet";
+
+    /**
+     * Error message if an invalid rep argument is passed
+     */
+    private static final String ERROR_MESSAGE_INVALID_REP_ARGUMENT = "Invalid rep argument";
+
+    /**
+     * Error message if an invalid weight argument is passed
+     */
+    private static final String ERROR_MESSAGE_INVALID_WEIGHT_ARGUMENT = "Invalid weight argument";
 
     /**
      * The minimum number that constitutes a valid number of reps for a ExerciseSet
@@ -36,10 +49,8 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
      */
     public static final float MAX_WEIGHT = Float.MAX_VALUE;
 
-    private static final String ERROR_MESSAGE_INVALID_REP_ARGUMENT = "Invalid rep argument";
-    private static final String ERROR_MESSAGE_INVALID_WEIGHT_ARGUMENT = "Invalid weight argument";
 
-    // PUBLIC VARIABLES
+    // PUBLIC MEMBERS
     /**
      * A boolean flag representing whether this ExerciseSet was completed or not
      */
@@ -48,7 +59,6 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
     /**
      * The Exercise this ExerciseSet belongs to
      */
-    @Ignore
     public Exercise exercise;
 
     /**
@@ -85,6 +95,23 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
         this.weight = weight;
         this.completed = completed;
         Log.i(TAG, "exiting ExerciseSet(reps, weight, completed)");
+    }
+
+    /**
+     * Creates a new instance of ExerciseSet with the specified parameters
+     *
+     * @param exercise the Exercise this ExerciseSet belongs to
+     * @param reps the number of reps this ExerciseSet is comprised of
+     * @param weight the weight value this ExerciseSet is comprised of
+     * @param completed a flag indicating whether this ExerciseSet is completed or not
+     */
+    public ExerciseSet(Exercise exercise, int reps, float weight, boolean completed) {
+        Log.d(TAG, "ExerciseSet(exericse, reps, weight, completed)");
+
+        this.exercise = exercise;
+        this.reps = reps;
+        this.weight = weight;
+        this.completed = completed;
     }
 
     /**

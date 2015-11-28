@@ -37,8 +37,14 @@ public class PrettyRippedData {
     }
 
     private PrettyRippedData() {
-        // Create our default data
-        createDefaultData();
+        // Create default data
+        debugCreateDefaultData();
+
+        // Save it
+        saveData();
+
+        // load session data
+        //loadSessionDataFromDB();
     }
 
     // METHODS
@@ -88,9 +94,9 @@ public class PrettyRippedData {
     // PRIVATE FUNCTIONS
 
     /**
-     * Creates some default data
+     * Creates some default data for debugging
      */
-    private void createDefaultData() {
+    private void debugCreateDefaultData() {
         sessions = new ArrayList<>();
 
         sessions.add(createRandomSession(2015,2,12));
@@ -101,7 +107,16 @@ public class PrettyRippedData {
         sessions.add(createRandomSession(2015,7,7));
     }
 
-    private Session createRandomSession(int year, int month, int day) {
+    /**
+     * Creates a random Session with the specified date
+     *
+     * @param year year
+     * @param month month (base-0)
+     * @param day day
+     * @return A random session
+     */
+    public Session createRandomSession(int year, int month, int day) {
+        // TODO: Remove this function
         Calendar cal = new GregorianCalendar();
         cal.set(year, month, day);
 
@@ -120,7 +135,7 @@ public class PrettyRippedData {
     private Exercise createRandomExercise() {
         List<ExerciseSet> exerciseSets = new ArrayList<>();
 
-        // Pick name/group
+        // Pick name/groupDescription
         int randomName = (int)Math.ceil(Math.random() * 2);
         String name = "Bench Press";
         String group = "Chest";
@@ -152,6 +167,20 @@ public class PrettyRippedData {
         return new ExerciseSet(reps, weight, completed);
     }
 
+    /**
+     * Creates a random ExerciseSet
+     *
+     * @param parentExercise Exercise this ExerciseSet will belong to
+     * @return a randomized ExerciseSet
+     */
+    private ExerciseSet createRandomSet(Exercise parentExercise) {
+        int reps = (int)Math.ceil(Math.random() * 10 + 5);
+        float weight = (float)Math.ceil(Math.random() * 50 + 10);
+        boolean completed = false;
+
+        return new ExerciseSet(parentExercise, reps, weight, completed);
+    }
+
     private void loadData() {
         Log.d(TAG, "loadData()");
 
@@ -162,15 +191,6 @@ public class PrettyRippedData {
     public void saveData() {
         Log.d(TAG, "saveData()");
 
-        // Just save one session, that's all I ask
-        Session sessiona = sessions.get(0);
-        sessiona.save();
-
-        if (true) {
-            return;
-        }
-
-
         // Loop through all sessions for key "hook ups"
         for (Session session : sessions) {
 
@@ -179,6 +199,8 @@ public class PrettyRippedData {
                 // Make sure session is hooked up
                 if (exercise.session != session) {
                     Log.e(TAG, "mismatched session/exercise");
+                } else {
+                    Log.d(TAG, "session/exercise data match");
                 }
                 exercise.session = session;
 
@@ -187,6 +209,8 @@ public class PrettyRippedData {
                     // Make sure exercise is hooked up
                     if (exerciseSet.exercise != exercise) {
                         Log.e(TAG, "mismatched exercise/exerciseSet");
+                    } else {
+                        Log.d(TAG, "exercise/exerciseSet data match");
                     }
                     exerciseSet.exercise = exercise;
                 }
@@ -205,6 +229,15 @@ public class PrettyRippedData {
                 }
             }
         }
+    }
+
+    // PRIVATE FUNCTIONS
+
+    /**
+     * Loads the stored session data from the database
+     */
+    private void loadSessionDataFromDB() {
+        this.sessions = Session.listAll(Session.class);
     }
 
 }

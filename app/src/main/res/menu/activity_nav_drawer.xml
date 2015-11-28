@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <groupDescription android:checkableBehavior="single">
         <item android:id="@+id/nav_camara" android:icon="@android:drawable/ic_menu_camera"
             android:title="Sessions" />
         <item android:id="@+id/nav_gallery" android:icon="@android:drawable/ic_menu_gallery"
             android:title="Manage Exercises" />
         <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Heartrate Monitor" />
-    </group>
+    </groupDescription>
     <item android:title="Development">
         <menu>
             <item android:id="@+id/nav_dev_sugar" android:icon="@android:drawable/ic_menu_edit"

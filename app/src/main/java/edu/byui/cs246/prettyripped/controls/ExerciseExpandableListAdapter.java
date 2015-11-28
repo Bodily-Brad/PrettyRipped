@@ -50,7 +50,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
-        // Let us know if our group is empty for some reason
+        // Let us know if our groupDescription is empty for some reason
         if (exercises.size() < 1) {
             Log.e(TAG, "getGroupCount() : exercises.size() < 1");
         }
@@ -58,10 +58,10 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * Gets the number of children within a particular group
+     * Gets the number of children within a particular groupDescription
      *
-     * @param groupPosition the position of the group in question
-     * @return the number of children within the specified group
+     * @param groupPosition the position of the groupDescription in question
+     * @return the number of children within the specified groupDescription
      */
     @Override
     public int getChildrenCount(int groupPosition) {
@@ -82,7 +82,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     /**
      * Gets a ExerciseSet from the child list
      *
-     * @param groupPosition position of the group within the group list
+     * @param groupPosition position of the groupDescription within the groupDescription list
      * @param childPosition position of the child within the child list
      * @return the ExerciseSet at the specified position within the specified Exercise
      */
@@ -126,13 +126,13 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * Gets a view for a group element (Exercise)
+     * Gets a view for a groupDescription element (Exercise)
      *
-     * @param groupPosition group position within the exercises list
+     * @param groupPosition groupDescription position within the exercises list
      * @param isExpanded
      * @param convertView destination view
      * @param parent parent ViewGroup
-     * @return a view representing the group element
+     * @return a view representing the groupDescription element
      */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
@@ -152,7 +152,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     /**
      * Gets a view for a child element (ExerciseSet)
      *
-     * @param groupPosition group position within the exercises list
+     * @param groupPosition groupDescription position within the exercises list
      * @param childPosition child position within the specific exercise
      * @param isLastChild boolean indicator as to whether this is the last child in the list
      * @param convertView destination view
@@ -162,7 +162,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        // Get the child for the specified group/child position
+        // Get the child for the specified groupDescription/child position
         ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
@@ -188,7 +188,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     /**
      * Returns a flag indicating whether or not a specified child is selectable
      *
-     * @param groupPosition group position within the exercises list
+     * @param groupPosition groupDescription position within the exercises list
      * @param childPosition child position within the specific exercise
      * @return true if the child is selectable; otherwise, false.
      */

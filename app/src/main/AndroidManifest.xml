@@ -33,7 +33,7 @@
         <activity android:name=".views.TestSugarActivty" >
         </activity>
 
-        <meta-data android:name="DATABASE" android:value="prettyrippedsugar03.db"/>
+        <meta-data android:name="DATABASE" android:value="prettyrippedsugar05.db"/>
         <meta-data android:name="VERSION" android:value="2"/>
         <meta-data android:name="QUERY_LOG" android:value="true"/>
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="edu.byui.cs246.prettyripped"/>

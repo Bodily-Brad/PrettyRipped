@@ -16,14 +16,14 @@ import edu.byui.cs246.prettyripped.models.ExerciseSet;
 public class ExerciseTest extends InstrumentationTestCase {
 
     /**
-     * Tests setGroup()
+     * Tests setGroupDescription()
      */
     public void testSetGroup() {
         Exercise exercise = new Exercise();
 
         String expected = "testGroup";
-        exercise.setGroup(expected);
-        String actual = exercise.getGroup();
+        exercise.setGroupDescription(expected);
+        String actual = exercise.getGroupDescription();
 
         assertNotNull(actual);
         assertEquals(expected, actual);

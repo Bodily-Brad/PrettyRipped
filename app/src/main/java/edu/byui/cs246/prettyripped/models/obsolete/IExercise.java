@@ -13,16 +13,16 @@ import edu.byui.cs246.prettyripped.models.ExerciseSet;
 public interface IExercise {
     // GETTERS & SETTERS
     /**
-     * Gets the group of this Exercise
+     * Gets the groupDescription of this Exercise
      *
-     * @return the group
+     * @return the groupDescription
      */
     public String getGroup();
 
     /**
-     * Sets the group of this Exercise
+     * Sets the groupDescription of this Exercise
      *
-     * @param group the group to assign to this exercise
+     * @param group the groupDescription to assign to this exercise
      */
     public void setGroup(String group);
 

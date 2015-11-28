@@ -42,7 +42,7 @@ public class SessionTest extends InstrumentationTestCase {
         for (int i = 1; i <= 3; ++i) {
             Exercise tempExercise = new Exercise();
             tempExercise.setName(Integer.toString(i));
-            tempExercise.setGroup(Integer.toString(i));
+            tempExercise.setGroupDescription(Integer.toString(i));
 
             testSession.addExercise(tempExercise);
             testExerciseList.add(tempExercise);

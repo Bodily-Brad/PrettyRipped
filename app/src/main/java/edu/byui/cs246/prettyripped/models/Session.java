@@ -20,7 +20,6 @@ import java.util.List;
  * @since 2015-11-03
  */
 public class Session extends SugarRecord<Session> {
-    /* TODO: function for comparing two exerciseSets? Not sure what the best way is in Java */
 
     // CONSTANTS & SETTINGS
     private final static String TAG = "Session";
@@ -53,11 +52,16 @@ public class Session extends SugarRecord<Session> {
      * @param exercises a collection of Exercises that this Session will be comprised of
      */
     public Session(Date date, List<Exercise> exercises) {
-        Log.i(TAG, "Session(date, exercises)");
+        Log.d(TAG, "Session(date, exercises)");
         this.time = date;
-        this.exercises = exercises;
-        Log.i(TAG, "exiting Session(date, exercises)");
+
+        // Add exercises; this ensures each exercise is 'hooked up'
+        for (Exercise exercise : exercises) {
+            addExercise(exercise);
+        }
     }
+
+    // METHODS
 
     /**
      * Adds an Exercise to this Session
@@ -65,6 +69,9 @@ public class Session extends SugarRecord<Session> {
      * @param exercise the Exercise to add to this Session
      */
     public void addExercise(Exercise exercise) {
+        // Hook up parent
+        exercise.session = this;
+        // Add to list
         exercises.add(exercise);
     }
 
@@ -75,7 +82,7 @@ public class Session extends SugarRecord<Session> {
      */
     public void removeExercise(Exercise exercise) {
         // TODO: presumably some error-checking here
-        // I don't think Lists 'handle' removing invalid items on their own
+        // I think Lists 'handle' removing invalid items on their own
         // (i.e., I don't think it causes any problems to remove an item that doesn't exist in the
         // list)
         exercises.remove(exercise);
