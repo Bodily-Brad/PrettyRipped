@@ -3,6 +3,7 @@ package edu.byui.cs246.prettyripped.models;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,8 +26,15 @@ public class Session extends SugarRecord<Session> {
     private final static String TAG = "Session";
 
     // LOCAL VARIABLES
+    @Ignore
     private List<Exercise> exercises = new ArrayList<>();
-    private Date time;
+
+    // PUBLIC VARIABLES
+
+    /**
+     * The date this session took place
+     */
+    public Date time;
 
     // CONSTRUCTORS
 

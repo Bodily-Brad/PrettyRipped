@@ -19,7 +19,7 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
     // CONSTANTS & SETTINGS
     private final static String TAG = "Exercise";
 
-    // LOCAL VARIABLES
+    // PUBLIC VARIABLES
     /**
      * The name of the Exercise
      */
@@ -29,6 +29,11 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      * A string "group" descriptor that categorizes this Exercise
      */
     public String group;
+
+    /**
+     * The Session this Exercise belongs to
+     */
+    public Session session;
 
     /**
      * A collection of Sets that comprise this Exercise's sets
@@ -102,6 +107,7 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      *
      * @return a List containing the Sets of this Exercise
      */
+    @Ignore
     public List<Set> getSets() {
         return sets;
     }

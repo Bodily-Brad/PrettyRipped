@@ -1,5 +1,7 @@
 package edu.byui.cs246.prettyripped;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -18,6 +20,7 @@ import edu.byui.cs246.prettyripped.models.Set;
  * @since 2015-11-27
  */
 public class PrettyRippedData {
+    private static final String TAG = "PrettyRippedData";
 
     // LOCAL VARIABLES
     public List<Session> sessions = new ArrayList<>();
@@ -36,6 +39,9 @@ public class PrettyRippedData {
     private PrettyRippedData() {
         // Create our default data
         createDefaultData();
+        // Save, just this once
+        //saveData();
+        //loadData();
     }
 
     // METHODS
@@ -53,12 +59,23 @@ public class PrettyRippedData {
     /**
      * Attempts to retrieve all of an Exercise's Sets
      *
-     * @param exercise Exercise to retireve the Sets for
+     * @param exercise Exercise to retrieve the Sets for
      * @return the Sets of the specified Exercise
      */
     public List<Set> getExercisesSets(Exercise exercise) {
         List<Set> sets = Set.find(Set.class, "exercise = ?", exercise.getId().toString());
         return sets;
+    }
+
+    /**
+     * Attempts to retrieve all of a Session's exercises
+     *
+     * @param session Session to retrieve the Exercises for
+     * @return the Exercises for the specified Session
+     */
+    public List<Exercise> getSessionsExercises(Session session) {
+        List<Exercise> exercises = Exercise.find(Exercise.class, "session = ?", session.getId().toString());
+        return exercises;
     }
 
     /**
@@ -70,6 +87,8 @@ public class PrettyRippedData {
     public Set getSetById(long id) {
         return Set.findById(Set.class, id);
     }
+
+    // PRIVATE FUNCTIONS
 
     /**
      * Creates some default data
@@ -136,5 +155,61 @@ public class PrettyRippedData {
         return new Set(reps, weight, completed);
     }
 
+    private void loadData() {
+        Log.d(TAG, "loadData()");
+
+        List<Session> allSessions = Session.listAll(Session.class);
+        Log.i(TAG, "allSessions count: " + allSessions.size());
+    }
+
+    private void saveData() {
+        Log.d(TAG, "saveData()");
+
+        // Just save one session, that's all I ask
+        Session sessiona = sessions.get(0);
+        sessiona.save();
+
+        if (true) {
+            return;
+        }
+
+
+        // Loop through all sessions for key "hook ups"
+        for (Session session : sessions) {
+
+            // Loop through all exercises
+            for (Exercise exercise : session.getExercises()) {
+                // Make sure session is hooked up
+                if (exercise.session != session) {
+                    Log.e(TAG, "mismatched session/exercise");
+                }
+                exercise.session = session;
+
+                // Loop through all sets
+                for (Set set : exercise.getSets()) {
+                    // Make sure exercise is hooked up
+                    if (set.exercise != exercise) {
+                        Log.e(TAG, "mismatched exercise/set");
+                    }
+                    set.exercise = exercise;
+                }
+
+            }
+        }
+
+        // Now, let's save everything
+
+        /*
+        for (Session session : sessions) {
+            session.save();
+            for (Exercise exercise : session.getExercises()) {
+                exercise.save();
+                for (Set set : exercise.getSets()) {
+                    set.save();
+                }
+            }
+        }
+        */
+    }
 
 }

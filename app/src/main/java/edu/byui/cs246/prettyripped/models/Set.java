@@ -40,21 +40,27 @@ public class Set extends SugarRecord<Set> implements Serializable {
     private static final String ERROR_MESSAGE_INVALID_REP_ARGUMENT = "Invalid rep argument";
     private static final String ERROR_MESSAGE_INVALID_WEIGHT_ARGUMENT = "Invalid weight argument";
 
-    // LOCAL VARIABLES
+    // PUBLIC VARIABLES
     /**
      * A boolean flag representing whether this Set was completed or not
      */
     public boolean completed = false;
+
+    /**
+     * The Exercise this Set belongs to
+     */
+    public Exercise exercise;
+
     /**
      * The number of reps that this Set is comprised of
      */
     public int reps = 0;
+
     /**
      * The value of the weight that this Set is comprised of
      */
     public float weight = 0.0f;
 
-    Exercise exercise;
 
     // CONSTRUCTORS
 
