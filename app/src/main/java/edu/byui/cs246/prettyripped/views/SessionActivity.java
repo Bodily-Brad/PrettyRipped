@@ -35,7 +35,7 @@ public class SessionActivity extends AppCompatActivity {
     private ExpandableListView listView;
 
     /**
-     * Called when the activity is created, sets up layout and data
+     * Called when the activity is created, exerciseSets up layout and data
      *
      * @param savedInstanceState Instance state information
      */
@@ -69,7 +69,7 @@ public class SessionActivity extends AppCompatActivity {
         // Get session
         ArrayList<Exercise> exercises = (ArrayList<Exercise>) getIntent().getSerializableExtra(this.SESSION_KEY);
 
-        // Set up expandable list
+        // ExerciseSet up expandable list
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
 
         // Create adapter

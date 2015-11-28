@@ -16,7 +16,7 @@ import java.util.List;
 
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.Set;
+import edu.byui.cs246.prettyripped.models.ExerciseSet;
 
 /**
  * Represents an adapter between a List of exercises and an expandable list
@@ -65,7 +65,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getChildrenCount(int groupPosition) {
-        return exercises.get(groupPosition).getSets().size();
+        return exercises.get(groupPosition).getExerciseSets().size();
     }
 
     /**
@@ -80,16 +80,16 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * Gets a Set from the child list
+     * Gets a ExerciseSet from the child list
      *
      * @param groupPosition position of the group within the group list
      * @param childPosition position of the child within the child list
-     * @return the Set at the specified position within the specified Exercise
+     * @return the ExerciseSet at the specified position within the specified Exercise
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        List<Set> sets = exercises.get(groupPosition).getSets();
-        return sets.get(childPosition);
+        List<ExerciseSet> exerciseSets = exercises.get(groupPosition).getExerciseSets();
+        return exerciseSets.get(childPosition);
     }
 
     /**
@@ -150,7 +150,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * Gets a view for a child element (Set)
+     * Gets a view for a child element (ExerciseSet)
      *
      * @param groupPosition group position within the exercises list
      * @param childPosition child position within the specific exercise
@@ -163,7 +163,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         // Get the child for the specified group/child position
-        Set set = (Set) getChild(groupPosition, childPosition);
+        ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -176,11 +176,11 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         EditText editWeight = (EditText) convertView.findViewById(R.id.editWeight);
         EditText editReps = (EditText) convertView.findViewById(R.id.editReps);
 
-        // Set controls to match underlying Set
-        checkBox.setChecked(set.getCompleted());
+        // ExerciseSet controls to match underlying ExerciseSet
+        checkBox.setChecked(exerciseSet.getCompleted());
         labelSetNumber.setText( context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1) );
-        editWeight.setText( Float.toString(set.getWeight()) );
-        editReps.setText( Float.toString( set.getReps() ) );
+        editWeight.setText( Float.toString(exerciseSet.getWeight()) );
+        editReps.setText( Float.toString( exerciseSet.getReps() ) );
 
         return convertView;
     }

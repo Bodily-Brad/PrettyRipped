@@ -12,10 +12,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.models.Exercise;
+import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
-import edu.byui.cs246.prettyripped.models.Set;
 
 /**
  * An activity for testing SugarORM integration
@@ -38,58 +39,26 @@ public class TestSugarActivty extends AppCompatActivity {
     }
 
     /**
-     * Creates some testing data
+     * Creates the default PrettyRippedData
      *
      * @param view Calling view
      */
-    public void createDefaultData(View view) {
-        Log.i(TAG,"createDefaultData");
+    public void createDefaultRippedData(View view) {
+        Log.d(TAG, "createDefaultRippedData(view)");
+        // Get instance of PrettyRippedData, which will create the data
+        PrettyRippedData data = PrettyRippedData.getInstance();
+    }
 
-        // Create a date
-        Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        Date date;
+    /**
+     * Attempts to save the current PrettyRippedData
+     *
+     * @param view Calling view
+     */
+    public void saveRippedData(View view) {
+        Log.d(TAG, "saveRippedData(view)");
+        PrettyRippedData data = PrettyRippedData.getInstance();
 
-        cal.set(2015, 10, 31);
-        date= cal.getTime();
-
-        // Create a Session
-        Session session = new Session();
-        session.setTime(date);
-
-        // Create Exercise #1
-        Exercise ex1 = new Exercise();
-        ex1.setName("Curl");
-        ex1.setGroup("Default Group");
-
-        // Create Set #1 (Exercise #1)
-        Set set1 = new Set();
-        set1.setReps(10);
-        set1.setWeight(15);
-
-        // Attempt to save set1
-        Log.i(TAG, "Attempting to save set1");
-        set1.save();
-        Log.i(TAG, "set1 saved");
-
-        // Create Set #2 (Exercise #1)
-        Set set2 = new Set();
-        set2.setReps(10);
-        set2.setWeight(20);
-
-        // Add Sets to Exercise #1
-        ex1.addSet(set1);
-        ex1.addSet(set2);
-
-        // Add Exercise #1 to Session
-        session.addExercise(ex1);
-
-        // Save Set #1
-        Log.i(TAG, "attempting to save Set #1");
-        set1.save();
-
-        // Save session and see what happens
-        //Log.i(TAG, "attempting to save session");
-        //session.save();
+        data.saveData();
     }
 
     /**
@@ -102,10 +71,22 @@ public class TestSugarActivty extends AppCompatActivity {
 
         sessions = Session.listAll(Session.class);
         int count = sessions.size();
+        Log.d(TAG, "sessions.size(): " + sessions.size());
 
         // Display Count
         Snackbar.make(view, "Count: " + count, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+
+    }
+
+    /**
+     * Testing function to create and save a single ExerciseSet
+     *
+     * @param view Calling view
+     */
+    public void createAndSaveSingleSet(View view) {
+        ExerciseSet exerciseSet = new ExerciseSet(10, 15.05f, false);
+        exerciseSet.save();
 
     }
 }

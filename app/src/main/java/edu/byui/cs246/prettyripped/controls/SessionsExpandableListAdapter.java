@@ -204,7 +204,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * Gets a view for a child element (Set)
+     * Gets a view for a child element (ExerciseSet)
      *
      * @param groupPosition group position within the exercises list
      * @param childPosition child position within the specific exercise

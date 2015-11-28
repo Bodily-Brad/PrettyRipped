@@ -2,7 +2,7 @@ package edu.byui.cs246.prettyripped.models.obsolete;
 
 import java.util.List;
 
-import edu.byui.cs246.prettyripped.models.Set;
+import edu.byui.cs246.prettyripped.models.ExerciseSet;
 
 /**
  * Represents the interface for an Exercise
@@ -45,22 +45,22 @@ public interface IExercise {
      *
      * @return a List containing the Sets of this Exercise
      */
-    public List<Set> getSets();
+    public List<ExerciseSet> getSets();
 
     // METHODS
 
     /**
-     * Adds a Set to this Exercise
+     * Adds a ExerciseSet to this Exercise
      *
-     * @param set Set to add to this Exercise
+     * @param exerciseSet ExerciseSet to add to this Exercise
      */
-    public void addSet(Set set);
+    public void addSet(ExerciseSet exerciseSet);
 
     /**
-     * Removes a Set from this Exercise
+     * Removes a ExerciseSet from this Exercise
      *
-     * @param set Set to remove from this Exercise
+     * @param exerciseSet ExerciseSet to remove from this Exercise
      */
-    public void removeSet(Set set);
+    public void removeSet(ExerciseSet exerciseSet);
 
 }

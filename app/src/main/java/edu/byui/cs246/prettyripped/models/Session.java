@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2015-11-03
  */
 public class Session extends SugarRecord<Session> {
-    /* TODO: function for comparing two sets? Not sure what the best way is in Java */
+    /* TODO: function for comparing two exerciseSets? Not sure what the best way is in Java */
 
     // CONSTANTS & SETTINGS
     private final static String TAG = "Session";
@@ -86,6 +86,7 @@ public class Session extends SugarRecord<Session> {
      *
      * @return a list of the Exercises contained within this Session
      */
+    @Ignore
     public List<Exercise> getExercises() {
         return exercises;
     }
@@ -113,7 +114,8 @@ public class Session extends SugarRecord<Session> {
      *
      * @return a string description of this object
      */
-    @Override public String toString() {
+    @Override
+    public String toString() {
         java.text.DateFormat format = new java.text.SimpleDateFormat("MMM d, yyyy");
         return format.format(time);
     }

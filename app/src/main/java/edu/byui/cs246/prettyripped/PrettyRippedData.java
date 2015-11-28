@@ -8,8 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.models.Exercise;
+import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
-import edu.byui.cs246.prettyripped.models.Set;
 
 /**
  * Application data singleton
@@ -39,9 +39,6 @@ public class PrettyRippedData {
     private PrettyRippedData() {
         // Create our default data
         createDefaultData();
-        // Save, just this once
-        //saveData();
-        //loadData();
     }
 
     // METHODS
@@ -62,9 +59,9 @@ public class PrettyRippedData {
      * @param exercise Exercise to retrieve the Sets for
      * @return the Sets of the specified Exercise
      */
-    public List<Set> getExercisesSets(Exercise exercise) {
-        List<Set> sets = Set.find(Set.class, "exercise = ?", exercise.getId().toString());
-        return sets;
+    public List<ExerciseSet> getExercisesSets(Exercise exercise) {
+        List<ExerciseSet> exerciseSets = ExerciseSet.find(ExerciseSet.class, "exercise = ?", exercise.getId().toString());
+        return exerciseSets;
     }
 
     /**
@@ -79,13 +76,13 @@ public class PrettyRippedData {
     }
 
     /**
-     * Attempts to retrieve a Set by Id
+     * Attempts to retrieve a ExerciseSet by Id
      *
-     * @param id Id of the Set to retrieve
-     * @return the specified Set
+     * @param id Id of the ExerciseSet to retrieve
+     * @return the specified ExerciseSet
      */
-    public Set getSetById(long id) {
-        return Set.findById(Set.class, id);
+    public ExerciseSet getSetById(long id) {
+        return ExerciseSet.findById(ExerciseSet.class, id);
     }
 
     // PRIVATE FUNCTIONS
@@ -121,7 +118,7 @@ public class PrettyRippedData {
     }
 
     private Exercise createRandomExercise() {
-        List<Set> sets = new ArrayList<>();
+        List<ExerciseSet> exerciseSets = new ArrayList<>();
 
         // Pick name/group
         int randomName = (int)Math.ceil(Math.random() * 2);
@@ -138,21 +135,21 @@ public class PrettyRippedData {
                 break;
         }
 
-        // Create sets
+        // Create exerciseSets
         int setCount = (int)Math.ceil(Math.random() * 4 + 1);
         for (int i=0; i < setCount; i++) {
-            sets.add(createRandomSet());
+            exerciseSets.add(createRandomSet());
         }
 
-        return new Exercise(name, group, sets);
+        return new Exercise(name, group, exerciseSets);
     }
 
-    private Set createRandomSet() {
+    private ExerciseSet createRandomSet() {
         int reps = (int)Math.ceil(Math.random() * 10 + 5);
         float weight = (float)Math.ceil(Math.random() * 50 + 10);
         boolean completed = false;
 
-        return new Set(reps, weight, completed);
+        return new ExerciseSet(reps, weight, completed);
     }
 
     private void loadData() {
@@ -162,7 +159,7 @@ public class PrettyRippedData {
         Log.i(TAG, "allSessions count: " + allSessions.size());
     }
 
-    private void saveData() {
+    public void saveData() {
         Log.d(TAG, "saveData()");
 
         // Just save one session, that's all I ask
@@ -185,13 +182,13 @@ public class PrettyRippedData {
                 }
                 exercise.session = session;
 
-                // Loop through all sets
-                for (Set set : exercise.getSets()) {
+                // Loop through all exerciseSets
+                for (ExerciseSet exerciseSet : exercise.getExerciseSets()) {
                     // Make sure exercise is hooked up
-                    if (set.exercise != exercise) {
-                        Log.e(TAG, "mismatched exercise/set");
+                    if (exerciseSet.exercise != exercise) {
+                        Log.e(TAG, "mismatched exercise/exerciseSet");
                     }
-                    set.exercise = exercise;
+                    exerciseSet.exercise = exercise;
                 }
 
             }
@@ -199,17 +196,15 @@ public class PrettyRippedData {
 
         // Now, let's save everything
 
-        /*
         for (Session session : sessions) {
             session.save();
             for (Exercise exercise : session.getExercises()) {
                 exercise.save();
-                for (Set set : exercise.getSets()) {
+                for (ExerciseSet set : exercise.getExerciseSets()) {
                     set.save();
                 }
             }
         }
-        */
     }
 
 }

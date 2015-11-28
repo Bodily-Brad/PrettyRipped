@@ -34,7 +34,7 @@ public class SessionsActivity extends AppCompatActivity {
     private ExpandableListView listView;
 
     /**
-     * Called when the activity is created, sets up layout and data
+     * Called when the activity is created, exerciseSets up layout and data
      *
      * @param savedInstanceState Instance state information
      */
@@ -57,7 +57,7 @@ public class SessionsActivity extends AppCompatActivity {
         // Get data from app data singleton
         PrettyRippedData data = PrettyRippedData.getInstance();
 
-        // Set up expandable list
+        // ExerciseSet up expandable list
         listView = (ExpandableListView) findViewById(R.id.sessionList);
 
         // Create adapter
@@ -87,7 +87,7 @@ public class SessionsActivity extends AppCompatActivity {
         // Horrible conversion
         ArrayList<Exercise> newList = new ArrayList<>();
         for (Exercise iex : exercises) {
-            newList.add(new Exercise(iex.getName(), iex.getGroup(), iex.getSets()));
+            newList.add(new Exercise(iex.getName(), iex.getGroup(), iex.getExerciseSets()));
         }
         intent.putExtra(SessionActivity.SESSION_KEY, newList);
 

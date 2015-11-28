@@ -5,7 +5,7 @@ import android.test.InstrumentationTestCase;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.Set;
+import edu.byui.cs246.prettyripped.models.ExerciseSet;
 
 /**
  * Tests our Exercise class
@@ -48,29 +48,29 @@ public class ExerciseTest extends InstrumentationTestCase {
      */
     public void testAddSet() {
         Exercise exercise = new Exercise();
-        Set set = new Set();
+        ExerciseSet exerciseSet = new ExerciseSet();
 
-        exercise.addSet(set);
+        exercise.addSet(exerciseSet);
 
-        // Check that set is added
-        List<Set> sets = exercise.getSets();
-        boolean containsSet = sets.contains(set);
+        // Check that exerciseSet is added
+        List<ExerciseSet> exerciseSets = exercise.getExerciseSets();
+        boolean containsSet = exerciseSets.contains(exerciseSet);
 
-        // Make sure sets is not null
-        assertNotNull(sets);
-        // Make sure sets contains our added set
+        // Make sure exerciseSets is not null
+        assertNotNull(exerciseSets);
+        // Make sure exerciseSets contains our added exerciseSet
         assertEquals(true, containsSet);
     }
 
     /**
-     * Tests getSets()
+     * Tests getExerciseSets()
      */
     public void testGetSets() {
         Exercise exercise = new Exercise();
-        List<Set> sets = exercise.getSets();
+        List<ExerciseSet> exerciseSets = exercise.getExerciseSets();
 
-        // Make sure sets is not null
-        assertNotNull(sets);
+        // Make sure exerciseSets is not null
+        assertNotNull(exerciseSets);
     }
 
     /**
@@ -78,19 +78,19 @@ public class ExerciseTest extends InstrumentationTestCase {
      */
     public void testRemoveSet() {
         Exercise exercise = new Exercise();
-        Set set = new Set();
+        ExerciseSet exerciseSet = new ExerciseSet();
 
-        // ensure set isn't already present
-        boolean flag = exercise.getSets().contains(set);
+        // ensure exerciseSet isn't already present
+        boolean flag = exercise.getExerciseSets().contains(exerciseSet);
         assertEquals(false, flag);
 
-        // Add set
-        exercise.addSet(set);
-        // Remove set
-        exercise.removeSet(set);
+        // Add exerciseSet
+        exercise.addSet(exerciseSet);
+        // Remove exerciseSet
+        exercise.removeSet(exerciseSet);
 
-        // Make sure the set is (still) not there
-        flag = exercise.getSets().contains(set);
+        // Make sure the exerciseSet is (still) not there
+        flag = exercise.getExerciseSets().contains(exerciseSet);
         assertEquals(false, flag);
     }
 }

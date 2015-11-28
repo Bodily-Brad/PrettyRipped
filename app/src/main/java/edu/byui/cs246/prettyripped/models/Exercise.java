@@ -36,10 +36,10 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
     public Session session;
 
     /**
-     * A collection of Sets that comprise this Exercise's sets
+     * A collection of Sets that comprise this Exercise's exerciseSets
      */
     @Ignore
-    public List<Set> sets = new ArrayList<>();
+    public List<ExerciseSet> exerciseSets = new ArrayList<>();
 
     // CONSTRUCTORS
 
@@ -47,7 +47,7 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      * Creates a new instance of Exercise with the default parameters
      */
     public  Exercise() {
-        this("Exercise", "No Group", new ArrayList<Set>());
+        this("Exercise", "No Group", new ArrayList<ExerciseSet>());
         Log.i(TAG, "exiting Exercise()");
     }
 
@@ -56,14 +56,14 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      *
      * @param name the name of this Exercise
      * @param group a group descriptor for this Exercise
-     * @param sets a collection of Sets for this Exercise
+     * @param exerciseSets a collection of Sets for this Exercise
      */
-    public Exercise(String name, String group, List<Set> sets) {
-        Log.i(TAG, "Exercise(name, group, sets)");
+    public Exercise(String name, String group, List<ExerciseSet> exerciseSets) {
+        Log.i(TAG, "Exercise(name, group, exerciseSets)");
         this.name = name;
         this.group = group;
-        this.sets = sets;
-        Log.i(TAG, "exiting Exercise(name, group, sets)");
+        this.exerciseSets = exerciseSets;
+        Log.i(TAG, "exiting Exercise(name, group, exerciseSets)");
     }
 
     /**
@@ -108,25 +108,25 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      * @return a List containing the Sets of this Exercise
      */
     @Ignore
-    public List<Set> getSets() {
-        return sets;
+    public List<ExerciseSet> getExerciseSets() {
+        return exerciseSets;
     }
 
     /**
-     * Adds a Set to this Exercise
+     * Adds a ExerciseSet to this Exercise
      *
-     * @param set Set to add to this Exercise
+     * @param exerciseSet ExerciseSet to add to this Exercise
      */
-    public void addSet(Set set) {
-        this.sets.add(set);
+    public void addSet(ExerciseSet exerciseSet) {
+        this.exerciseSets.add(exerciseSet);
     }
 
     /**
-     * Removes a Set from this Exercise
+     * Removes a ExerciseSet from this Exercise
      *
-     * @param set Set to remove from this Exercise
+     * @param exerciseSet ExerciseSet to remove from this Exercise
      */
-    public void removeSet(Set set) {
-        this.sets.remove(set);
+    public void removeSet(ExerciseSet exerciseSet) {
+        this.exerciseSets.remove(exerciseSet);
     }
 }

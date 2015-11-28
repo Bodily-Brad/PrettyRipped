@@ -1,10 +1,9 @@
 package edu.byui.cs246.prettyripped.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
 
@@ -14,26 +13,26 @@ import java.io.Serializable;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class Set extends SugarRecord<Set> implements Serializable {
+public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializable {
     // CONSTANTS & SETTINGS
-    private final static String TAG = "Set";
+    private final static String TAG = "ExerciseSet";
 
     /**
-     * The minimum number that constitutes a valid number of reps for a Set
+     * The minimum number that constitutes a valid number of reps for a ExerciseSet
      */
     public static final int MIN_REPS = 0;
     /**
-     * The maximum number that constitutes a valid number of reps for a Set
+     * The maximum number that constitutes a valid number of reps for a ExerciseSet
      */
     public static final int MAX_REPS = Integer.MAX_VALUE;
 
     /**
-     * The minimum number that constitutes a valid weight value for a Set
+     * The minimum number that constitutes a valid weight value for a ExerciseSet
      */
     public static final float MIN_WEIGHT = 0.0f;
 
     /**
-     * The maximum number that constitutes a valid weight value for a Set
+     * The maximum number that constitutes a valid weight value for a ExerciseSet
      */
     public static final float MAX_WEIGHT = Float.MAX_VALUE;
 
@@ -42,22 +41,23 @@ public class Set extends SugarRecord<Set> implements Serializable {
 
     // PUBLIC VARIABLES
     /**
-     * A boolean flag representing whether this Set was completed or not
+     * A boolean flag representing whether this ExerciseSet was completed or not
      */
     public boolean completed = false;
 
     /**
-     * The Exercise this Set belongs to
+     * The Exercise this ExerciseSet belongs to
      */
+    @Ignore
     public Exercise exercise;
 
     /**
-     * The number of reps that this Set is comprised of
+     * The number of reps that this ExerciseSet is comprised of
      */
     public int reps = 0;
 
     /**
-     * The value of the weight that this Set is comprised of
+     * The value of the weight that this ExerciseSet is comprised of
      */
     public float weight = 0.0f;
 
@@ -65,50 +65,50 @@ public class Set extends SugarRecord<Set> implements Serializable {
     // CONSTRUCTORS
 
     /**
-     * Creates a new instance of Set with the default parameters
+     * Creates a new instance of ExerciseSet with the default parameters
      */
-    public Set() {
+    public ExerciseSet() {
         this(0, 0.0f, false);
-        Log.i(TAG, "exiting Set()");
+        Log.i(TAG, "exiting ExerciseSet()");
     }
 
     /**
-     * Creates a new instance of Set with the specified parameters
+     * Creates a new instance of ExerciseSet with the specified parameters
      *
-     * @param reps the number of reps this Set is comprised of
-     * @param weight the weight value this Set is comprised of
-     * @param completed a flag indicating whether this Set is completed or not
+     * @param reps the number of reps this ExerciseSet is comprised of
+     * @param weight the weight value this ExerciseSet is comprised of
+     * @param completed a flag indicating whether this ExerciseSet is completed or not
      */
-    public Set(int reps, float weight, boolean completed) {
-        Log.i(TAG, "Set(reps, weight, completed)");
+    public ExerciseSet(int reps, float weight, boolean completed) {
+        Log.i(TAG, "ExerciseSet(reps, weight, completed)");
         this.reps = reps;
         this.weight = weight;
         this.completed = completed;
-        Log.i(TAG, "exiting Set(reps, weight, completed)");
+        Log.i(TAG, "exiting ExerciseSet(reps, weight, completed)");
     }
 
     /**
-     * Creates a new instance of Set with the specified parameters and flag as not completed
+     * Creates a new instance of ExerciseSet with the specified parameters and flag as not completed
      *
-     * @param reps the number of reps this Set is comprised of
-     * @param weight the weight value this Set is comprised of
+     * @param reps the number of reps this ExerciseSet is comprised of
+     * @param weight the weight value this ExerciseSet is comprised of
      */
-    public Set(int reps, float weight) {
+    public ExerciseSet(int reps, float weight) {
         this(reps, weight, false);
-        Log.i(TAG, "exiting Set(reps, weight)");
+        Log.i(TAG, "exiting ExerciseSet(reps, weight)");
     }
 
     /**
-     * Gets the completed flag for this Set
+     * Gets the completed flag for this ExerciseSet
      *
-     * @return the completed flag for this Set
+     * @return the completed flag for this ExerciseSet
      */
     public boolean getCompleted() {
         return completed;
     }
 
     /**
-     * Sets the completed flag for this Set
+     * Sets the completed flag for this ExerciseSet
      *
      * @param completed a flag indicating whether or not this set was completed
      */
@@ -117,16 +117,16 @@ public class Set extends SugarRecord<Set> implements Serializable {
     }
 
     /**
-     * Gets the number of reps in this Set
+     * Gets the number of reps in this ExerciseSet
      *
-     * @return the number of reps in the Set
+     * @return the number of reps in the ExerciseSet
      */
     public int getReps() {
         return reps;
     }
 
     /**
-     * Sets the number of reps in this Set
+     * Sets the number of reps in this ExerciseSet
      *
      * @param reps the number of reps
      * @throws IllegalArgumentException
@@ -141,18 +141,18 @@ public class Set extends SugarRecord<Set> implements Serializable {
     }
 
     /**
-     * Gets the amount of weight used in this Set
+     * Gets the amount of weight used in this ExerciseSet
      *
-     * @return the amount of weight used in this Set
+     * @return the amount of weight used in this ExerciseSet
      */
     public float getWeight() {
         return weight;
     }
 
     /**
-     * Sets the weight used in this Set
+     * Sets the weight used in this ExerciseSet
      *
-     * @param weight the amount of weight used in this Set
+     * @param weight the amount of weight used in this ExerciseSet
      * @throws IllegalArgumentException
      */
     public void setWeight(float weight) throws IllegalArgumentException {
