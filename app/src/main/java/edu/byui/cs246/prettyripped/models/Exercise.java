@@ -48,7 +48,6 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      */
     public  Exercise() {
         this("Exercise", "No Group", new ArrayList<ExerciseSet>());
-        Log.i(TAG, "exiting Exercise()");
     }
 
     /**
@@ -67,7 +66,6 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
         for (ExerciseSet set : exerciseSets) {
             addSet(set);
         }
-        Log.i(TAG, "exiting Exercise(name, groupDescription, exerciseSets)");
     }
 
     /**

@@ -42,7 +42,6 @@ public class Session extends SugarRecord<Session> {
      */
     public Session() {
         this(new Date(), new ArrayList<Exercise>());
-        Log.i(TAG, "exiting Session()");
     }
 
     /**
@@ -52,7 +51,7 @@ public class Session extends SugarRecord<Session> {
      * @param exercises a collection of Exercises that this Session will be comprised of
      */
     public Session(Date date, List<Exercise> exercises) {
-        Log.d(TAG, "Session(date, exercises)");
+        Log.d(TAG, "Session(Date, List<Exercise>)");
         this.time = date;
 
         // Add exercises; this ensures each exercise is 'hooked up'
@@ -69,6 +68,7 @@ public class Session extends SugarRecord<Session> {
      * @param exercise the Exercise to add to this Session
      */
     public void addExercise(Exercise exercise) {
+        Log.d(TAG, "addExercise(Exercise)");
         // Hook up parent
         exercise.session = this;
         // Add to list

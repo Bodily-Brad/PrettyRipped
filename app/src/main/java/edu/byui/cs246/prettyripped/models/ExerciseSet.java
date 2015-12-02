@@ -79,7 +79,6 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
      */
     public ExerciseSet() {
         this(0, 0.0f, false);
-        Log.i(TAG, "exiting ExerciseSet()");
     }
 
     /**
@@ -90,11 +89,10 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
      * @param completed a flag indicating whether this ExerciseSet is completed or not
      */
     public ExerciseSet(int reps, float weight, boolean completed) {
-        Log.i(TAG, "ExerciseSet(reps, weight, completed)");
+        Log.d(TAG, "ExerciseSet(reps, weight, completed)");
         this.reps = reps;
         this.weight = weight;
         this.completed = completed;
-        Log.i(TAG, "exiting ExerciseSet(reps, weight, completed)");
     }
 
     /**
@@ -122,7 +120,6 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
      */
     public ExerciseSet(int reps, float weight) {
         this(reps, weight, false);
-        Log.i(TAG, "exiting ExerciseSet(reps, weight)");
     }
 
     /**

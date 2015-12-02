@@ -59,6 +59,7 @@ public class PrettyRippedData {
      * @return the specified Exercise
      */
     public Exercise getExerciseById(long id) {
+        Log.d(TAG, "getExerciseById(id)");
         Exercise exercise = Exercise.findById(Exercise.class, id);
         // Populate Sets
         exercise.exerciseSets = getExercisesSets(exercise);
@@ -73,11 +74,13 @@ public class PrettyRippedData {
      * @return the Sets of the specified Exercise
      */
     public List<ExerciseSet> getExercisesSets(Exercise exercise) {
+        Log.d(TAG, "getExercisesSets(Exercise)");
         List<ExerciseSet> exerciseSets = ExerciseSet.find(ExerciseSet.class, "exercise = ?", exercise.getId().toString());
         return exerciseSets;
     }
 
     public Session getSessionById(long id) {
+        Log.d(TAG, "getSessionById(long)");
         Session session = Session.findById(Session.class, id);
         populateSession(session);
 
@@ -89,6 +92,7 @@ public class PrettyRippedData {
      * @return a list of populated Sessions
      */
     public List<Session> getWorkoutSessions() {
+        Log.d(TAG, "getWorkoutSessions()");
         // Get all Sessions from the store
         sessions = Session.listAll(Session.class);
 
@@ -108,6 +112,7 @@ public class PrettyRippedData {
      * @return the Exercises for the specified Session
      */
     public List<Exercise> getSessionsExercises(Session session) {
+        Log.d(TAG, "getSessionsExercises(Session)");
         List<Exercise> exercises = Exercise.find(Exercise.class, "session = ?", session.getId().toString());
         return exercises;
     }
@@ -119,6 +124,7 @@ public class PrettyRippedData {
      * @return the specified ExerciseSet
      */
     public ExerciseSet getSetById(long id) {
+        Log.d(TAG, "getSetById(id)");
         return ExerciseSet.findById(ExerciseSet.class, id);
     }
 
@@ -131,7 +137,7 @@ public class PrettyRippedData {
         sessions = new ArrayList<>();
 
         sessions.add(createRandomSession(2015,2,12));
-        sessions.add(createRandomSession(2015,3,11));
+        sessions.add(createRandomSession(2015, 3, 11));
         sessions.add(createRandomSession(2015,4,10));
         sessions.add(createRandomSession(2015,5,9));
         sessions.add(createRandomSession(2015,6,8));
@@ -235,6 +241,136 @@ public class PrettyRippedData {
         Log.i(TAG, "allSessions count: " + allSessions.size());
     }
 
+    /**
+     * Creates a new, empty Exercise and updates the database
+     *
+     * @param parent the Session this Exercise will belong to
+     * @return a new Exercise belonging to the specified Session, and stored in the database
+     */
+    public Exercise createExercise(Session parent) {
+        Log.d(TAG, "createExercise(Session)");
+
+        Exercise ex = new Exercise();
+
+        // hook up parent
+        parent.addExercise(ex);
+
+        // update the parent
+        updateSession(parent);
+
+        // return the Exercise
+        return ex;
+    }
+
+    /**
+     * Creates a new ExerciseSet and updates the database
+     *
+     * @param parent the Exercise this ExerciseSet will belong to
+     * @return a new ExerciseSet belonging to the specified Exercise, and stored in the database
+     */
+    public ExerciseSet createExerciseSet(Exercise parent) {
+        Log.d(TAG, "createExerciseSet(Exercise)");
+        ExerciseSet es = new ExerciseSet();
+
+        // hook up parent
+        parent.addSet(es);
+        es.exercise = parent;       // addSet handles setting the parent exercise as well, but we're
+                                    // being safe.
+
+        // update the parent
+        updateExercise(parent);
+
+        // return the ExerciseSet
+        return  es;
+    }
+
+    /**
+     * Creates a new Session and updates the database
+     *
+     * @return a new Session that's stored in the database
+     */
+    public Session createSession() {
+        Log.d(TAG, "createSession()");
+        Session session = new Session();
+
+        // update the session
+        updateSession(session);
+
+        // return the session
+        return session;
+    }
+
+    /**
+     * Deletes an Exercise from the database, including its children ExerciseSets, and updates its
+     * parent Exercise in the database
+     *
+     * @param exercise the Exercise to delete
+     */
+    public void deleteExercise(Exercise exercise) {
+        // first, remove it from its parent
+        Session parent = exercise.session;
+        if (parent != null) {
+            parent.removeExercise(exercise);
+
+            // update parent
+            updateSession(parent);
+        }
+
+        // delete children
+        List<ExerciseSet> exerciseSets = exercise.getExerciseSets();
+
+        // we'll set each ExerciseSet's exercise to null to prevent each removal from triggering
+        // a database update
+        for (ExerciseSet es: exerciseSets) {
+            es.exercise = null;
+            deleteExerciseSet(es);
+        }
+
+        // now we'll delete the Exercise from the database
+        exercise.delete();
+    }
+
+    /**
+     * Deletes an ExerciseSet from the database, and updates its parent Exercise in the database
+     *
+     * @param exerciseSet the ExerciseSet to delete
+     */
+    public void deleteExerciseSet(ExerciseSet exerciseSet) {
+        // first, remove from its parent
+        Exercise parent = exerciseSet.exercise;
+        if (parent != null) {
+            parent.removeSet(exerciseSet);
+
+            // update parent
+            updateExercise(parent);
+        }
+
+        // delete ExerciseSet from the database
+        exerciseSet.delete();
+    }
+
+    /**
+     * Deletes a session, its children Exercises, and their children ExerciseSets from the database
+     *
+     * @param session the session to delete
+     */
+    public void deleteSession(Session session) {
+        // first, remove it from the sessions list
+        sessions.remove(session);
+
+        // now, remove its children Exercises
+        List<Exercise> exercises = session.getExercises();
+        for (Exercise ex : exercises) {
+            deleteExercise(ex);
+        }
+
+        // finally, delete it from the database
+        session.delete();
+    }
+
+    /**
+     * Saves all session data to the database
+     */
     public void saveData() {
         Log.d(TAG, "saveData()");
 
@@ -282,6 +418,49 @@ public class PrettyRippedData {
                     set.save();
                 }
             }
+        }
+    }
+
+    /**
+     * Updates an Exercise (including its ExerciseSets) in the database
+     *
+     * @param exercise the Exercise to update
+     */
+    public void updateExercise(Exercise exercise) {
+        Log.d(TAG, "updateExercise(Exercise)");
+        // first update the Exercise itself
+        exercise.save();
+
+        // Now update the Exercise's ExerciseSets
+        for (ExerciseSet exerciseSet : exercise.getExerciseSets()) {
+            updateExerciseSet(exerciseSet);
+        }
+    }
+
+    /**
+     * Updates an ExerciseSet in the database
+     *
+     * @param exerciseSet the ExerciseSet to update
+     */
+    public void updateExerciseSet(ExerciseSet exerciseSet) {
+        Log.d(TAG, "updateExerciseSet(ExerciseSet)");
+        exerciseSet.save();
+    }
+
+    /**
+     * Updates a Session (including its Exercises and their ExerciseSets) in the database
+     *
+     * @param session the Session to update
+     */
+    public void updateSession(Session session) {
+        Log.d(TAG, "updateSession(Session)");
+        // first, update the session
+        session.save();
+
+        // next, update its Exercises
+        // (this will handle the ExerciseSets as well)
+        for (Exercise exercise : session.getExercises()) {
+            updateExercise(exercise);
         }
     }
 

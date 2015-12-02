@@ -83,7 +83,7 @@ public class SessionActivity extends AppCompatActivity {
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
 
         // Create adapter
-        listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, exercises);
+        listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, session);
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);

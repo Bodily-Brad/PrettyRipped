@@ -22,6 +22,7 @@ import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.RippedEditText;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
+import edu.byui.cs246.prettyripped.models.Session;
 
 /**
  * Represents an adapter between a List of exercises and an expandable list
@@ -35,18 +36,28 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
     // LOCAL VARIABLES
     private Context context;
+    private Session session;
+    private long sessionID;
+    private PrettyRippedData data;
+
     private List<Exercise> exercises = new ArrayList<>();
 
     /**
      * Creates a new instance of ExerciseExpandableListAdapter
      *
      * @param context Context
-     * @param exercises list of exercises to list
+     * @param session the Session that drives this list
      */
-    public ExerciseExpandableListAdapter(Context context, List<Exercise> exercises) {
+    public ExerciseExpandableListAdapter(Context context, Session session) {
         Log.d(TAG, "ExerciseExpandableListAdapter(context, exercises)");
+
+        data = PrettyRippedData.getInstance();
+
         this.context = context;
-        this.exercises = exercises;
+        this.session = session;
+        this.sessionID = session.getId();
+
+        this.exercises = session.getExercises();
     }
 
     /**
@@ -56,6 +67,9 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
+        Session ses = data.getSessionById(sessionID);
+        exercises = ses.getExercises();
+
         // Let us know if our groupDescription is empty for some reason
         if (exercises.size() < 1) {
             Log.e(TAG, "getGroupCount() : exercises.size() < 1");
@@ -71,6 +85,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getChildrenCount(int groupPosition) {
+        Log.d(TAG, "getChildrenCount(int)");
         return exercises.get(groupPosition).getExerciseSets().size();
     }
 
@@ -82,6 +97,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getGroup(int groupPosition) {
+        Log.d(TAG, "getGroup(int)");
         return exercises.get(groupPosition);
     }
 
@@ -94,6 +110,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
+        Log.d(TAG, "getChild(int, int)");
+
         List<ExerciseSet> exerciseSets = exercises.get(groupPosition).getExerciseSets();
         return exerciseSets.get(childPosition);
     }
@@ -106,6 +124,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public long getGroupId(int groupPosition) {
+        Log.d(TAG, "getGroupId(int)");
         return groupPosition;
     }
 
@@ -118,6 +137,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
+        Log.d(TAG, "getChildId(int, int)");
         return childPosition;
     }
 
@@ -128,6 +148,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public boolean hasStableIds() {
+        Log.d(TAG, "hasStableIds()");
         return true;
     }
 
@@ -142,6 +163,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        Log.d(TAG, "getGroupView(int, boolean, View, ViewGroup)");
+
         Exercise exercise = exercises.get(groupPosition);
 
         if (convertView == null) {
@@ -167,6 +190,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        Log.d(TAG, "getChildView(int, int, boolean, View, ViewGroup)");
 
         // Get the child for the specified groupDescription/child position
         ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
@@ -205,7 +229,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                 ExerciseSet es = data.getSetById(esID);
 
                 es.completed = isChecked;
-                es.save();
+                data.updateExerciseSet(es);
+                //es.save();
             }
         });
 
@@ -221,11 +246,17 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
                 ExerciseSet es = data.getSetById(esID);
                 if (es != null) {
-                    int newRepValue = Integer.parseInt(me.getText().toString());
+                    String repText = me.getText().toString();
+                    int newRepValue = 0;
+                    if (!repText.equals("")) {
+                        newRepValue = Integer.parseInt(repText);
+                    }
                     if (newRepValue != es.getReps()) {
                         es.reps = newRepValue;
-                        es.save();
+                        data.updateExerciseSet(es);
+                        //es.save();
                     }
+
                 } else {
                     Log.e(TAG, "ExerciseSet from store doesn't match ID");
                 }
@@ -244,10 +275,15 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
                 ExerciseSet es = data.getSetById(esID);
                 if (es != null) {
-                    float newWeightValue = Float.parseFloat(me.getText().toString());
+                    String weightText = me.getText().toString();
+                    float newWeightValue = 0.0f;
+                    if (!weightText.equals("")) {
+                        newWeightValue = Float.parseFloat(weightText);
+                    }
                     if (newWeightValue != es.getWeight()) {
                         es.weight = newWeightValue;
-                        es.save();
+                        data.updateExerciseSet(es);
+                        //es.save();
                     }
                 } else {
                     Log.e(TAG, "ExerciseSet from store doesn't match ID");
@@ -268,6 +304,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
+        Log.d(TAG, "isChildSelectable(int, int)");
         return false;
     }
 }
