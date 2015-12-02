@@ -38,6 +38,7 @@ public class SessionActivity extends AppCompatActivity {
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
+    private Session session;
 
     /**
      * Called when the activity is created, exerciseSets up layout and data
@@ -46,10 +47,10 @@ public class SessionActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        Log.i(TAG, "onCreate()");
+        Log.d(TAG, "onCreate()");
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,7 +72,7 @@ public class SessionActivity extends AppCompatActivity {
         long sessionID = getIntent().getLongExtra(this.SESSION_ID_KEY, 0);
 
         // Get session from data handler
-        Session session = data.getSessionById(sessionID);
+        session = data.getSessionById(sessionID);
 
         // Set title from session
         this.setTitle(session.toString());

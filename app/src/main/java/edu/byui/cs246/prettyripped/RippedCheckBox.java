@@ -17,6 +17,7 @@ public class RippedCheckBox extends CheckBox {
      * ID associated with this view
      */
     public long rippedID;
+    public Object rippedObject;
 
     public RippedCheckBox(Context context) {
         super(context);

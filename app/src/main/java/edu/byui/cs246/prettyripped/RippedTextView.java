@@ -21,6 +21,7 @@ public class RippedTextView extends TextView {
      * ID associated with this view
      */
     public long rippedID;
+    public Object rippedObject;
 
     /**
      * Creates a new instance of SessionTextView

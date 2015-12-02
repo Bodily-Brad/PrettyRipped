@@ -17,6 +17,7 @@ public class RippedEditText extends EditText {
      * ID associated with this view
      */
     public long rippedID;
+    public Object rippedObject;
 
     public RippedEditText(Context context) {
         super(context);

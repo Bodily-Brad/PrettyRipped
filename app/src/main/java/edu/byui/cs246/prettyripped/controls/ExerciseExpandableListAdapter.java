@@ -67,8 +67,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
-        Session ses = data.getSessionById(sessionID);
-        exercises = ses.getExercises();
 
         // Let us know if our groupDescription is empty for some reason
         if (exercises.size() < 1) {
@@ -149,7 +147,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean hasStableIds() {
         Log.d(TAG, "hasStableIds()");
-        return true;
+        return false;
     }
 
     /**
@@ -207,8 +205,13 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         final RippedEditText editReps = (RippedEditText) convertView.findViewById(R.id.editReps);
 
         checkBox.rippedID = exerciseSet.getId();
+        checkBox.rippedObject = exerciseSet;
+
         editReps.rippedID = exerciseSet.getId();
+        editReps.rippedObject = exerciseSet;
+
         editWeight.rippedID = exerciseSet.getId();
+        editWeight.rippedObject = exerciseSet;
 
         // ExerciseSet controls to match underlying ExerciseSet
         checkBox.setChecked(exerciseSet.getCompleted());
@@ -221,16 +224,16 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                RippedCheckBox me = (RippedCheckBox) buttonView;
                 long esID = ((RippedCheckBox) buttonView).rippedID;
                 Log.d(TAG, "CHECK CHANGED for " + esID);
 
                 // Get data handler
                 PrettyRippedData data = PrettyRippedData.getInstance();
-                ExerciseSet es = data.getSetById(esID);
+                ExerciseSet es = (ExerciseSet) me.rippedObject;
 
                 es.completed = isChecked;
                 data.updateExerciseSet(es);
-                //es.save();
             }
         });
 
@@ -242,9 +245,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
                 // Get data handler
                 PrettyRippedData data = PrettyRippedData.getInstance();
-                long esID = me.rippedID;
-
-                ExerciseSet es = data.getSetById(esID);
+                ExerciseSet es = (ExerciseSet) me.rippedObject;
                 if (es != null) {
                     String repText = me.getText().toString();
                     int newRepValue = 0;
@@ -254,7 +255,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                     if (newRepValue != es.getReps()) {
                         es.reps = newRepValue;
                         data.updateExerciseSet(es);
-                        //es.save();
                     }
 
                 } else {
@@ -271,9 +271,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
                 // Get data handler
                 PrettyRippedData data = PrettyRippedData.getInstance();
-                long esID = me.rippedID;
 
-                ExerciseSet es = data.getSetById(esID);
+                ExerciseSet es = (ExerciseSet) me.rippedObject;
                 if (es != null) {
                     String weightText = me.getText().toString();
                     float newWeightValue = 0.0f;
@@ -283,7 +282,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                     if (newWeightValue != es.getWeight()) {
                         es.weight = newWeightValue;
                         data.updateExerciseSet(es);
-                        //es.save();
                     }
                 } else {
                     Log.e(TAG, "ExerciseSet from store doesn't match ID");
