@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:padding="@dimen/fivedp"
     android:background="@color/colorPrimary"
-    >
+    android:orientation="horizontal">
     <TextView
         android:layout_width="fill_parent"
         android:paddingLeft="27dp"
@@ -11,4 +11,8 @@
         android:id="@+id/editTextDate"
         android:textColor="@android:color/white"
         android:text="Fri, Oct 30, 2015"/>
+    <ExpandableListView
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
 </LinearLayout>

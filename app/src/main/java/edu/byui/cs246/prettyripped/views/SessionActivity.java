@@ -80,6 +80,11 @@ public class SessionActivity extends AppCompatActivity {
         // Attach adapter to list
         listView.setAdapter(listAdapter);
 
+        // Expand all our groups
+        for (int i=0; i < listAdapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
+
         // Set up pink icon
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +120,10 @@ public class SessionActivity extends AppCompatActivity {
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
+
+        for (int i=0; i < listAdapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
     }
 
 }
