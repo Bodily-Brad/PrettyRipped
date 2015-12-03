@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
@@ -43,14 +46,6 @@ public class SessionsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         // Get data from app data singleton
         PrettyRippedData data = PrettyRippedData.getInstance();
@@ -64,6 +59,26 @@ public class SessionsActivity extends AppCompatActivity {
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // get data handler
+                PrettyRippedData data = PrettyRippedData.getInstance();
+
+                // get a new session
+                Session session = data.createSession();
+
+                Calendar cal = GregorianCalendar.getInstance();
+                Date time = cal.getTime();
+
+                Snackbar.make(view, "Created a new session. And the time is " + time.toString(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+                // TODO: Session list / adapter needs updated to reflect new session has been added
+            }
+        });
     }
 
     /**

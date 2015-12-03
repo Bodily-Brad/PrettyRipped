@@ -40,14 +40,18 @@ public class PrettyRippedData {
     }
 
     private PrettyRippedData() {
-        // Create default data
-        debugCreateDefaultData();
+        boolean devFlag = true;
 
-        // Save it
-        saveData();
+        // Get our session data from the db
+        loadSessionDataFromDB();
 
-        // load session data
-        //loadSessionDataFromDB();
+        // If this is dev, and we have no sessions, create some default data
+        if (devFlag) {
+            if (this.sessions.size() < 1) {
+                debugCreateDefaultData();
+                saveData();;
+            }
+        }
     }
 
     // METHODS
@@ -62,21 +66,9 @@ public class PrettyRippedData {
         Log.d(TAG, "getExerciseById(id)");
         Exercise exercise = Exercise.findById(Exercise.class, id);
         // Populate Sets
-        exercise.exerciseSets = getExercisesSets(exercise);
+        exercise.exerciseSets = loadExercisesSetsFromDB(exercise);
 
         return exercise;
-    }
-
-    /**
-     * Attempts to retrieve all of an Exercise's Sets
-     *
-     * @param exercise Exercise to retrieve the Sets for
-     * @return the Sets of the specified Exercise
-     */
-    public List<ExerciseSet> getExercisesSets(Exercise exercise) {
-        Log.d(TAG, "getExercisesSets(Exercise)");
-        List<ExerciseSet> exerciseSets = ExerciseSet.find(ExerciseSet.class, "exercise = ?", exercise.getId().toString());
-        return exerciseSets;
     }
 
     public Session getSessionById(long id) {
@@ -85,36 +77,6 @@ public class PrettyRippedData {
         populateSession(session);
 
         return session;
-    }
-    /**
-     * Gets a populated list of the workout Sessions
-     *
-     * @return a list of populated Sessions
-     */
-    public List<Session> getWorkoutSessions() {
-        Log.d(TAG, "getWorkoutSessions()");
-        // Get all Sessions from the store
-        sessions = Session.listAll(Session.class);
-
-        // Populate each Session
-        for (Session session : sessions) {
-            populateSession(session);
-        }
-
-        // Return populated sessions
-        return sessions;
-    }
-
-    /**
-     * Attempts to retrieve all of a Session's exercises
-     *
-     * @param session Session to retrieve the Exercises for
-     * @return the Exercises for the specified Session
-     */
-    public List<Exercise> getSessionsExercises(Session session) {
-        Log.d(TAG, "getSessionsExercises(Session)");
-        List<Exercise> exercises = Exercise.find(Exercise.class, "session = ?", session.getId().toString());
-        return exercises;
     }
 
     /**
@@ -234,13 +196,6 @@ public class PrettyRippedData {
         return new ExerciseSet(parentExercise, reps, weight, completed);
     }
 
-    private void loadData() {
-        Log.d(TAG, "loadData()");
-
-        List<Session> allSessions = Session.listAll(Session.class);
-        Log.i(TAG, "allSessions count: " + allSessions.size());
-    }
-
     /**
      * Creates a new, empty Exercise and updates the database
      *
@@ -295,6 +250,9 @@ public class PrettyRippedData {
 
         // update the session
         updateSession(session);
+
+        // Add it to our list of sessions
+        this.sessions.add(session);
 
         // return the session
         return session;
@@ -366,6 +324,50 @@ public class PrettyRippedData {
 
         // finally, delete it from the database
         session.delete();
+    }
+
+    /**
+     * Attempts to retrieve all of an Exercise's Sets from the database
+     *
+     * @param exercise Exercise to retrieve the Sets for
+     * @return the Sets of the specified Exercise
+     */
+    public List<ExerciseSet> loadExercisesSetsFromDB(Exercise exercise) {
+        Log.d(TAG, "loadExercisesSetsFromDB(Exercise)");
+        List<ExerciseSet> exerciseSets = ExerciseSet.find(ExerciseSet.class, "exercise = ?", exercise.getId().toString());
+        return exerciseSets;
+    }
+
+    /**
+     * Attempts to retrieve all of a Session's exercises from the database
+     *
+     * @param session Session to retrieve the Exercises for
+     * @return the Exercises for the specified Session
+     */
+    public List<Exercise> loadSessionsExercisesFromDB(Session session) {
+        Log.d(TAG, "loadSessionsExercisesFromDB(Session)");
+        List<Exercise> exercises = Exercise.find(Exercise.class, "session = ?", session.getId().toString());
+        return exercises;
+    }
+
+    /**
+     * Gets a populated list of the workout Sessions from the database
+     *
+     * @return a list of populated Sessions
+     */
+    public List<Session> loadWorkoutSessionsFromDB() {
+        Log.d(TAG, "loadWorkoutSessionsFromDB()");
+        // Get all Sessions from the store
+        //sessions = Session.listAll(Session.class);
+        sessions = Session.findWithQuery(Session.class, "SELECT * FROM Session ORDER BY Time");
+
+        // Populate each Session
+        for (Session session : sessions) {
+            populateSession(session);
+        }
+
+        // Return populated sessions
+        return sessions;
     }
 
     /**
@@ -470,7 +472,8 @@ public class PrettyRippedData {
      * Loads the stored session data from the database
      */
     private void loadSessionDataFromDB() {
-        this.sessions = Session.listAll(Session.class);
+        //this.sessions = Session.listAll(Session.class);
+        this.sessions = loadWorkoutSessionsFromDB();
     }
 
     /**
@@ -480,7 +483,7 @@ public class PrettyRippedData {
      */
     private void populateExercise(Exercise exercise) {
         // Get this Exercise's ExerciseSets from the store
-        List<ExerciseSet> sets = getExercisesSets(exercise);
+        List<ExerciseSet> sets = loadExercisesSetsFromDB(exercise);
 
         // Hook up each set
         for (ExerciseSet set : sets) {
@@ -490,7 +493,7 @@ public class PrettyRippedData {
 
     private void populateSession(Session session) {
         // Get this Session's Exercises from the store
-        List<Exercise> exercises = getSessionsExercises(session);
+        List<Exercise> exercises = loadSessionsExercisesFromDB(session);
 
         // populate and hookup each Exercise
         for (Exercise exercise : exercises) {

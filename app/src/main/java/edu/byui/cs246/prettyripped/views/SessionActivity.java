@@ -1,5 +1,6 @@
 package edu.byui.cs246.prettyripped.views;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -55,16 +56,6 @@ public class SessionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         // Get data handler
         PrettyRippedData data = PrettyRippedData.getInstance();
 
@@ -83,6 +74,42 @@ public class SessionActivity extends AppCompatActivity {
         // Set up expandable list
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
 
+        // Create adapter
+        listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, session);
+
+        // Attach adapter to list
+        listView.setAdapter(listAdapter);
+
+        // Set up pink icon
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the calling activity
+                SessionActivity sessionActivity = (SessionActivity) view.getContext();
+                Session session = sessionActivity.session;
+
+                // get data handler
+                PrettyRippedData data = PrettyRippedData.getInstance();
+                Exercise ex = data.createExercise(session);
+
+                // Give it a default name
+                // TODO: Get the name from the user
+                ex.name = "Created Exercise";
+                data.updateExercise(ex);
+
+                // Refresh the SessionActivity's list
+                sessionActivity.refreshList();
+
+                // Give some output
+                Snackbar.make(view, "Created a new exercise", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void refreshList() {
         // Create adapter
         listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, session);
 
