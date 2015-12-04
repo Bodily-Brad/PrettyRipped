@@ -146,7 +146,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.date_listview, null);
+            convertView = inflater.inflate(R.layout.sessions_list_group, null);
         }
 
         TextView label = (TextView) convertView.findViewById(R.id.editTextDate);
@@ -171,7 +171,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.session_listview, null);
+            convertView = inflater.inflate(R.layout.sessions_list_child, null);
         }
 
         RippedTextView label = (RippedTextView) convertView.findViewById(R.id.labelSessionDescription);
