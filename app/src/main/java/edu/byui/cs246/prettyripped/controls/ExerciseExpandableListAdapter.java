@@ -1,8 +1,6 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -167,7 +164,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.exercise_view, null);
+            convertView = inflater.inflate(R.layout.session_list_group, null);
         }
 
         CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
@@ -195,7 +192,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.set_view, null);
+            convertView = inflater.inflate(R.layout.session_list_child, null);
         }
 
         // Get controls
