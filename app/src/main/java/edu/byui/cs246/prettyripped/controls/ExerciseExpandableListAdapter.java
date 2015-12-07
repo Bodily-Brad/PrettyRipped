@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -168,6 +170,15 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
+        ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExercise);
+        delButton.setFocusable(false);
+        delButton.setClickable(false);
+        delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "DEL BUTTON CLICK!");
+            }
+        });
         label.setText(exercise.getName() + " (" + exercise.getId() + ")");
 
         return convertView;
