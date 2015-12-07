@@ -1,6 +1,9 @@
 package edu.byui.cs246.prettyripped.controls;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,12 +174,23 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
         ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExercise);
-        delButton.setFocusable(false);
-        delButton.setClickable(false);
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "DEL BUTTON CLICK!");
+                final Context context = v.getContext();
+                new AlertDialog.Builder(context)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Remove this exercise?")
+                        .setMessage("This will permanently remove this exercise from the workout session")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO: Implement exercise removal/notification
+                                Log.d(TAG, "you said yes");
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
         label.setText(exercise.getName() + " (" + exercise.getId() + ")");
@@ -223,7 +237,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         // ExerciseSet controls to match underlying ExerciseSet
         checkBox.setChecked(exerciseSet.getCompleted());
-        labelSetNumber.setText( context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1) );
+        labelSetNumber.setText(context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1));
         editWeight.setText(String.format("%.0f", exerciseSet.getWeight()));
         editReps.setText(Integer.toString(exerciseSet.getReps()));
 
