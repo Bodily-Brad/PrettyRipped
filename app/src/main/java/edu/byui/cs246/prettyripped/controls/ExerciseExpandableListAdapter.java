@@ -180,6 +180,9 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         final CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
         ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExercise);
+        ImageView addButton = (ImageView) convertView.findViewById(R.id.buttonAddSet);
+        addButton.setFocusable(false);
+        delButton.setFocusable(false);
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +203,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
         label.setText(exercise.getName() + " (" + exercise.getId() + ")");
+        label.setFocusable(false);
 
         label.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
