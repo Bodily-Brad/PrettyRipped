@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -69,6 +70,28 @@ public class PrettyRippedData {
         exercise.exerciseSets = loadExercisesSetsFromDB(exercise);
 
         return exercise;
+    }
+
+    /**
+     * Gets a list of all of the exercise names being used
+     *
+     * @return a list of unique exercise names
+     */
+    public List<String> getExerciseNames() {
+        // Brute force way
+        List<Exercise> exercises = Exercise.listAll(Exercise.class);
+
+        List<String> names = new ArrayList<>();
+
+        for (Exercise exercise : exercises) {
+            if (!names.contains(exercise.getName())) {
+                names.add(exercise.name);
+            }
+        }
+
+        Collections.sort(names);
+
+        return names;
     }
 
     public Session getSessionById(long id) {

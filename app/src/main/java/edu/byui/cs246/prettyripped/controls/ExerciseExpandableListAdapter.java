@@ -9,11 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -166,14 +171,14 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         Log.d(TAG, "getGroupView(int, boolean, View, ViewGroup)");
 
-        Exercise exercise = exercises.get(groupPosition);
+        final Exercise exercise = exercises.get(groupPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.session_list_group, null);
         }
 
-        CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
+        final CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
         ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExercise);
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,18 +200,51 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
         label.setText(exercise.getName() + " (" + exercise.getId() + ")");
+
         label.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 final Context context = v.getContext();
 
                 LayoutInflater li = LayoutInflater.from(context);
+                final View dialogView = li.inflate(R.layout.dialog_prompt, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setView(dialogView);
 
-                new AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.edit_text)
-                .setTitle(R.string.prompt_edit_exercise_name)
-                .setView(li.inflate(R.layout.dialog_prompt,null))
-                        .setPositiveButton("Save", null)
+
+                // Get Exercise names from data handler & assign to auto complete
+                PrettyRippedData data = PrettyRippedData.getInstance();
+                List<String> names = data.getExerciseNames();
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
+
+                // Get a handle to the edit control, and populate it with the current exercise name
+                final AutoCompleteTextView editText = (AutoCompleteTextView) dialogView.findViewById(R.id.userInput);
+                editText.setText(exercise.getName());
+                editText.selectAll();
+                editText.setAdapter(arrayAdapter);
+
+
+                alertDialogBuilder
+                    .setIcon(android.R.drawable.ic_menu_edit)
+                    .setTitle(R.string.prompt_edit_exercise_name)
+                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            String input = editText.getText().toString();
+                            exercise.name = input;
+
+                            // Get data handler
+                            PrettyRippedData data = PrettyRippedData.getInstance();
+
+                            // Update the exercise
+                            data.updateExercise(exercise);
+
+                            // Update the view, too
+                            label.setText(exercise.name);
+
+                        }
+                    })
                         .setNegativeButton("Cancel", null)
                         .show();
                 return false;
