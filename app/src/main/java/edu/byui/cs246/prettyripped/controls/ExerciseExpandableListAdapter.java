@@ -1,6 +1,7 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Layout;
@@ -194,6 +195,23 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
         label.setText(exercise.getName() + " (" + exercise.getId() + ")");
+        label.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final Context context = v.getContext();
+
+                LayoutInflater li = LayoutInflater.from(context);
+
+                new AlertDialog.Builder(context)
+                .setIcon(android.R.drawable.edit_text)
+                .setTitle(R.string.prompt_edit_exercise_name)
+                .setView(li.inflate(R.layout.dialog_prompt,null))
+                        .setPositiveButton("Save", null)
+                        .setNegativeButton("Cancel", null)
+                        .show();
+                return false;
+            }
+        });
 
         return convertView;
     }

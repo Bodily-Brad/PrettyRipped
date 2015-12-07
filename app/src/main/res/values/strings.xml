@@ -11,4 +11,6 @@
     <string name="label_reps">Reps</string>
     <string name="label_set_prefix">Set</string>
     <string name="label_weight_unit">lbs</string>
+
+    <string name="prompt_edit_exercise_name">Enter Exercise Description</string>
 </resources>
