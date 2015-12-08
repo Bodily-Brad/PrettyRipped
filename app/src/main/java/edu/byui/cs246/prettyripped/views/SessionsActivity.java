@@ -73,6 +73,8 @@ public class SessionsActivity extends AppCompatActivity {
                 Calendar cal = GregorianCalendar.getInstance();
                 Date time = cal.getTime();
 
+                refreshSessionList();
+
                 Snackbar.make(view, "Created a new session. And the time is " + time.toString(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
@@ -108,5 +110,25 @@ public class SessionsActivity extends AppCompatActivity {
 
         // Start activity
         SessionsActivity.this.startActivity(intent);
+    }
+
+    /**
+     * Refreshes the exercise list
+     */
+    private void refreshSessionList() {
+        // Get data from app data singleton
+        PrettyRippedData data = PrettyRippedData.getInstance();
+
+        // Create adapter
+        List<Session> session = data.sessions;
+        listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, data.sessions);
+
+        // Attach adapter to list
+        listView.setAdapter(listAdapter);
+
+        // Expand all the lists
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
     }
 }
