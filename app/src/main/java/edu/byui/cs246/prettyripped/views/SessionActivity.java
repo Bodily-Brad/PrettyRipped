@@ -145,9 +145,9 @@ public class SessionActivity extends AppCompatActivity {
                 List<String> names = data.getExerciseNames();
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
 
-                // Get a handle to the edit control, and populate it with a blank string
+                // Get a handle to the edit control, and populate it with a default name
                 final AutoCompleteTextView editText = (AutoCompleteTextView) dialogView.findViewById(R.id.userInput);
-                editText.setText("");
+                editText.setText(R.string.default_exercise_name);
                 editText.selectAll();
                 editText.setAdapter(arrayAdapter);
 
