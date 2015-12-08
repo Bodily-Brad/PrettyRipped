@@ -215,7 +215,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                 alertDialogBuilder.setView(dialogView);
 
-
                 // Get Exercise names from data handler & assign to auto complete
                 PrettyRippedData data = PrettyRippedData.getInstance();
                 List<String> names = data.getExerciseNames();

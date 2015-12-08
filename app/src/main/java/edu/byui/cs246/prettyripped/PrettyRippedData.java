@@ -228,7 +228,21 @@ public class PrettyRippedData {
     public Exercise createExercise(Session parent) {
         Log.d(TAG, "createExercise(Session)");
 
+        return createExercise(parent, "");
+    }
+
+    /**
+     * Create a new Exercise with the specified name, and updates the database
+     *
+     * @param parent the Session this Exercise will belong to
+     * @param name the name this Exercise will have
+     * @return a new Exercise belonging to the specified Session, and stored in the database
+     */
+    public Exercise createExercise(Session parent, String name) {
+        Log.d(TAG, "createExercise(Session, String");
+
         Exercise ex = new Exercise();
+        ex.name = name;
 
         // hook up parent
         parent.addExercise(ex);
@@ -237,7 +251,7 @@ public class PrettyRippedData {
         updateSession(parent);
 
         // return the Exercise
-        return ex;
+        return  ex;
     }
 
     /**

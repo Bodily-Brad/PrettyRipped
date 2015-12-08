@@ -13,4 +13,8 @@
     <string name="label_weight_unit">lbs</string>
 
     <string name="prompt_edit_exercise_name">Enter Exercise Description</string>
-</resources>
+    <string name="prompt_new_exercise_name">Enter Exercise Description</string>
+
+    <string name="button_create_exercise_name">Add</string>
+    <string name="button_cancel_exercise_name">Cancel</string>
+    </resources>
