@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -14,6 +15,8 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
@@ -27,12 +30,14 @@ import edu.byui.cs246.prettyripped.models.Session;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class SessionsActivity extends AppCompatActivity {
+public class SessionsActivity extends AppCompatActivity implements Observer {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionsActivity";
 
+    // LOCAL VARIABLES
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
+    private PrettyRippedData data;
 
     /**
      * Called when the activity is created, exerciseSets up layout and data
@@ -46,26 +51,25 @@ public class SessionsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        // Get data from app data singleton
-        PrettyRippedData data = PrettyRippedData.getInstance();
+        // Set data to app data singleton
+        data = PrettyRippedData.getInstance();
 
         // ExerciseSet up expandable list
         listView = (ExpandableListView) findViewById(R.id.sessionList);
 
         // Create adapter
-        List<Session> session = data.sessions;
         listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, data.sessions);
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
 
+        // Set up as an observer for PrettyRippedData
+        data.addObserver(this);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // get data handler
-                PrettyRippedData data = PrettyRippedData.getInstance();
 
                 // get a new session
                 Session session = data.createSession();
@@ -73,14 +77,24 @@ public class SessionsActivity extends AppCompatActivity {
                 Calendar cal = GregorianCalendar.getInstance();
                 Date time = cal.getTime();
 
-                refreshSessionList();
-
                 Snackbar.make(view, "Created a new session. And the time is " + time.toString(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
-                // TODO: Session list / adapter needs updated to reflect new session has been added
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume()");
+
+        // We're refreshing the list when focus comes back to this activity
+        refreshSessionList();
+
+        // however, something isn't getting updated, because changes in Session aren't showing in
+        // the session list
+        // TODO: Make updates show!
+
     }
 
     /**
@@ -116,11 +130,9 @@ public class SessionsActivity extends AppCompatActivity {
      * Refreshes the exercise list
      */
     private void refreshSessionList() {
-        // Get data from app data singleton
-        PrettyRippedData data = PrettyRippedData.getInstance();
+        Log.d(TAG, "refreshSessionList()");
 
         // Create adapter
-        List<Session> session = data.sessions;
         listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, data.sessions);
 
         // Attach adapter to list
@@ -129,6 +141,14 @@ public class SessionsActivity extends AppCompatActivity {
         // Expand all the lists
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
             listView.expandGroup(i);
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        Log.d(TAG, "update(Observable, Object)");
+        if (observable.getClass() == PrettyRippedData.class) {
+            refreshSessionList();
         }
     }
 }

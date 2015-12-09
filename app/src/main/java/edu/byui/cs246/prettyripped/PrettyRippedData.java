@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Observable;
 
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
@@ -20,7 +21,7 @@ import edu.byui.cs246.prettyripped.models.Session;
  * @author Brad Bodily
  * @since 2015-11-27
  */
-public class PrettyRippedData {
+public class PrettyRippedData extends Observable {
     /**
      * Debugging Tag
      */
@@ -226,8 +227,7 @@ public class PrettyRippedData {
      * @return a new Exercise belonging to the specified Session, and stored in the database
      */
     public Exercise createExercise(Session parent) {
-        Log.d(TAG, "createExercise(Session)");
-
+        // Call the more-specific method
         return createExercise(parent, "");
     }
 
@@ -239,8 +239,7 @@ public class PrettyRippedData {
      * @return a new Exercise belonging to the specified Session, and stored in the database
      */
     public Exercise createExercise(Session parent, String name) {
-        Log.d(TAG, "createExercise(Session, String");
-
+        // Create a new Exercise, and set the name
         Exercise ex = new Exercise();
         ex.name = name;
 
@@ -248,7 +247,11 @@ public class PrettyRippedData {
         parent.addExercise(ex);
 
         // update the parent
-        updateSession(parent);
+        updateSessionWithoutNotification(parent);
+
+        // Notify Observers
+        setChanged();
+        notifyObservers();
 
         // return the Exercise
         return  ex;
@@ -261,7 +264,7 @@ public class PrettyRippedData {
      * @return a new ExerciseSet belonging to the specified Exercise, and stored in the database
      */
     public ExerciseSet createExerciseSet(Exercise parent) {
-        Log.d(TAG, "createExerciseSet(Exercise)");
+        // Create a new ExerciseSet
         ExerciseSet es = new ExerciseSet();
 
         // hook up parent
@@ -270,7 +273,11 @@ public class PrettyRippedData {
                                     // being safe.
 
         // update the parent
-        updateExercise(parent);
+        updateExerciseWithoutNotification(parent);
+
+        // Notify Observers
+        setChanged();
+        notifyObservers();
 
         // return the ExerciseSet
         return  es;
@@ -286,10 +293,14 @@ public class PrettyRippedData {
         Session session = new Session();
 
         // update the session
-        updateSession(session);
+        updateSessionWithoutNotification(session);
 
         // Add it to our list of sessions
         this.sessions.add(session);
+
+        // Notify Observers
+        setChanged();
+        notifyObservers();
 
         // return the session
         return session;
@@ -302,27 +313,13 @@ public class PrettyRippedData {
      * @param exercise the Exercise to delete
      */
     public void deleteExercise(Exercise exercise) {
-        // first, remove it from its parent
-        Session parent = exercise.session;
-        if (parent != null) {
-            parent.removeExercise(exercise);
+        // Delete the Exercise (and everything that entails) without notifications,
+        // we'll notify the observers after all the work is done
+        deleteExerciseWithoutNotification(exercise);
 
-            // update parent
-            updateSession(parent);
-        }
-
-        // delete children
-        List<ExerciseSet> exerciseSets = exercise.getExerciseSets();
-
-        // we'll set each ExerciseSet's exercise to null to prevent each removal from triggering
-        // a database update
-        for (ExerciseSet es: exerciseSets) {
-            es.exercise = null;
-            deleteExerciseSet(es);
-        }
-
-        // now we'll delete the Exercise from the database
-        exercise.delete();
+        // Notify observers
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -331,17 +328,13 @@ public class PrettyRippedData {
      * @param exerciseSet the ExerciseSet to delete
      */
     public void deleteExerciseSet(ExerciseSet exerciseSet) {
-        // first, remove from its parent
-        Exercise parent = exerciseSet.exercise;
-        if (parent != null) {
-            parent.removeSet(exerciseSet);
+        // Delete the ExerciseSet (and everything that entails) without notifications,
+        // we'll notify the observers after all the work is done
+        deleteExerciseSetWithoutNotification(exerciseSet);
 
-            // update parent
-            updateExercise(parent);
-        }
-
-        // delete ExerciseSet from the database
-        exerciseSet.delete();
+        // Notify observers
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -350,17 +343,13 @@ public class PrettyRippedData {
      * @param session the session to delete
      */
     public void deleteSession(Session session) {
-        // first, remove it from the sessions list
-        sessions.remove(session);
+        // Delete the session (and everything that entails) without notifications,
+        // we'll notify the observers after all the work is done
+        deleteSessionWithoutNotification(session);
 
-        // now, remove its children Exercises
-        List<Exercise> exercises = session.getExercises();
-        for (Exercise ex : exercises) {
-            deleteExercise(ex);
-        }
-
-        // finally, delete it from the database
-        session.delete();
+        // Notify observers
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -466,14 +455,11 @@ public class PrettyRippedData {
      * @param exercise the Exercise to update
      */
     public void updateExercise(Exercise exercise) {
-        Log.d(TAG, "updateExercise(Exercise)");
-        // first update the Exercise itself
-        exercise.save();
+        // Update the exercise without notifications...
+        updateExerciseWithoutNotification(exercise);
 
-        // Now update the Exercise's ExerciseSets
-        for (ExerciseSet exerciseSet : exercise.getExerciseSets()) {
-            updateExerciseSet(exerciseSet);
-        }
+        // ...then, notify the observers
+        notifyObservers();
     }
 
     /**
@@ -482,8 +468,11 @@ public class PrettyRippedData {
      * @param exerciseSet the ExerciseSet to update
      */
     public void updateExerciseSet(ExerciseSet exerciseSet) {
-        Log.d(TAG, "updateExerciseSet(ExerciseSet)");
-        exerciseSet.save();
+        // Update the ExerciseSet without notifications...
+        updateExerciseSetWithoutNotification(exerciseSet);
+
+        // ...then, notify the observers
+        notifyObservers();
     }
 
     /**
@@ -492,18 +481,96 @@ public class PrettyRippedData {
      * @param session the Session to update
      */
     public void updateSession(Session session) {
-        Log.d(TAG, "updateSession(Session)");
-        // first, update the session
-        session.save();
+        // Update the Session without notifications...
+        updateSessionWithoutNotification(session);
 
-        // next, update its Exercises
-        // (this will handle the ExerciseSets as well)
-        for (Exercise exercise : session.getExercises()) {
-            updateExercise(exercise);
-        }
+        // ...then, notify the observers
+        notifyObservers();
     }
 
     // PRIVATE FUNCTIONS
+
+    /**
+     * Deletes an ExerciseSet from the database, and updates its parent Exercise in the database,
+     * but does notify observers. This allows us to use this function in a loop without sending
+     * notifications for each iteration, for example.
+     *
+     * @param exerciseSet the ExerciseSet to delete
+     */
+    private void deleteExerciseSetWithoutNotification(ExerciseSet exerciseSet) {
+        // first, remove from its parent
+        Exercise parent = exerciseSet.exercise;
+        if (parent != null) {
+            parent.removeSet(exerciseSet);
+
+            // update parent
+            updateExerciseWithoutNotification(parent);
+        }
+
+        // delete ExerciseSet from the database
+        exerciseSet.delete();
+
+        // Set changed
+        setChanged();
+    }
+
+    /**
+     * Deletes an Exercise from the database, including its children ExerciseSets, and updates its
+     * parent Exercise in the database, but does not notify observers. This allows us to use this
+     * function in a loop without sending notifications for each iteration, for example.
+     *
+     * @param exercise the Exercise to delete
+     */
+    private void deleteExerciseWithoutNotification(Exercise exercise) {
+        // first, remove it from its parent
+        Session parent = exercise.session;
+        if (parent != null) {
+            parent.removeExercise(exercise);
+
+            // update parent
+            updateSessionWithoutNotification(parent);
+        }
+
+        // delete children
+        List<ExerciseSet> exerciseSets = exercise.getExerciseSets();
+
+        // we'll set each ExerciseSet's exercise to null to prevent each removal from triggering
+        // a database update
+        for (ExerciseSet es: exerciseSets) {
+            es.exercise = null;
+            deleteExerciseSetWithoutNotification(es);
+        }
+
+        // now we'll delete the Exercise from the database
+        exercise.delete();
+
+        // Set changed
+        setChanged();
+    }
+
+    /**
+     * Deletes a session, its children Exercises, and their children ExerciseSets from the database,
+     * but does not notify observers. This allows us to use this function in a loop without sending
+     * notifications for each iteration, for example.
+     *
+     * @param session the session to delete
+     */
+    private void deleteSessionWithoutNotification(Session session) {
+        // first, remove it from the sessions list
+        sessions.remove(session);
+
+        // now, remove its children Exercises
+        List<Exercise> exercises = session.getExercises();
+        for (Exercise ex : exercises) {
+            deleteExerciseWithoutNotification(ex);
+        }
+
+        // finally, delete it from the database
+        session.delete();
+
+        // Set changed
+        setChanged();
+    }
 
     /**
      * Loads the stored session data from the database
@@ -538,6 +605,61 @@ public class PrettyRippedData {
             session.addExercise(exercise);
         }
 
+    }
+
+    /**
+     * Updates an Exercise (including its ExerciseSets) in the database, but does not notify
+     * observers. This allows us to use this function in a loop without sending out notifications
+     * for each iteration, for example.
+     *
+     * @param exercise the Exercise to update
+     */
+    private void updateExerciseWithoutNotification(Exercise exercise) {
+        // first save the Exercise itself
+        exercise.save();
+
+        // Set changed
+        setChanged();
+
+        // Now update the Exercise's ExerciseSets
+        for (ExerciseSet exerciseSet : exercise.getExerciseSets()) {
+            updateExerciseSetWithoutNotification(exerciseSet);
+        }
+    }
+
+    /**
+     * Updates an ExerciseSet in the database, but does not notify observers. This allows us to use
+     * this function in a loop without sending out notifications for each iteration, for example.
+     *
+     * @param exerciseSet the ExerciseSet to update
+     */
+    private void updateExerciseSetWithoutNotification(ExerciseSet exerciseSet) {
+        // save the ExerciseSet
+        exerciseSet.save();
+
+        // Set changed
+        setChanged();
+    }
+
+    /**
+     * Updates a Session (including its Exercises, and their ExerciseSets) in the database, but does
+     * not notify observers. This allows us to use this function in a loop without sending repeated
+     * notifications for each iteration, for example.
+     *
+     * @param session The Session to update
+     */
+    private void updateSessionWithoutNotification(Session session) {
+        // first, save the session
+        session.save();
+
+        // Set changed
+        setChanged();
+
+        // next, update its Exercises
+        // (this will handle the ExerciseSets as well)
+        for (Exercise exercise : session.getExercises()) {
+            updateExerciseWithoutNotification(exercise);
+        }
     }
 
 }
