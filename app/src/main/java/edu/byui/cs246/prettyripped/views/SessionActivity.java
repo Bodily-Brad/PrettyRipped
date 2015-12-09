@@ -6,11 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +20,8 @@ import android.widget.ExpandableListView;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
@@ -35,7 +35,7 @@ import edu.byui.cs246.prettyripped.models.Session;
  * @author Brad Bodily
  * @since 2015-11-03
  */
-public class SessionActivity extends AppCompatActivity {
+public class SessionActivity extends AppCompatActivity implements Observer {
     // CONSTANTS & SETTINGS
     private final static String TAG = "SessionActivity";
 
@@ -49,6 +49,7 @@ public class SessionActivity extends AppCompatActivity {
     private ExpandableListAdapter listAdapter;
     private ExpandableListView listView;
     private Session session;
+    private PrettyRippedData data;
 
     /**
      * Called when the activity is created, exerciseSets up layout and data
@@ -61,12 +62,13 @@ public class SessionActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        // Get app data handler, and hook up as observer
+        data = PrettyRippedData.getInstance();
+        data.addObserver(this);
+
         setContentView(R.layout.activity_session);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Get data handler
-        PrettyRippedData data = PrettyRippedData.getInstance();
 
         // Get passed session ID
         final long sessionID = getIntent().getLongExtra(this.SESSION_ID_KEY, 0);
@@ -107,6 +109,7 @@ public class SessionActivity extends AppCompatActivity {
      * Refreshes the UI to match the current data
      */
     public void refreshUI() {
+        Log.d(TAG, "refreshUI()");
         // refresh the titles
         refreshTitle();
 
@@ -126,8 +129,6 @@ public class SessionActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Get the calling activity
-                final SessionActivity sessionActivity = (SessionActivity) view.getContext();
 
                 // Prompt the user for an exercise name
                 Context context = view.getContext();
@@ -141,7 +142,7 @@ public class SessionActivity extends AppCompatActivity {
                 alertDialogBuilder.setView(dialogView);
 
                 // Get Exercise names from data handler & assign to auto complete
-                final PrettyRippedData data = PrettyRippedData.getInstance();
+                //final PrettyRippedData data = PrettyRippedData.getInstance();
                 List<String> names = data.getExerciseNames();
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
 
@@ -167,9 +168,6 @@ public class SessionActivity extends AppCompatActivity {
 
                                 // Update the exercise
                                 data.updateExercise(exercise);
-
-                                // Update the view, too
-                                sessionActivity.refreshExerciseList();
                             }
                         })
                         .setNegativeButton(R.string.button_cancel_exercise_name, null)
@@ -184,24 +182,16 @@ public class SessionActivity extends AppCompatActivity {
         final Context context = this;
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(session.getTime());
-        final Session passedSession = session;
 
         // Set up long press on title
         toolbar.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // Get the calling activity (gotta cast it to this VERY specific class or Android gets mad)
-                android.support.v7.internal.view.ContextThemeWrapper ctw = (android.support.v7.internal.view.ContextThemeWrapper) v.getContext();
-
-                // Grab this so we can refresh the UI later
-                final SessionActivity sessionActivity = (SessionActivity) ctw.getBaseContext();
 
                 // Create a DatePicker
                 DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        // Get data handler
-                        PrettyRippedData data = PrettyRippedData.getInstance();
 
                         // Make a calendar and all the junk that you have to do to get a date
                         Calendar cal = new GregorianCalendar();
@@ -212,9 +202,6 @@ public class SessionActivity extends AppCompatActivity {
 
                         // Update the session with the handler
                         data.updateSession(session);
-
-                        // Update the title
-                        sessionActivity.refreshTitle();
 
                         // TODO: Update the calling SESSIONS view with the updated list
 
@@ -244,10 +231,17 @@ public class SessionActivity extends AppCompatActivity {
     }
 
     /**
-     * Refreshses the exercise title
+     * Refreshes the exercise title
      */
     private void refreshTitle() {
         this.setTitle(session.toString());
     }
 
+    @Override
+    public void update(Observable observable, Object data) {
+        Log.d(TAG, "update(Observable, Object");
+        if (observable.getClass() == PrettyRippedData.class) {
+            refreshUI();
+        }
+    }
 }

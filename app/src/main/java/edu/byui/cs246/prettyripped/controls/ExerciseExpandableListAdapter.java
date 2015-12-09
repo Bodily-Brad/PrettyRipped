@@ -195,6 +195,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO: Implement exercise removal/notification
+                                data.deleteExercise(exercise);
                                 Log.d(TAG, "you said yes");
                             }
                         })
