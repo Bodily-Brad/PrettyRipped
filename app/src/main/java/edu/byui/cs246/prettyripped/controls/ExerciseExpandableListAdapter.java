@@ -184,6 +184,12 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         // Add Set button
         addButton.setFocusable(false);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                data.createExerciseSet(exercise);
+            }
+        });
 
         // Delete Exercise Button
         delButton.setFocusable(false);
@@ -273,7 +279,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         Log.d(TAG, "getChildView(int, int, boolean, View, ViewGroup)");
 
         // Get the child for the specified groupDescription/child position
-        ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
+        final ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -302,6 +308,33 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         editReps.setText(Integer.toString(exerciseSet.getReps()));
 
         // Set up listeners
+
+        // Del button
+        ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExerciseSet);
+
+        // Delete Exercise Button
+        delButton.setFocusable(false);
+        delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Context context = v.getContext();
+                new AlertDialog.Builder(context)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Remove this set?")
+                        .setMessage("This will permanently remove this set")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO: Implement exercise removal/notification
+                                data.deleteExerciseSet(exerciseSet);
+                                Log.d(TAG, "you said yes");
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
+
         // Check box
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
