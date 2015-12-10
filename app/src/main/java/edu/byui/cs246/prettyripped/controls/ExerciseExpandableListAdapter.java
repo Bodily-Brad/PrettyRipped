@@ -344,11 +344,14 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                 Log.d(TAG, "CHECK CHANGED for " + esID);
 
                 // Get data handler
-                PrettyRippedData data = PrettyRippedData.getInstance();
+                //PrettyRippedData data = PrettyRippedData.getInstance();
                 ExerciseSet es = (ExerciseSet) me.rippedObject;
 
-                es.completed = isChecked;
-                data.updateExerciseSet(es);
+                if (isChecked != es.completed) {
+                    es.setCompleted(isChecked);
+                    data.updateExerciseSet(es);
+                }
+
             }
         });
 
