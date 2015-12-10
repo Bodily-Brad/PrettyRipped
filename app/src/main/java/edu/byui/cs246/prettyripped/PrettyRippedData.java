@@ -393,7 +393,7 @@ public class PrettyRippedData extends Observable {
         Log.d(TAG, "loadWorkoutSessionsFromDB()");
         // Get all Sessions from the store
         //sessions = Session.listAll(Session.class);
-        sessions = Session.findWithQuery(Session.class, "SELECT * FROM Session ORDER BY Time");
+        sessions = Session.findWithQuery(Session.class, "SELECT * FROM Session ORDER BY Time DESC");
 
         // Populate each Session
         for (Session session : sessions) {
