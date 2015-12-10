@@ -155,7 +155,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean hasStableIds() {
         Log.d(TAG, "hasStableIds()");
-        return true;
+        return false;
     }
 
     /**
