@@ -97,10 +97,18 @@ public class PrettyRippedData extends Observable {
 
     public Session getSessionById(long id) {
         Log.d(TAG, "getSessionById(long)");
-        Session session = Session.findById(Session.class, id);
-        populateSession(session);
 
-        return session;
+        for (Session checkSession : sessions) {
+            if (checkSession.getId() == id) {
+                return checkSession;
+            }
+        }
+
+        return null;
+        //Session session = Session.findById(Session.class, id);
+        //populateSession(session);
+
+        //return session;
     }
 
     /**
@@ -481,6 +489,12 @@ public class PrettyRippedData extends Observable {
      * @param session the Session to update
      */
     public void updateSession(Session session) {
+        Log.d(TAG, "updateSession(Session)");
+        if (this.sessions.contains(session)) {
+            Log.d(TAG, "session is contained in the data list");
+        } else {
+            Log.d(TAG, "session is NOT contained in the data list");
+        }
         // Update the Session without notifications...
         updateSessionWithoutNotification(session);
 

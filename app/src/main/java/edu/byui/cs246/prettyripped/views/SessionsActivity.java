@@ -72,6 +72,7 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
             public void onClick(View view) {
 
                 // get a new session
+
                 Session session = data.createSession();
 
                 Calendar cal = GregorianCalendar.getInstance();

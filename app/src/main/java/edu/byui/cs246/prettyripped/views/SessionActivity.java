@@ -239,7 +239,9 @@ public class SessionActivity extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-        Log.d(TAG, "update(Observable, Object");
+        Log.d(TAG, "update(Observable, Object)");
+        initToolbar();
+
         if (observable.getClass() == PrettyRippedData.class) {
             refreshUI();
         }

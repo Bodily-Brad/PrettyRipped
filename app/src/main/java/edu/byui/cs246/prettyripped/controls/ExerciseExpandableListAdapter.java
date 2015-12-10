@@ -181,7 +181,11 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         final CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
         ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExercise);
         ImageView addButton = (ImageView) convertView.findViewById(R.id.buttonAddSet);
+
+        // Add Set button
         addButton.setFocusable(false);
+
+        // Delete Exercise Button
         delButton.setFocusable(false);
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +221,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                 alertDialogBuilder.setView(dialogView);
 
                 // Get Exercise names from data handler & assign to auto complete
-                PrettyRippedData data = PrettyRippedData.getInstance();
                 List<String> names = data.getExerciseNames();
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
 
@@ -237,9 +240,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
                             String input = editText.getText().toString();
                             exercise.name = input;
-
-                            // Get data handler
-                            PrettyRippedData data = PrettyRippedData.getInstance();
 
                             // Update the exercise
                             data.updateExercise(exercise);
