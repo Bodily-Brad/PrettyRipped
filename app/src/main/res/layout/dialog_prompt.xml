@@ -8,5 +8,6 @@
         android:layout_height="wrap_content"
         android:autoText="true"
         android:editable="true"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:singleLine="true" />
 </LinearLayout>

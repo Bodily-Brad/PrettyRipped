@@ -257,6 +257,9 @@ public class PrettyRippedData extends Observable {
         // update the parent
         updateSessionWithoutNotification(parent);
 
+        // Now create an empty exercise set
+        ExerciseSet es = createExerciseSet(ex);
+
         // Notify Observers
         setChanged();
         notifyObservers();

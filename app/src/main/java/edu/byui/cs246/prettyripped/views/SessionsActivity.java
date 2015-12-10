@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -62,6 +63,15 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
+
+        // Long click handler
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "onItemLongClick");
+                return false;
+            }
+        });
 
         // Set up as an observer for PrettyRippedData
         data.addObserver(this);

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -96,8 +97,21 @@ public class SessionActivity extends AppCompatActivity implements Observer {
             listView.expandGroup(i);
         }
 
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Log.d(TAG, "onChildClick");
+                return false;
+            }
+        });
+
+
+
         // Set up pink icon
         initFloatingActionButton();
+
+        // Set up long click listener
+        initLongClickListener();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -172,6 +186,73 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                         })
                         .setNegativeButton(R.string.button_cancel_exercise_name, null)
                         .show();
+            }
+        });
+    }
+
+    /**
+     * Configures the listener for long clicks, this is where we handle renaming exercises
+     */
+    private void initLongClickListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get packedID from position (this is a weird thing we have to do)
+                long packedID = ((ExpandableListView) parent).getExpandableListPosition(position);
+                // Convert the packedID into a group position
+                int groupPosition = ExpandableListView.getPackedPositionGroup(packedID);
+                // Also get a child position (it should be -1 if we clicked on a group)
+                int childPosition = ExpandableListView.getPackedPositionChild(packedID);
+                Log.d(TAG, "childPosition: " + childPosition);
+
+                // If we're not a child, we're a group
+                if (childPosition < 0) {
+                    final Exercise exercise = (Exercise) listAdapter.getGroup(groupPosition);
+
+                    // Get context and inflater so we can inflate the view
+                    Context context = view.getContext();
+                    LayoutInflater layoutInflater = LayoutInflater.from(context);
+
+                    // Create a dialog view
+                    final View dialogView = layoutInflater.inflate(R.layout.dialog_prompt, null);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setView(dialogView);
+
+                    // Get a handle to the edit control, and populate it with the current exercise name
+                    final AutoCompleteTextView editText = (AutoCompleteTextView) dialogView.findViewById(R.id.userInput);
+                    editText.setThreshold(1);
+
+                    // Get Exercise names from data handler & assign to auto complete
+                    List<String> names = data.getExerciseNames();
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
+
+
+                    editText.setText(exercise.getName());
+                    editText.selectAll();
+                    editText.setAdapter(arrayAdapter);
+
+
+                    alertDialogBuilder
+                            .setIcon(android.R.drawable.ic_menu_edit)
+                            .setTitle(R.string.prompt_edit_exercise_name)
+                            .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    String input = editText.getText().toString();
+                                    exercise.name = input;
+
+                                    // Update the exercise
+                                    data.updateExercise(exercise);
+
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+
+
+                return false;
             }
         });
     }

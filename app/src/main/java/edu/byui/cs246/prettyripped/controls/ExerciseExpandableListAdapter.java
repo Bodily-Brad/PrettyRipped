@@ -216,51 +216,6 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         label.setText(exercise.getName() + " (" + exercise.getId() + ")");
         label.setFocusable(false);
 
-        label.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                final Context context = v.getContext();
-
-                LayoutInflater li = LayoutInflater.from(context);
-                final View dialogView = li.inflate(R.layout.dialog_prompt, null);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                alertDialogBuilder.setView(dialogView);
-
-                // Get Exercise names from data handler & assign to auto complete
-                List<String> names = data.getExerciseNames();
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
-
-                // Get a handle to the edit control, and populate it with the current exercise name
-                final AutoCompleteTextView editText = (AutoCompleteTextView) dialogView.findViewById(R.id.userInput);
-                editText.setText(exercise.getName());
-                editText.selectAll();
-                editText.setAdapter(arrayAdapter);
-
-
-                alertDialogBuilder
-                    .setIcon(android.R.drawable.ic_menu_edit)
-                    .setTitle(R.string.prompt_edit_exercise_name)
-                    .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            String input = editText.getText().toString();
-                            exercise.name = input;
-
-                            // Update the exercise
-                            data.updateExercise(exercise);
-
-                            // Update the view, too
-                            label.setText(exercise.name);
-
-                        }
-                    })
-                        .setNegativeButton("Cancel", null)
-                        .show();
-                return false;
-            }
-        });
-
         return convertView;
     }
 
