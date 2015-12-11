@@ -20,4 +20,7 @@
     <string name="prompt_edit_exercise_name">Enter Exercise Description</string>
     <string name="prompt_new_exercise_name">Enter Exercise Description</string>
 
+    <string name="prompt_delete_exercise">This is remove the exercise from the workout. Are you sure?</string>
+    <string name="dialog_title_delete_exercise">Remove this exercise?</string>
+
     </resources>

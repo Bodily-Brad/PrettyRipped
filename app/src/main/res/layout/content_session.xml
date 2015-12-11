@@ -11,9 +11,15 @@
     tools:showIn="@layout/activity_session"
     tools:context="edu.byui.cs246.prettyripped.views.SessionActivity">
 
+    <TextView
+        android:id="@+id/sessionDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Display1"/>
     <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/sessionDate"
         android:id="@+id/exerciseList"
         android:groupIndicator="@drawable/group_indicator" />
 </RelativeLayout>

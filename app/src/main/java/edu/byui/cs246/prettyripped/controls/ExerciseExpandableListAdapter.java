@@ -199,8 +199,8 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                 final Context context = v.getContext();
                 new AlertDialog.Builder(context)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Remove this exercise?")
-                        .setMessage("This will permanently remove this exercise from the workout session")
+                        .setTitle(R.string.dialog_title_delete_exercise)
+                        .setMessage(R.string.prompt_delete_exercise)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

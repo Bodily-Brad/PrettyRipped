@@ -17,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -77,8 +78,12 @@ public class SessionActivity extends AppCompatActivity implements Observer {
         // Get session from data handler
         session = data.getSessionById(sessionID);
 
+
+        this.setTitle("Workout Details");
+
         // Set title from session
-        this.setTitle(session.toString());
+        TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
+        sessionDate.setText(session.toString());
 
         // Get exercise list from session
         List<Exercise> exercises = session.getExercises();
@@ -264,8 +269,11 @@ public class SessionActivity extends AppCompatActivity implements Observer {
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(session.getTime());
 
+        TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
+
+
         // Set up long press on title
-        toolbar.setOnLongClickListener(new View.OnLongClickListener() {
+        sessionDate.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 
@@ -315,7 +323,8 @@ public class SessionActivity extends AppCompatActivity implements Observer {
      * Refreshes the exercise title
      */
     private void refreshTitle() {
-        this.setTitle(session.toString());
+        TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
+        sessionDate.setText(session.toString());
     }
 
     @Override
