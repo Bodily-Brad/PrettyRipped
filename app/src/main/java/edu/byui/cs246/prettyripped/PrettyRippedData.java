@@ -576,9 +576,10 @@ public class PrettyRippedData extends Observable {
         // first, remove it from the sessions list
         sessions.remove(session);
 
-        // now, remove its children Exercises
+        // now, we'll unhook and remove its children Exercises
         List<Exercise> exercises = session.getExercises();
         for (Exercise ex : exercises) {
+            ex.session = null;
             deleteExerciseWithoutNotification(ex);
         }
 

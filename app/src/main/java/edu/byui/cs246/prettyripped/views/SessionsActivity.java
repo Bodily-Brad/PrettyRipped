@@ -75,6 +75,14 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
             }
         });
 
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Log.d(TAG, "onChildClick()");
+                return false;
+            }
+        });
+
         // Set up as an observer for PrettyRippedData
         data.addObserver(this);
 

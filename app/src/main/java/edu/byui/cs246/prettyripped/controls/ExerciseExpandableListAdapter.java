@@ -213,7 +213,9 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                         .show();
             }
         });
-        label.setText(exercise.getName() + " (" + exercise.getId() + ")");
+
+        // Set the group text
+        label.setText(exercise.getName());
         label.setFocusable(false);
 
         return convertView;

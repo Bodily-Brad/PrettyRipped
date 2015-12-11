@@ -1,10 +1,14 @@
 package edu.byui.cs246.prettyripped.controls;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import java.util.TimeZone;
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.RippedTextView;
+import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
 
 /**
@@ -32,6 +37,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<Session> sessions = new ArrayList<>();
     private List<String> groups;
+    private PrettyRippedData data;
 
     /**
      * Creates a new instance of SessionsExpandableListAdapter
@@ -43,6 +49,8 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.sessions = sessions;
 
+        data = PrettyRippedData.getInstance();
+
         // TODO: This is not treating equal dates as equal, and we get identical dates showing up
 
         // Just make one huge groupDescription for now
@@ -50,7 +58,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
         Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         groups = new ArrayList<>();
-        groups.add("All Sessions");
+        groups.add("All Workouts");
     }
 
     /**
@@ -175,10 +183,34 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         RippedTextView label = (RippedTextView) convertView.findViewById(R.id.labelSessionDescription);
-        label.setText("Session " + Integer.toString(childPosition + 1) + ": " + Integer.toString(session.getExercises().size()) + " Exercise(s)");
+        ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteSession);
+
+        // Set label test
         label.setText(session.toString());
 
-        PrettyRippedData data = PrettyRippedData.getInstance();
+        // Hook up delete button
+        delButton.setFocusable(false);
+        delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Context context = v.getContext();
+                new AlertDialog.Builder(context)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Remove this workout?")
+                        .setMessage("This will permanently remove this workout")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO: Implement exercise removal/notification
+                                data.deleteSession(session);
+                                Log.d(TAG, "you said yes");
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
+
         // Set session ID
         label.rippedID = session.getId();
 
