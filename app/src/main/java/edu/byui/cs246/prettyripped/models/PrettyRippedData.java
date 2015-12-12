@@ -22,6 +22,7 @@ public class PrettyRippedData extends Observable {
      * Debugging Tag
      */
     private static final String TAG = "PrettyRippedData";
+    private static final boolean DEV_MODE = false;
 
     // LOCAL VARIABLES
     public List<Session> sessions = new ArrayList<>();
@@ -38,16 +39,14 @@ public class PrettyRippedData extends Observable {
     }
 
     private PrettyRippedData() {
-        boolean devFlag = true;
-
         // Get our session data from the db
         loadSessionDataFromDB();
 
         // If this is dev, and we have no sessions, create some default data
-        if (devFlag) {
+        if (DEV_MODE) {
             if (this.sessions.size() < 1) {
                 debugCreateDefaultData();
-                saveData();;
+                saveData();
             }
         }
     }
