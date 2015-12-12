@@ -31,6 +31,7 @@ import edu.byui.cs246.prettyripped.RippedEditText;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
+import edu.byui.cs246.prettyripped.views.SessionActivity;
 
 /**
  * Represents an adapter between a List of exercises and an expandable list
@@ -47,6 +48,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     private Session session;
     private long sessionID;
     private PrettyRippedData data;
+    private SessionActivity sessionActivity;
 
     private List<Exercise> exercises = new ArrayList<>();
 
@@ -62,8 +64,9 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         data = PrettyRippedData.getInstance();
 
         this.context = context;
+        this.sessionActivity = (SessionActivity) context;
         this.session = session;
-        this.sessionID = session.getId();
+        //this.sessionID = session.getId();
 
         this.exercises = session.getExercises();
     }
@@ -188,6 +191,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 data.createExerciseSet(exercise);
+                sessionActivity.refreshExerciseList();
             }
         });
 
@@ -206,6 +210,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO: Implement exercise removal/notification
                                 data.deleteExercise(exercise);
+                                sessionActivity.refreshExerciseList();
                                 Log.d(TAG, "you said yes");
                             }
                         })
@@ -284,6 +289,7 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 //TODO: Implement exercise removal/notification
                                 data.deleteExerciseSet(exerciseSet);
+                                sessionActivity.refreshExerciseList();
                                 Log.d(TAG, "you said yes");
                             }
                         })

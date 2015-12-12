@@ -21,11 +21,13 @@
         android:ems="10"
         android:id="@+id/editReps"
         android:layout_weight="1"
-        android:text="10" />
+        android:text="10"
+        android:maxLength="3" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/label_reps"
         android:id="@+id/labelReps" />
@@ -37,12 +39,14 @@
         android:ems="10"
         android:id="@+id/editWeight"
         android:layout_weight="1"
-        android:text="45" />
+        android:text="45"
+        android:maxLength="4" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_marginRight="15dp"
         android:text="@string/label_weight_unit"
         android:id="@+id/labelWeight" />
 
@@ -50,6 +54,7 @@
         android:id="@+id/buttonDeleteExerciseSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
         android:src="@drawable/ic_delete_black_18dp"
         android:tint="@color/colorActionNeg"
         android:baselineAlignBottom="true"

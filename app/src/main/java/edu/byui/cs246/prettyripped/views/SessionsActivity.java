@@ -98,8 +98,13 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
                 Calendar cal = GregorianCalendar.getInstance();
                 Date time = cal.getTime();
 
-                Snackbar.make(view, "Created a new session. And the time is " + time.toString(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                refreshSessionList();
+
+                // Open Session view
+                startSessionActivity(session.getId());
+
+//                Snackbar.make(view, "Created a new session.", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
     }

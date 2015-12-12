@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -84,9 +85,6 @@ public class SessionActivity extends AppCompatActivity implements Observer {
         // Set title from session
         TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
         sessionDate.setText(session.toString());
-
-        // Get exercise list from session
-        List<Exercise> exercises = session.getExercises();
 
         // Set up expandable list
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
@@ -171,6 +169,8 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                 editText.selectAll();
                 editText.setAdapter(arrayAdapter);
 
+                final View viewHandle = view;
+
                 // Setup and show dialog
                 alertDialogBuilder
                         .setIcon(android.R.drawable.ic_menu_edit)
@@ -187,6 +187,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
 
                                 // Update the exercise
                                 data.updateExercise(exercise);
+                                refreshExerciseList();
                             }
                         })
                         .setNegativeButton(R.string.button_cancel_exercise_name, null)
@@ -292,8 +293,6 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                         // Update the session with the handler
                         data.updateSession(session);
 
-                        // TODO: Update the calling SESSIONS view with the updated list
-
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
@@ -306,7 +305,8 @@ public class SessionActivity extends AppCompatActivity implements Observer {
     /**
      * Refreshes the exercise list
      */
-    private void refreshExerciseList() {
+    public void refreshExerciseList() {
+        Log.d(TAG, "refreshExerciseList()");
         // Create adapter
         listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, session);
 
@@ -332,8 +332,10 @@ public class SessionActivity extends AppCompatActivity implements Observer {
         Log.d(TAG, "update(Observable, Object)");
         initToolbar();
 
+        refreshTitle();
+
         if (observable.getClass() == PrettyRippedData.class) {
-            refreshUI();
+            //refreshUI();
         }
     }
 }
