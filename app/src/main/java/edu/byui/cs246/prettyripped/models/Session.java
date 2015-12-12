@@ -51,7 +51,6 @@ public class Session extends SugarRecord<Session> {
      * @param exercises a collection of Exercises that this Session will be comprised of
      */
     public Session(Date date, List<Exercise> exercises) {
-        Log.d(TAG, "Session(Date, List<Exercise>)");
         this.time = date;
 
         // Add exercises; this ensures each exercise is 'hooked up'
@@ -68,7 +67,6 @@ public class Session extends SugarRecord<Session> {
      * @param exercise the Exercise to add to this Session
      */
     public void addExercise(Exercise exercise) {
-        Log.d(TAG, "addExercise(Exercise)");
         // Hook up parent
         exercise.session = this;
         // Add to list
@@ -81,10 +79,6 @@ public class Session extends SugarRecord<Session> {
      * @param exercise the Exercise to remove from this Session
      */
     public void removeExercise(Exercise exercise) {
-        // TODO: presumably some error-checking here
-        // I think Lists 'handle' removing invalid items on their own
-        // (i.e., I don't think it causes any problems to remove an item that doesn't exist in the
-        // list)
         exercises.remove(exercise);
     }
 

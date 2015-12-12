@@ -58,7 +58,6 @@ public class Exercise extends SugarRecord<Exercise> implements Serializable {
      * @param exerciseSets a collection of Sets for this Exercise
      */
     public Exercise(String name, String groupDescription, List<ExerciseSet> exerciseSets) {
-        Log.i(TAG, "Exercise(name, groupDescription, exerciseSets)");
         this.name = name;
         this.groupDescription = groupDescription;
 

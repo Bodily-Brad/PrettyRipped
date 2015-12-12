@@ -89,7 +89,6 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
      * @param completed a flag indicating whether this ExerciseSet is completed or not
      */
     public ExerciseSet(int reps, float weight, boolean completed) {
-        Log.d(TAG, "ExerciseSet(reps, weight, completed)");
         this.reps = reps;
         this.weight = weight;
         this.completed = completed;
@@ -104,8 +103,6 @@ public class ExerciseSet extends SugarRecord<ExerciseSet> implements Serializabl
      * @param completed a flag indicating whether this ExerciseSet is completed or not
      */
     public ExerciseSet(Exercise exercise, int reps, float weight, boolean completed) {
-        Log.d(TAG, "ExerciseSet(exericse, reps, weight, completed)");
-
         this.exercise = exercise;
         this.reps = reps;
         this.weight = weight;

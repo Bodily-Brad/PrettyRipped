@@ -29,6 +29,7 @@ import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.RippedEditText;
 import edu.byui.cs246.prettyripped.RippedImageView;
+import edu.byui.cs246.prettyripped.RippedTextView;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
@@ -191,8 +192,9 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
         RippedImageView delButton = (RippedImageView) convertView.findViewById(R.id.buttonDeleteExercise);
         delButton.rippedObject = exercise;
 
-        final CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
-
+        // Exercise name
+        RippedTextView label = (RippedTextView) convertView.findViewById(R.id.labelExerciseName);
+        label.rippedObject = exercise;
 
         // Add Set button
         addButton.setOnClickListener(new View.OnClickListener() {
