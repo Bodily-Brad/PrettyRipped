@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped.activities;
+package edu.byui.cs246.prettyripped.Aactivities;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;

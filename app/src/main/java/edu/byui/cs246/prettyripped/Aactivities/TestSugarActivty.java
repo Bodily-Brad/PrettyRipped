@@ -1,6 +1,5 @@
-package edu.byui.cs246.prettyripped.Activities;
+package edu.byui.cs246.prettyripped.Aactivities;
 
-import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,15 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
-import edu.byui.cs246.prettyripped.PrettyRippedData;
+import edu.byui.cs246.prettyripped.models.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
 

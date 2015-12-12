@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme" >
         <activity
-            android:name=".activities.SessionsActivity"
+            android:name=".Aactivities.SessionsActivity"
             android:label="@string/title_activity_sessions"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -22,15 +22,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SessionActivity"
+            android:name=".Aactivities.SessionActivity"
             android:label="@string/title_activity_session"
-            android:parentActivityName=".activities.SessionsActivity"
+            android:parentActivityName=".Aactivities.SessionsActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.SessionsActivity" />
+                android:value=".Aactivities.SessionsActivity" />
         </activity>
-        <activity android:name=".activities.TestSugarActivty" >
+        <activity android:name=".Aactivities.TestSugarActivty" >
         </activity>
 
         <meta-data android:name="DATABASE" android:value="prettyrippedsugar08.db"/>
