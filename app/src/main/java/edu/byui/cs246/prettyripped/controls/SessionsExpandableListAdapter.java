@@ -195,17 +195,15 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
                 final Context context = v.getContext();
                 new AlertDialog.Builder(context)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Remove this workout?")
-                        .setMessage("This will permanently remove this workout")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.dialog_title_delete_workout)
+                        .setMessage(R.string.prompt_delete_workout)
+                        .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //TODO: Implement exercise removal/notification
                                 data.deleteSession(session);
-                                Log.d(TAG, "you said yes");
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(R.string.button_cancel_delete, null)
                         .show();
             }
         });

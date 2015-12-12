@@ -109,11 +109,6 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
 
         // We're refreshing the list when focus comes back to this activity
         refreshSessionList();
-
-        // however, something isn't getting updated, because changes in Session aren't showing in
-        // the session list
-        // TODO: Make updates show!
-
     }
 
     /**
