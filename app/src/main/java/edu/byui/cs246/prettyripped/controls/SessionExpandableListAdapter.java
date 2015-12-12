@@ -175,54 +175,73 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         Log.d(TAG, "getGroupView(int, boolean, View, ViewGroup)");
 
-        final Exercise exercise = exercises.get(groupPosition);
+        Exercise exercise = exercises.get(groupPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.session_list_group, null);
         }
 
+        // Get controls from view
+        // Add ExerciseSet button
+        RippedImageView addButton = (RippedImageView) convertView.findViewById(R.id.buttonAddSet);
+        addButton.rippedObject = exercise;
+
+        // Delete Exercise button
+        RippedImageView delButton = (RippedImageView) convertView.findViewById(R.id.buttonDeleteExercise);
+        delButton.rippedObject = exercise;
+
         final CheckedTextView label = (CheckedTextView) convertView.findViewById(R.id.labelExerciseName);
-        ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExercise);
-        ImageView addButton = (ImageView) convertView.findViewById(R.id.buttonAddSet);
+
 
         // Add Set button
-        addButton.setFocusable(false);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data.createExerciseSet(exercise);
+                // Get a handle to me that we can cast to a RippedView
+                RippedImageView me = (RippedImageView) v;
+
+                // Get Exercise from ourselves (as a ripped view)
+                Exercise ex = (Exercise) me.rippedObject;
+
+                // Create a new ExerciseSet and refresh the ExerciseList
+                data.createExerciseSet(ex);
                 sessionActivity.refreshExerciseList();
             }
         });
 
         // Delete Exercise Button
-        delButton.setFocusable(false);
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Context context = v.getContext();
+
+                // Get a handle to me that we can cast to a RippedView
+                RippedImageView me = (RippedImageView) v;
+
+                // Get Exercise from ourselves (as a ripped view)
+                final Exercise ex = (Exercise) me.rippedObject;
+
+                // Show a dialog asking the user to confirm deletion of the exercise
                 new AlertDialog.Builder(context)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle(R.string.dialog_title_delete_exercise)
                         .setMessage(R.string.prompt_delete_exercise)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //TODO: Implement exercise removal/notification
-                                data.deleteExercise(exercise);
+                                // Delete the Exercise and refresh the ExerciseList
+                                data.deleteExercise(ex);
                                 sessionActivity.refreshExerciseList();
-                                Log.d(TAG, "you said yes");
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(R.string.button_cancel_delete, null)
                         .show();
             }
         });
 
-        // Set the group text
+        // Set the group label to the exercise name
         label.setText(exercise.getName());
-        label.setFocusable(false);
 
         return convertView;
     }
