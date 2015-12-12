@@ -33,7 +33,7 @@ import edu.byui.cs246.prettyripped.activities.SessionActivity;
  */
 public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
     // CONSTANTS & SETTINGS
-    private final static String TAG = "ExerciseListAdapter";
+    private final static String TAG = "SessionListAdapter";
 
     // LOCAL VARIABLES
     private Context context;
@@ -87,7 +87,7 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
         Log.d(TAG, "getChildrenCount(int)");
-        return exercises.get(groupPosition).getExerciseSets().size();
+        return exercises.get(groupPosition).getExerciseSets().size()+1;
     }
 
     /**
@@ -174,9 +174,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         // Get controls from view
-        // Add ExerciseSet button
-        RippedImageView addButton = (RippedImageView) convertView.findViewById(R.id.buttonAddSet);
-        addButton.rippedObject = exercise;
 
         // Delete Exercise button
         RippedImageView delButton = (RippedImageView) convertView.findViewById(R.id.buttonDeleteExercise);
@@ -186,21 +183,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
         RippedTextView label = (RippedTextView) convertView.findViewById(R.id.labelExerciseName);
         label.rippedObject = exercise;
 
-        // Add Set button
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get a handle to me that we can cast to a RippedView
-                RippedImageView me = (RippedImageView) v;
-
-                // Get Exercise from ourselves (as a ripped view)
-                Exercise ex = (Exercise) me.rippedObject;
-
-                // Create a new ExerciseSet and refresh the ExerciseList
-                data.createExerciseSet(ex);
-                sessionActivity.refreshExerciseList();
-            }
-        });
 
         // Delete Exercise Button
         delButton.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +232,14 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return getExerciseSetView(groupPosition, childPosition, isLastChild, convertView, parent);
+        if (childPosition < getChildrenCount(groupPosition)-1) {
+            return getExerciseSetView(groupPosition, childPosition, isLastChild, convertView, parent);
+        } else {
+            Log.d(TAG, "childPos = max");
+            Log.d(TAG, "groupPosition: " + groupPosition);
+            Log.d(TAG, "childPosition: " + childPosition);
+            return getNewExerciseSetView(groupPosition, childPosition, isLastChild, convertView, parent);
+        }
     }
 
     /**
@@ -266,6 +255,16 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    /**
+     * Creates a new child view, attached to an established ExerciseSet
+     *
+     * @param groupPosition group position
+     * @param childPosition child position
+     * @param isLastChild flag indicating whether this is the last child in the list
+     * @param convertView view to use (or re-use)
+     * @param parent parent ViewGroup
+     * @return a view representing an ExercistSet
+     */
     private View getExerciseSetView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Log.d(TAG, "getExerciseSetView(int, int, boolean, View, ViewGroup)");
 
@@ -279,26 +278,43 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         // Get controls
+        // New set button
+        RippedImageView addSetButton = (RippedImageView) convertView.findViewById(R.id.buttonAddExerciseSet);
+        addSetButton.setVisibility(View.GONE);
+
         // Set # label
         TextView labelSetNumber = (TextView) convertView.findViewById(R.id.labelSetNumber);
+        labelSetNumber.setVisibility(View.VISIBLE);
 
         // Check Box
         RippedCheckBox checkBox = (RippedCheckBox) convertView.findViewById(R.id.checkBoxCompleted);
+        checkBox.setVisibility(View.VISIBLE);           // Re-use may have hidden this, so show it
         checkBox.rippedID = exerciseSet.getId();
         checkBox.rippedObject = exerciseSet;
 
-        // Weight edit
-        RippedEditText editWeight = (RippedEditText) convertView.findViewById(R.id.editWeight);
-        editWeight.rippedID = exerciseSet.getId();
-        editWeight.rippedObject = exerciseSet;
-
         // Reps edit
         RippedEditText editReps = (RippedEditText) convertView.findViewById(R.id.editReps);
+        editReps.setVisibility(View.VISIBLE);
         editReps.rippedID = exerciseSet.getId();
         editReps.rippedObject = exerciseSet;
 
+        // Reps Label
+        TextView repsLabel = (TextView) convertView.findViewById(R.id.labelReps);
+        repsLabel.setVisibility(View.VISIBLE);
+
+        // Weight edit
+        RippedEditText editWeight = (RippedEditText) convertView.findViewById(R.id.editWeight);
+        editWeight.setVisibility(View.VISIBLE);
+        editWeight.rippedID = exerciseSet.getId();
+        editWeight.rippedObject = exerciseSet;
+
+        // Weight Label
+        TextView weightLabel = (TextView) convertView.findViewById(R.id.labelWeight);
+        weightLabel.setVisibility(View.VISIBLE);
+
         // Delete Icon
         RippedImageView delButton = (RippedImageView) convertView.findViewById(R.id.buttonDeleteExerciseSet);
+        delButton.setVisibility(View.VISIBLE);          // Re-use may have hidden this, so show it
         delButton.rippedID = exerciseSet.getId();
         delButton.rippedObject = exerciseSet;
 
@@ -415,6 +431,91 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
 
+
+        return convertView;
+    }
+
+    /**
+     * Creates a new child view, attached to an empty, and disconnected ExerciseSet
+     *
+     * @param groupPosition group position
+     * @param childPosition child position
+     * @param isLastChild flag indicating whether this is the last child in the list
+     * @param convertView view to use (or re-use)
+     * @param parent parent ViewGroup
+     * @return a view representing an ExercistSet
+     */
+    private View getNewExerciseSetView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        Log.d(TAG, "getNewExerciseSetView(int, int, boolean, View, ViewGroup)");
+
+        // Create a dummy ExerciseSet that just sits there for now
+        ExerciseSet exerciseSet = new ExerciseSet();
+        Log.d(TAG, "exerciseSet.getId(): " + exerciseSet.getId());
+
+        // Get a hook to our exercise
+        Exercise exercise = exercises.get(groupPosition);
+
+        // If the view is null (i.e., it's not being reused), inflate a new one
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.session_list_child, null);
+        }
+
+        // Get Controls
+
+        // New set button
+        RippedImageView addSetButton = (RippedImageView) convertView.findViewById(R.id.buttonAddExerciseSet);
+        addSetButton.setVisibility(View.VISIBLE);
+        addSetButton.rippedObject = exercise;
+
+        // Check Box
+        RippedCheckBox checkBox = (RippedCheckBox) convertView.findViewById(R.id.checkBoxCompleted);
+        // Hide the check box for 'new' ExerciseSets
+        checkBox.setVisibility(View.INVISIBLE);
+
+        // Set # label
+        TextView labelSetNumber = (TextView) convertView.findViewById(R.id.labelSetNumber);
+        labelSetNumber.setText("");
+        labelSetNumber.setVisibility(View.INVISIBLE);
+
+        // Reps edit
+        RippedEditText editReps = (RippedEditText) convertView.findViewById(R.id.editReps);
+        editReps.setText("");
+        editReps.setVisibility(View.INVISIBLE);
+
+        // Reps Label
+        TextView repsLabel = (TextView) convertView.findViewById(R.id.labelReps);
+        repsLabel.setVisibility(View.INVISIBLE);
+
+        // Weight edit
+        RippedEditText editWeight = (RippedEditText) convertView.findViewById(R.id.editWeight);
+        editWeight.setText("");
+        editWeight.setVisibility(View.INVISIBLE);
+
+        // Weight Label
+        TextView weightLabel = (TextView) convertView.findViewById(R.id.labelWeight);
+        weightLabel.setVisibility(View.INVISIBLE);
+
+        // Delete set button
+        RippedImageView delButton = (RippedImageView) convertView.findViewById(R.id.buttonDeleteExerciseSet);
+        // Hide the delete icon for 'new' ExerciseSets
+        delButton.setVisibility(View.INVISIBLE);
+
+        // Add set listener
+        addSetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get a handle to me that we can cast to a RippedView
+                RippedImageView me = (RippedImageView) v;
+
+                // Get Exercise from ourselves (as a ripped view)
+                Exercise ex = (Exercise) me.rippedObject;
+
+                // Create a new ExerciseSet and refresh the ExerciseList
+                data.createExerciseSet(ex);
+                sessionActivity.refreshExerciseList();
+            }
+        });
 
         return convertView;
     }
