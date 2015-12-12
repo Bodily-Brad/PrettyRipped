@@ -3,7 +3,6 @@ package edu.byui.cs246.prettyripped.controls;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.Map;
 
 import edu.byui.cs246.prettyripped.models.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
@@ -35,7 +34,8 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
     // LOCAL VARIABLES
     private Context context;
     private List<Session> sessions = new ArrayList<>();
-    private List<String> groups;
+    private List<String> groups;        // We use this for the 'index' to the group strings
+    private Map<String, ArrayList<Session>> mappedSessions = new HashMap<>();
     private PrettyRippedData data;
 
     /**
@@ -50,14 +50,25 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
 
         data = PrettyRippedData.getInstance();
 
-        // TODO: This is not treating equal dates as equal, and we get identical dates showing up
-
-        // Just make one huge groupDescription for now
-
-
-        Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         groups = new ArrayList<>();
-        groups.add("All Workouts");
+
+        // Iterate through and add groups for each session in the list
+        java.text.DateFormat format = new java.text.SimpleDateFormat("MMM yyyy");
+
+        for (Session session : sessions) {
+            Date groupDate = getCategoryDate(session.getTime());
+
+            String dateString = format.format(groupDate);
+            // If it's not already there, add it
+            if (!groups.contains(dateString)) {
+                // Add it to the index...
+                groups.add(dateString);
+                // and to the map
+                mappedSessions.put(dateString, new ArrayList<Session>());
+            }
+            // Add the session
+            mappedSessions.get(dateString).add(session);
+        }
     }
 
     /**
@@ -67,7 +78,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
-        return groups.size();
+        return mappedSessions.size();
     }
 
     /**
@@ -78,8 +89,8 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getChildrenCount(int groupPosition) {
-        // Just one big groupDescription, so regardless of groupPosition, child count is session size
-        return sessions.size();
+        String key = groups.get(groupPosition);
+        return mappedSessions.get(key).size();
     }
 
     /**
@@ -90,7 +101,8 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getGroup(int groupPosition) {
-        return sessions;
+        String key = groups.get(groupPosition);
+        return mappedSessions.get(key);
     }
 
     /**
@@ -226,4 +238,7 @@ public class SessionsExpandableListAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    private Date getCategoryDate(Date date) {
+        return date;
+    }
 }

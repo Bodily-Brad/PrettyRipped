@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -62,23 +60,6 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
         // Attach adapter to list
         listView.setAdapter(listAdapter);
 
-        // Long click handler
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemLongClick");
-                return false;
-            }
-        });
-
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Log.d(TAG, "onChildClick()");
-                return false;
-            }
-        });
-
         // Set up as an observer for PrettyRippedData
         data.addObserver(this);
 
@@ -105,11 +86,12 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
 
         // We're refreshing the list when focus comes back to this activity
         refreshSessionList();
     }
+
+    // METHODS
 
     /**
      * Start a SessionActivity with a given session
@@ -144,7 +126,6 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
      * Refreshes the exercise list
      */
     private void refreshSessionList() {
-        Log.d(TAG, "refreshSessionList()");
 
         // Create adapter
         listAdapter = new SessionsExpandableListAdapter(SessionsActivity.this, data.sessions);
@@ -158,9 +139,16 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
         }
     }
 
+    // OBSERVER METHODS
+
+    /**
+     * Is called when the Observable updates
+     *
+     * @param observable object that is being observed
+     * @param data update data
+     */
     @Override
     public void update(Observable observable, Object data) {
-        Log.d(TAG, "update(Observable, Object)");
         if (observable.getClass() == PrettyRippedData.class) {
             refreshSessionList();
         }
