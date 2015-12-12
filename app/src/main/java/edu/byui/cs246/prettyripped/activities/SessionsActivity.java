@@ -48,6 +48,8 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle(R.string.title_workout_sessions);
+
         // Set data to app data singleton
         data = PrettyRippedData.getInstance();
 
