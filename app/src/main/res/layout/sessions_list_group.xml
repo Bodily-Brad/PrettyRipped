@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/editTextDate"
         android:text="Fri, Oct 30, 2015"
-        style="@style/Base.TextAppearance.AppCompat.Display1" />
+        style="@style/AppTheme.SessionGroupHeader" />
     <ExpandableListView
         android:id="@+id/list"
         android:layout_width="fill_parent"

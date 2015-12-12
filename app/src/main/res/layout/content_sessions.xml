@@ -14,5 +14,5 @@
         android:id="@+id/sessionList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:groupIndicator="@drawable/group_indicator" />
+        android:groupIndicator="@drawable/group_indicator_color" />
 </RelativeLayout>
