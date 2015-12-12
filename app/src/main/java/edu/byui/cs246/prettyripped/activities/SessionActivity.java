@@ -53,7 +53,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
     private PrettyRippedData data;
 
     /**
-     * Called when the activity is created, exerciseSets up layout and data
+     * Called when the activity is created, sets up layout and data
      *
      * @param savedInstanceState Instance state information
      */
@@ -70,7 +70,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
         setSupportActionBar(toolbar);
 
         // Get passed session ID
-        final long sessionID = getIntent().getLongExtra(this.SESSION_ID_KEY, 0);
+        final long sessionID = getIntent().getLongExtra(SESSION_ID_KEY, 0);
 
         // Get session from data handler
         session = data.getSessionById(sessionID);
@@ -229,9 +229,8 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                             .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    String input = editText.getText().toString();
-                                    exercise.name = input;
+                                    // Assign input to exercise's name
+                                    exercise.name = editText.getText().toString();
 
                                     // Update the exercise
                                     data.updateExercise(exercise);
@@ -278,8 +277,6 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                 editText.setText(R.string.default_exercise_name);
                 editText.selectAll();
                 editText.setAdapter(arrayAdapter);
-
-                final View viewHandle = view;
 
                 // Setup and show dialog
                 alertDialogBuilder

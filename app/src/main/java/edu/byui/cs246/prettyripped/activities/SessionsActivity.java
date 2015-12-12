@@ -98,9 +98,6 @@ public class SessionsActivity extends AppCompatActivity implements Observer {
 
                 // Open Session view
                 startSessionActivity(session.getId());
-
-//                Snackbar.make(view, "Created a new session.", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
     }
