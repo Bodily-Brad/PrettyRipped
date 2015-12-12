@@ -23,7 +23,7 @@ import edu.byui.cs246.prettyripped.views.RippedTextView;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
-import edu.byui.cs246.prettyripped.Aactivities.SessionActivity;
+import edu.byui.cs246.prettyripped.activities.SessionActivity;
 
 /**
  * Represents an adapter between a List of exercises and an expandable list

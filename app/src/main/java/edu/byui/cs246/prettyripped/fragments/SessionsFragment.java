@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped.Ffragments;
+package edu.byui.cs246.prettyripped.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
