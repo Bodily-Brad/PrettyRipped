@@ -1,7 +1,5 @@
 package edu.byui.cs246.prettyripped.models;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -60,7 +58,6 @@ public class PrettyRippedData extends Observable {
      * @return the specified Exercise
      */
     public Exercise getExerciseById(long id) {
-        Log.d(TAG, "getExerciseById(id)");
         Exercise exercise = Exercise.findById(Exercise.class, id);
         // Populate Sets
         exercise.exerciseSets = loadExercisesSetsFromDB(exercise);
@@ -91,8 +88,6 @@ public class PrettyRippedData extends Observable {
     }
 
     public Session getSessionById(long id) {
-        Log.d(TAG, "getSessionById(long)");
-
         for (Session checkSession : sessions) {
             if (checkSession.getId() == id) {
                 return checkSession;
@@ -113,7 +108,6 @@ public class PrettyRippedData extends Observable {
      * @return the specified ExerciseSet
      */
     public ExerciseSet getSetById(long id) {
-        Log.d(TAG, "getSetById(id)");
         return ExerciseSet.findById(ExerciseSet.class, id);
     }
 
@@ -141,8 +135,7 @@ public class PrettyRippedData extends Observable {
      * @param day day
      * @return A random session
      */
-    public Session createRandomSession(int year, int month, int day) {
-        // TODO: Remove this function
+    private Session createRandomSession(int year, int month, int day) {
         Calendar cal = new GregorianCalendar();
         cal.set(year, month, day);
 
@@ -295,7 +288,6 @@ public class PrettyRippedData extends Observable {
      * @return a new Session that's stored in the database
      */
     public Session createSession() {
-        Log.d(TAG, "createSession()");
         Session session = new Session();
 
         // update the session
@@ -368,7 +360,6 @@ public class PrettyRippedData extends Observable {
      * @return the Sets of the specified Exercise
      */
     public List<ExerciseSet> loadExercisesSetsFromDB(Exercise exercise) {
-        Log.d(TAG, "loadExercisesSetsFromDB(Exercise)");
         List<ExerciseSet> exerciseSets = ExerciseSet.find(ExerciseSet.class, "exercise = ?", exercise.getId().toString());
         return exerciseSets;
     }
@@ -380,7 +371,6 @@ public class PrettyRippedData extends Observable {
      * @return the Exercises for the specified Session
      */
     public List<Exercise> loadSessionsExercisesFromDB(Session session) {
-        Log.d(TAG, "loadSessionsExercisesFromDB(Session)");
         List<Exercise> exercises = Exercise.find(Exercise.class, "session = ?", session.getId().toString());
         return exercises;
     }
@@ -391,7 +381,6 @@ public class PrettyRippedData extends Observable {
      * @return a list of populated Sessions
      */
     public List<Session> loadWorkoutSessionsFromDB() {
-        Log.d(TAG, "loadWorkoutSessionsFromDB()");
         // Get all Sessions from the store
         //sessions = Session.listAll(Session.class);
         sessions = Session.findWithQuery(Session.class, "SELECT * FROM Session ORDER BY Time DESC");
@@ -409,29 +398,17 @@ public class PrettyRippedData extends Observable {
      * Saves all session data to the database
      */
     public void saveData() {
-        Log.d(TAG, "saveData()");
-
         // Loop through all sessions for key "hook ups"
         for (Session session : sessions) {
 
             // Loop through all exercises
             for (Exercise exercise : session.getExercises()) {
                 // Make sure session is hooked up
-                if (exercise.session != session) {
-                    Log.e(TAG, "mismatched session/exercise");
-                } else {
-                    Log.d(TAG, "session/exercise data match");
-                }
                 exercise.session = session;
 
                 // Loop through all exerciseSets
                 for (ExerciseSet exerciseSet : exercise.getExerciseSets()) {
                     // Make sure exercise is hooked up
-                    if (exerciseSet.exercise != exercise) {
-                        Log.e(TAG, "mismatched exercise/exerciseSet");
-                    } else {
-                        Log.d(TAG, "exercise/exerciseSet data match");
-                    }
                     exerciseSet.exercise = exercise;
                 }
 
@@ -442,15 +419,10 @@ public class PrettyRippedData extends Observable {
 
         for (Session session : sessions) {
             session.save();
-            Log.d(TAG, "session.getExercises().size(): " + session.getExercises().size());
 
             for (Exercise exercise : session.getExercises()) {
                 exercise.save();
-                Log.d(TAG, "exercise.getId(): " + exercise.getId());
-                Log.d(TAG, "exercise.getName(): " + exercise.getName());
 
-
-                Log.d(TAG, "exercise.getExerciseSets().size(): " + exercise.getExerciseSets().size());
                 for (ExerciseSet set : exercise.getExerciseSets()) {
                     set.save();
                 }
@@ -490,12 +462,6 @@ public class PrettyRippedData extends Observable {
      * @param session the Session to update
      */
     public void updateSession(Session session) {
-        Log.d(TAG, "updateSession(Session)");
-        if (this.sessions.contains(session)) {
-            Log.d(TAG, "session is contained in the data list");
-        } else {
-            Log.d(TAG, "session is NOT contained in the data list");
-        }
         // Update the Session without notifications...
         updateSessionWithoutNotification(session);
 

@@ -18,7 +18,7 @@ public class RippedImageView extends ImageView {
     public long rippedID;
 
     /**
-     * Object associated with this view
+     * Ripped object associated with this view
      */
     public Object rippedObject;
 

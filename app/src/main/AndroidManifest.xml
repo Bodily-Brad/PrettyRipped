@@ -30,8 +30,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.SessionsActivity" />
         </activity>
-        <activity android:name=".activities.TestSugarActivty" >
-        </activity>
 
         <meta-data android:name="DATABASE" android:value="prettyrippedsugar.db"/>
         <meta-data android:name="VERSION" android:value="1"/>

@@ -4,10 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import java.util.List;
-
-import edu.byui.cs246.prettyripped.models.Exercise;
-
 /**
  * TextView with an ID member to store IDs
  *

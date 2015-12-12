@@ -1,14 +1,10 @@
 package edu.byui.cs246.prettyripped.models;
 
-import android.util.Log;
-
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**

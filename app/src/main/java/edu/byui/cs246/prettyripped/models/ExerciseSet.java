@@ -1,10 +1,6 @@
 package edu.byui.cs246.prettyripped.models;
 
-import android.util.Log;
-
 import com.orm.SugarRecord;
-import com.orm.dsl.Ignore;
-
 import java.io.Serializable;
 
 /**
