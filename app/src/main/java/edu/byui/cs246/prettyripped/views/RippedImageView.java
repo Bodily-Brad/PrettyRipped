@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped;
+package edu.byui.cs246.prettyripped.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

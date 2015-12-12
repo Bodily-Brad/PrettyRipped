@@ -9,7 +9,7 @@
     android:animateLayoutChanges="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_session"
-    tools:context="edu.byui.cs246.prettyripped.views.SessionActivity">
+    tools:context="edu.byui.cs246.prettyripped.activities.SessionActivity">
 
     <TextView
         android:id="@+id/sessionDate"

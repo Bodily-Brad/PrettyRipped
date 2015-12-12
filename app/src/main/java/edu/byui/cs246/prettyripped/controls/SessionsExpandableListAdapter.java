@@ -17,10 +17,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import edu.byui.cs246.prettyripped.PrettyRippedData;
+import edu.byui.cs246.prettyripped.models.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.RippedTextView;
-import edu.byui.cs246.prettyripped.models.ExerciseSet;
+import edu.byui.cs246.prettyripped.views.RippedTextView;
 import edu.byui.cs246.prettyripped.models.Session;
 
 /**

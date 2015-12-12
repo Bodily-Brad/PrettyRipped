@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <edu.byui.cs246.prettyripped.RippedCheckBox
+    <edu.byui.cs246.prettyripped.views.RippedCheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkBoxCompleted" />
@@ -14,7 +14,7 @@
         android:text="Set #"
         android:id="@+id/labelSetNumber" />
 
-    <edu.byui.cs246.prettyripped.RippedEditText
+    <edu.byui.cs246.prettyripped.views.RippedEditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -32,7 +32,7 @@
         android:text="@string/label_reps"
         android:id="@+id/labelReps" />
 
-    <edu.byui.cs246.prettyripped.RippedEditText
+    <edu.byui.cs246.prettyripped.views.RippedEditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -50,7 +50,7 @@
         android:text="@string/label_weight_unit"
         android:id="@+id/labelWeight" />
 
-    <edu.byui.cs246.prettyripped.RippedImageView
+    <edu.byui.cs246.prettyripped.views.RippedImageView
         android:id="@+id/buttonDeleteExerciseSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

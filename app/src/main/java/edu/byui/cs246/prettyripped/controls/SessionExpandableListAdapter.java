@@ -1,39 +1,29 @@
 package edu.byui.cs246.prettyripped.controls;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.byui.cs246.prettyripped.RippedCheckBox;
-import edu.byui.cs246.prettyripped.PrettyRippedData;
+import edu.byui.cs246.prettyripped.views.RippedCheckBox;
+import edu.byui.cs246.prettyripped.models.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.RippedEditText;
-import edu.byui.cs246.prettyripped.RippedImageView;
-import edu.byui.cs246.prettyripped.RippedTextView;
+import edu.byui.cs246.prettyripped.views.RippedEditText;
+import edu.byui.cs246.prettyripped.views.RippedImageView;
+import edu.byui.cs246.prettyripped.views.RippedTextView;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
-import edu.byui.cs246.prettyripped.views.SessionActivity;
+import edu.byui.cs246.prettyripped.activities.SessionActivity;
 
 /**
  * Represents an adapter between a List of exercises and an expandable list

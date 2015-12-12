@@ -1,4 +1,4 @@
-package edu.byui.cs246.prettyripped;
+package edu.byui.cs246.prettyripped.models;
 
 import android.util.Log;
 
@@ -8,10 +8,6 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Observable;
-
-import edu.byui.cs246.prettyripped.models.Exercise;
-import edu.byui.cs246.prettyripped.models.ExerciseSet;
-import edu.byui.cs246.prettyripped.models.Session;
 
 /**
  * Application data singleton
@@ -309,6 +305,9 @@ public class PrettyRippedData extends Observable {
         // Add it to our list of sessions
         this.sessions.add(session);
 
+        // Requery db to keep sessions in order
+        loadWorkoutSessionsFromDB();
+
         // Notify Observers
         setChanged();
         notifyObservers();
@@ -500,6 +499,9 @@ public class PrettyRippedData extends Observable {
         }
         // Update the Session without notifications...
         updateSessionWithoutNotification(session);
+
+        // Requery to keep sessions in order
+        loadWorkoutSessionsFromDB();
 
         // ...then, notify the observers
         notifyObservers();
