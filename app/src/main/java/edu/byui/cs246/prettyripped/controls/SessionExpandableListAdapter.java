@@ -196,21 +196,29 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
                 // Get Exercise from ourselves (as a ripped view)
                 final Exercise ex = (Exercise) me.rippedObject;
 
-                // Show a dialog asking the user to confirm deletion of the exercise
-                new AlertDialog.Builder(context)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(R.string.dialog_title_delete_exercise)
-                        .setMessage(R.string.prompt_delete_exercise)
-                        .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Delete the Exercise and refresh the ExerciseList
-                                data.deleteExercise(ex);
-                                sessionActivity.refreshExerciseList();
-                            }
-                        })
-                        .setNegativeButton(R.string.button_cancel_delete, null)
-                        .show();
+                // If the exercise has any sets, use a dialog
+                if (ex.getExerciseSets().size() > 0) {
+                    // Show a dialog asking the user to confirm deletion of the exercise
+                    new AlertDialog.Builder(context)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.dialog_title_delete_exercise)
+                            .setMessage(R.string.prompt_delete_exercise)
+                            .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Delete the Exercise and refresh the ExerciseList
+                                    data.deleteExercise(ex);
+                                    sessionActivity.refreshExerciseList();
+                                }
+                            })
+                            .setNegativeButton(R.string.button_cancel_delete, null)
+                            .show();
+                } else {
+                    // Otherwise, just delete it
+                    data.deleteExercise(ex);
+                    sessionActivity.refreshExerciseList();
+                }
+
             }
         });
 
@@ -337,19 +345,29 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
                 // Get ExerciseSet from ourselves (as a ripped view)
                 final ExerciseSet es = (ExerciseSet) me.rippedObject;
 
-                new AlertDialog.Builder(context)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(R.string.dialog_title_delete_exerciseset)
-                        .setMessage(R.string.prompt_delete_exerciseset)
-                        .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                data.deleteExerciseSet(es);
-                                sessionActivity.refreshExerciseList();
-                            }
-                        })
-                        .setNegativeButton(R.string.button_cancel_delete, null)
-                        .show();
+                // Check to see if our set is 'empty'
+
+                if ( (es.getReps() > 0) || (es.getWeight()>0.0f) || (es.getCompleted())) {
+                    // If so, we'll use a confirmation dialog
+                    new AlertDialog.Builder(context)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.dialog_title_delete_exerciseset)
+                            .setMessage(R.string.prompt_delete_exerciseset)
+                            .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    data.deleteExerciseSet(es);
+                                    sessionActivity.refreshExerciseList();
+                                }
+                            })
+                            .setNegativeButton(R.string.button_cancel_delete, null)
+                            .show();
+
+                } else {
+                    // Otherwise, we'll just delete it
+                    data.deleteExerciseSet(es);
+                    sessionActivity.refreshExerciseList();
+                }
             }
         });
 
