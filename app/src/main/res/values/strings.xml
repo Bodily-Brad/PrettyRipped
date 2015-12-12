@@ -23,4 +23,10 @@
     <string name="prompt_delete_exercise">This is remove the exercise from the workout. Are you sure?</string>
     <string name="dialog_title_delete_exercise">Remove this exercise?</string>
 
+    <string name="prompt_delete_exerciseset">This is remove the set from the workout. Are you sure?</string>
+    <string name="dialog_title_delete_exerciseset">Remove this set?</string>
+
+    <string name="button_confirm_delete">Remove</string>
+    <string name="button_cancel_delete">Cancel</string>
+
     </resources>

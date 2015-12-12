@@ -21,6 +21,10 @@ public class RippedTextView extends TextView {
      * ID associated with this view
      */
     public long rippedID;
+
+    /**
+     * Object associated with this view
+     */
     public Object rippedObject;
 
     /**

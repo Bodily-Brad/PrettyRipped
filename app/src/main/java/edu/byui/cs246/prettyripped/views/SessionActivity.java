@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,7 +27,7 @@ import java.util.Observer;
 
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
-import edu.byui.cs246.prettyripped.controls.ExerciseExpandableListAdapter;
+import edu.byui.cs246.prettyripped.controls.SessionExpandableListAdapter;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.Session;
 
@@ -90,7 +89,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
         listView = (ExpandableListView) findViewById(R.id.exerciseList);
 
         // Create adapter
-        listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, session);
+        listAdapter = new SessionExpandableListAdapter(SessionActivity.this, session);
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);
@@ -308,7 +307,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
     public void refreshExerciseList() {
         Log.d(TAG, "refreshExerciseList()");
         // Create adapter
-        listAdapter = new ExerciseExpandableListAdapter(SessionActivity.this, session);
+        listAdapter = new SessionExpandableListAdapter(SessionActivity.this, session);
 
         // Attach adapter to list
         listView.setAdapter(listAdapter);

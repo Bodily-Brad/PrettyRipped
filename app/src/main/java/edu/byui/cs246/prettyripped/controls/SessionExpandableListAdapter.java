@@ -28,6 +28,7 @@ import edu.byui.cs246.prettyripped.RippedCheckBox;
 import edu.byui.cs246.prettyripped.PrettyRippedData;
 import edu.byui.cs246.prettyripped.R;
 import edu.byui.cs246.prettyripped.RippedEditText;
+import edu.byui.cs246.prettyripped.RippedImageView;
 import edu.byui.cs246.prettyripped.models.Exercise;
 import edu.byui.cs246.prettyripped.models.ExerciseSet;
 import edu.byui.cs246.prettyripped.models.Session;
@@ -39,7 +40,7 @@ import edu.byui.cs246.prettyripped.views.SessionActivity;
  * @author Brad Bodily
  * @since 2015-11-13
  */
-public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
+public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
     // CONSTANTS & SETTINGS
     private final static String TAG = "ExerciseListAdapter";
 
@@ -53,13 +54,13 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
     private List<Exercise> exercises = new ArrayList<>();
 
     /**
-     * Creates a new instance of ExerciseExpandableListAdapter
+     * Creates a new instance of SessionExpandableListAdapter
      *
      * @param context Context
      * @param session the Session that drives this list
      */
-    public ExerciseExpandableListAdapter(Context context, Session session) {
-        Log.d(TAG, "ExerciseExpandableListAdapter(context, exercises)");
+    public SessionExpandableListAdapter(Context context, Session session) {
+        Log.d(TAG, "SessionExpandableListAdapter(context, exercises)");
 
         data = PrettyRippedData.getInstance();
 
@@ -238,32 +239,59 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getChildView(int, int, boolean, View, ViewGroup)");
+        return getExerciseSetView(groupPosition, childPosition, isLastChild, convertView, parent);
+    }
+
+    /**
+     * Returns a flag indicating whether or not a specified child is selectable
+     *
+     * @param groupPosition groupDescription position within the exercises list
+     * @param childPosition child position within the specific exercise
+     * @return true if the child is selectable; otherwise, false.
+     */
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        Log.d(TAG, "isChildSelectable(int, int)");
+        return false;
+    }
+
+    private View getExerciseSetView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        Log.d(TAG, "getExerciseSetView(int, int, boolean, View, ViewGroup)");
 
         // Get the child for the specified groupDescription/child position
-        final ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
+        ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
 
+        // If the view is null (i.e., it's not being reused), inflate a new one
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.session_list_child, null);
         }
 
         // Get controls
-        RippedCheckBox checkBox = (RippedCheckBox) convertView.findViewById(R.id.checkBoxCompleted);
+        // Set # label
         TextView labelSetNumber = (TextView) convertView.findViewById(R.id.labelSetNumber);
-        RippedEditText editWeight = (RippedEditText) convertView.findViewById(R.id.editWeight);
-        final RippedEditText editReps = (RippedEditText) convertView.findViewById(R.id.editReps);
 
+        // Check Box
+        RippedCheckBox checkBox = (RippedCheckBox) convertView.findViewById(R.id.checkBoxCompleted);
         checkBox.rippedID = exerciseSet.getId();
         checkBox.rippedObject = exerciseSet;
 
-        editReps.rippedID = exerciseSet.getId();
-        editReps.rippedObject = exerciseSet;
-
+        // Weight edit
+        RippedEditText editWeight = (RippedEditText) convertView.findViewById(R.id.editWeight);
         editWeight.rippedID = exerciseSet.getId();
         editWeight.rippedObject = exerciseSet;
 
-        // ExerciseSet controls to match underlying ExerciseSet
+        // Reps edit
+        RippedEditText editReps = (RippedEditText) convertView.findViewById(R.id.editReps);
+        editReps.rippedID = exerciseSet.getId();
+        editReps.rippedObject = exerciseSet;
+
+        // Delete Icon
+        RippedImageView delButton = (RippedImageView) convertView.findViewById(R.id.buttonDeleteExerciseSet);
+        delButton.rippedID = exerciseSet.getId();
+        delButton.rippedObject = exerciseSet;
+
+        // Populate our controls with data from the ExerciseSet
         checkBox.setChecked(exerciseSet.getCompleted());
         labelSetNumber.setText(context.getString(R.string.label_set_prefix) + " " + Integer.toString(childPosition + 1));
         editWeight.setText(String.format("%.0f", exerciseSet.getWeight()));
@@ -271,29 +299,29 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
         // Set up listeners
 
-        // Del button
-        ImageView delButton = (ImageView) convertView.findViewById(R.id.buttonDeleteExerciseSet);
-
-        // Delete Exercise Button
-        delButton.setFocusable(false);
+        // Delete ExerciseSet button
         delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Context context = v.getContext();
+                // Get a handle to me that we can cast to a RippedView
+                RippedImageView me = (RippedImageView) v;
+
+                // Get ExerciseSet from ourselves (as a ripped view)
+                final ExerciseSet es = (ExerciseSet) me.rippedObject;
+
                 new AlertDialog.Builder(context)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Remove this set?")
-                        .setMessage("This will permanently remove this set")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.dialog_title_delete_exerciseset)
+                        .setMessage(R.string.prompt_delete_exerciseset)
+                        .setPositiveButton(R.string.button_confirm_delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //TODO: Implement exercise removal/notification
-                                data.deleteExerciseSet(exerciseSet);
+                                data.deleteExerciseSet(es);
                                 sessionActivity.refreshExerciseList();
-                                Log.d(TAG, "you said yes");
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(R.string.button_cancel_delete, null)
                         .show();
             }
         });
@@ -302,17 +330,16 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Get a handle to me that we can cast to a RippedView
                 RippedCheckBox me = (RippedCheckBox) buttonView;
-                long esID = ((RippedCheckBox) buttonView).rippedID;
-                Log.d(TAG, "CHECK CHANGED for " + esID);
 
-                // Get data handler
-                //PrettyRippedData data = PrettyRippedData.getInstance();
+                // Get ExerciseSet from ourselves (as a ripped view)
                 ExerciseSet es = (ExerciseSet) me.rippedObject;
 
                 if (isChecked != es.completed) {
                     es.setCompleted(isChecked);
                     data.updateExerciseSet(es);
+                    sessionActivity.refreshExerciseList();
                 }
 
             }
@@ -322,11 +349,15 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         editReps.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // Get a handle to me that we can cast to a RippedView
                 RippedEditText me = (RippedEditText) v;
+
+                // Get ExerciseSet from ourselves (as a ripped view)
+                ExerciseSet es = (ExerciseSet) me.rippedObject;
 
                 // Get data handler
                 PrettyRippedData data = PrettyRippedData.getInstance();
-                ExerciseSet es = (ExerciseSet) me.rippedObject;
+
                 if (es != null) {
                     String repText = me.getText().toString();
                     int newRepValue = 0;
@@ -348,12 +379,15 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
         editWeight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                // Get a handle to me that we can cast to a RippedView
                 RippedEditText me = (RippedEditText) v;
+
+                // Get ExerciseSet from ourselves (as a ripped view)
+                ExerciseSet es = (ExerciseSet) me.rippedObject;
 
                 // Get data handler
                 PrettyRippedData data = PrettyRippedData.getInstance();
 
-                ExerciseSet es = (ExerciseSet) me.rippedObject;
                 if (es != null) {
                     String weightText = me.getText().toString();
                     float newWeightValue = 0.0f;
@@ -372,18 +406,5 @@ public class ExerciseExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         return convertView;
-    }
-
-    /**
-     * Returns a flag indicating whether or not a specified child is selectable
-     *
-     * @param groupPosition groupDescription position within the exercises list
-     * @param childPosition child position within the specific exercise
-     * @return true if the child is selectable; otherwise, false.
-     */
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        Log.d(TAG, "isChildSelectable(int, int)");
-        return false;
     }
 }

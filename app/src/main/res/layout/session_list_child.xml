@@ -50,7 +50,7 @@
         android:text="@string/label_weight_unit"
         android:id="@+id/labelWeight" />
 
-    <ImageView
+    <edu.byui.cs246.prettyripped.RippedImageView
         android:id="@+id/buttonDeleteExerciseSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
