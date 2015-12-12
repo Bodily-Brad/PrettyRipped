@@ -3,7 +3,6 @@ package edu.byui.cs246.prettyripped.controls;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
     // LOCAL VARIABLES
     private Context context;
     private Session session;
-    private long sessionID;
     private PrettyRippedData data;
     private SessionActivity sessionActivity;
 
@@ -51,15 +49,13 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      * @param session the Session that drives this list
      */
     public SessionExpandableListAdapter(Context context, Session session) {
-        Log.d(TAG, "SessionExpandableListAdapter(context, exercises)");
 
+        // Get handle to data handler
         data = PrettyRippedData.getInstance();
 
         this.context = context;
         this.sessionActivity = (SessionActivity) context;
         this.session = session;
-        //this.sessionID = session.getId();
-
         this.exercises = session.getExercises();
     }
 
@@ -70,11 +66,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getGroupCount() {
-
-        // Let us know if our groupDescription is empty for some reason
-        if (exercises.size() < 1) {
-            Log.e(TAG, "getGroupCount() : exercises.size() < 1");
-        }
         return exercises.size();
     }
 
@@ -86,7 +77,7 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getChildrenCount(int groupPosition) {
-        Log.d(TAG, "getChildrenCount(int)");
+        // We add one, because the last spot is filled by the "new exercise set" view
         return exercises.get(groupPosition).getExerciseSets().size()+1;
     }
 
@@ -98,7 +89,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getGroup(int groupPosition) {
-        Log.d(TAG, "getGroup(int)");
         return exercises.get(groupPosition);
     }
 
@@ -111,8 +101,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        Log.d(TAG, "getChild(int, int)");
-
         List<ExerciseSet> exerciseSets = exercises.get(groupPosition).getExerciseSets();
         return exerciseSets.get(childPosition);
     }
@@ -125,7 +113,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public long getGroupId(int groupPosition) {
-        Log.d(TAG, "getGroupId(int)");
         return groupPosition;
     }
 
@@ -138,7 +125,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        Log.d(TAG, "getChildId(int, int)");
         return childPosition;
     }
 
@@ -149,7 +135,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public boolean hasStableIds() {
-        Log.d(TAG, "hasStableIds()");
         return false;
     }
 
@@ -164,10 +149,11 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getGroupView(int, boolean, View, ViewGroup)");
 
+        // Get the associated Exercise
         Exercise exercise = exercises.get(groupPosition);
 
+        // check for null view, if so, inflate a new one
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.session_list_group, null);
@@ -182,7 +168,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
         // Exercise name
         RippedTextView label = (RippedTextView) convertView.findViewById(R.id.labelExerciseName);
         label.rippedObject = exercise;
-
 
         // Delete Exercise Button
         delButton.setOnClickListener(new View.OnClickListener() {
@@ -240,12 +225,11 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        // If this is the last child (the one 'past the end') we'll set the "new set" view;
+        // otherwise, create a view and tie it to the 'real' ExerciseSet
         if (childPosition < getChildrenCount(groupPosition)-1) {
             return getExerciseSetView(groupPosition, childPosition, isLastChild, convertView, parent);
         } else {
-            Log.d(TAG, "childPos = max");
-            Log.d(TAG, "groupPosition: " + groupPosition);
-            Log.d(TAG, "childPosition: " + childPosition);
             return getNewExerciseSetView(groupPosition, childPosition, isLastChild, convertView, parent);
         }
     }
@@ -259,7 +243,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        Log.d(TAG, "isChildSelectable(int, int)");
         return false;
     }
 
@@ -274,8 +257,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      * @return a view representing an ExercistSet
      */
     private View getExerciseSetView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getExerciseSetView(int, int, boolean, View, ViewGroup)");
-
         // Get the child for the specified groupDescription/child position
         ExerciseSet exerciseSet = (ExerciseSet) getChild(groupPosition, childPosition);
 
@@ -414,8 +395,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
                         data.updateExerciseSet(es);
                     }
 
-                } else {
-                    Log.e(TAG, "ExerciseSet from store doesn't match ID");
                 }
             }
         });
@@ -443,8 +422,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
                         es.weight = newWeightValue;
                         data.updateExerciseSet(es);
                     }
-                } else {
-                    Log.e(TAG, "ExerciseSet from store doesn't match ID");
                 }
             }
         });
@@ -454,7 +431,8 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     * Creates a new child view, attached to an empty, and disconnected ExerciseSet
+     * Creates a new child view, attached to nothing, and shows/hides the appropriate elements for
+     * the 'new' view
      *
      * @param groupPosition group position
      * @param childPosition child position
@@ -464,11 +442,6 @@ public class SessionExpandableListAdapter extends BaseExpandableListAdapter {
      * @return a view representing an ExercistSet
      */
     private View getNewExerciseSetView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getNewExerciseSetView(int, int, boolean, View, ViewGroup)");
-
-        // Create a dummy ExerciseSet that just sits there for now
-        ExerciseSet exerciseSet = new ExerciseSet();
-        Log.d(TAG, "exerciseSet.getId(): " + exerciseSet.getId());
 
         // Get a hook to our exercise
         Exercise exercise = exercises.get(groupPosition);

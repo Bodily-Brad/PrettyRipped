@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,8 +59,6 @@ public class SessionActivity extends AppCompatActivity implements Observer {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate()");
-
         super.onCreate(savedInstanceState);
 
         // Get app data handler, and hook up as observer
@@ -99,41 +96,155 @@ public class SessionActivity extends AppCompatActivity implements Observer {
             listView.expandGroup(i);
         }
 
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Log.d(TAG, "onChildClick");
-                return false;
-            }
-        });
-
-
-
-        // Set up pink icon
+        // Set up floating action button
         initFloatingActionButton();
 
         // Set up long click listener
-        initLongClickListener();
+        initExerciseRenamer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initToolbar();
+        initDescription();
     }
 
+    // METHODS
+    /**
+     * Refreshes the exercise list
+     * Calling this repopulates the list when sets have been added/removed
+     */
+    public void refreshExerciseList() {
+        // Create adapter
+        listAdapter = new SessionExpandableListAdapter(SessionActivity.this, session);
+
+        // Attach adapter to list
+        listView.setAdapter(listAdapter);
+
+        // Expand all the lists
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
+    }
+
+    // OBSERVER METHODS
 
     /**
-     * Refreshes the UI to match the current data
+     * Is called when the Observable updates
+     *
+     * @param observable object that is being observed
+     * @param data update data
      */
-    public void refreshUI() {
-        Log.d(TAG, "refreshUI()");
-        // refresh the titles
-        refreshTitle();
+    @Override
+    public void update(Observable observable, Object data) {
+        initDescription();
 
-        // refresh the exercise list
-        refreshExerciseList();
+        refreshTitle();
     }
 
     // PRIVATE FUNCTIONS
+    /**
+     * Sets up the description, by setting the text, and creating a long click listener for changing
+     * the date
+     */
+    private void initDescription() {
+
+        final Context context = this;
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(session.getTime());
+
+        TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
+
+        // Set up long press on title
+        sessionDate.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                // Create a DatePicker
+                DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        // Make a calendar and all the junk that you have to do to get a date
+                        Calendar cal = new GregorianCalendar();
+                        cal.set(year, monthOfYear, dayOfMonth);
+
+                        // Assign the time from the picker to the session
+                        session.time = cal.getTime();
+
+                        // Update the session with the handler
+                        data.updateSession(session);
+
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                dialog.show();
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Configures the listener for long clicks, this is where we handle renaming exercises
+     */
+    private void initExerciseRenamer() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Get packedID from position (this is a weird thing we have to do)
+                long packedID = ((ExpandableListView) parent).getExpandableListPosition(position);
+                // Convert the packedID into a group position
+                int groupPosition = ExpandableListView.getPackedPositionGroup(packedID);
+                // Also get a child position (it should be -1 if we clicked on a group)
+                int childPosition = ExpandableListView.getPackedPositionChild(packedID);
+
+                // If we're not a child, we're a group
+                if (childPosition < 0) {
+                    final Exercise exercise = (Exercise) listAdapter.getGroup(groupPosition);
+
+                    // Get context and inflater so we can inflate the view
+                    Context context = view.getContext();
+                    LayoutInflater layoutInflater = LayoutInflater.from(context);
+
+                    // Create a dialog view
+                    final View dialogView = layoutInflater.inflate(R.layout.dialog_prompt, null);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setView(dialogView);
+
+                    // Get a handle to the edit control, and populate it with the current exercise name
+                    final AutoCompleteTextView editText = (AutoCompleteTextView) dialogView.findViewById(R.id.userInput);
+                    editText.setThreshold(1);
+
+                    // Get Exercise names from data handler & assign to auto complete
+                    List<String> names = data.getExerciseNames();
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
+
+                    // Fill the existing data and highlight it
+                    editText.setText(exercise.getName());
+                    editText.selectAll();
+                    editText.setAdapter(arrayAdapter);
+
+                    // Dialog to get the new exercise name
+                    alertDialogBuilder
+                            .setIcon(android.R.drawable.ic_menu_edit)
+                            .setTitle(R.string.prompt_edit_exercise_name)
+                            .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    String input = editText.getText().toString();
+                                    exercise.name = input;
+
+                                    // Update the exercise
+                                    data.updateExercise(exercise);
+
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+                return false;
+            }
+        });
+    }
 
     /**
      * Initializes the floating action button, including setting up a listener
@@ -196,145 +307,10 @@ public class SessionActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Configures the listener for long clicks, this is where we handle renaming exercises
-     */
-    private void initLongClickListener() {
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // Get packedID from position (this is a weird thing we have to do)
-                long packedID = ((ExpandableListView) parent).getExpandableListPosition(position);
-                // Convert the packedID into a group position
-                int groupPosition = ExpandableListView.getPackedPositionGroup(packedID);
-                // Also get a child position (it should be -1 if we clicked on a group)
-                int childPosition = ExpandableListView.getPackedPositionChild(packedID);
-                Log.d(TAG, "childPosition: " + childPosition);
-
-                // If we're not a child, we're a group
-                if (childPosition < 0) {
-                    final Exercise exercise = (Exercise) listAdapter.getGroup(groupPosition);
-
-                    // Get context and inflater so we can inflate the view
-                    Context context = view.getContext();
-                    LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-                    // Create a dialog view
-                    final View dialogView = layoutInflater.inflate(R.layout.dialog_prompt, null);
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                    alertDialogBuilder.setView(dialogView);
-
-                    // Get a handle to the edit control, and populate it with the current exercise name
-                    final AutoCompleteTextView editText = (AutoCompleteTextView) dialogView.findViewById(R.id.userInput);
-                    editText.setThreshold(1);
-
-                    // Get Exercise names from data handler & assign to auto complete
-                    List<String> names = data.getExerciseNames();
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, names);
-
-
-                    editText.setText(exercise.getName());
-                    editText.selectAll();
-                    editText.setAdapter(arrayAdapter);
-
-
-                    alertDialogBuilder
-                            .setIcon(android.R.drawable.ic_menu_edit)
-                            .setTitle(R.string.prompt_edit_exercise_name)
-                            .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    String input = editText.getText().toString();
-                                    exercise.name = input;
-
-                                    // Update the exercise
-                                    data.updateExercise(exercise);
-
-                                }
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .show();
-                }
-
-
-                return false;
-            }
-        });
-    }
-
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        final Context context = this;
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(session.getTime());
-
-        TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
-
-
-        // Set up long press on title
-        sessionDate.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                // Create a DatePicker
-                DatePickerDialog dialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-                        // Make a calendar and all the junk that you have to do to get a date
-                        Calendar cal = new GregorianCalendar();
-                        cal.set(year, monthOfYear, dayOfMonth);
-
-                        // Assign the time from the picker to the session
-                        session.time = cal.getTime();
-
-                        // Update the session with the handler
-                        data.updateSession(session);
-
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-                dialog.show();
-                return false;
-            }
-        });
-    }
-
-    /**
-     * Refreshes the exercise list
-     */
-    public void refreshExerciseList() {
-        Log.d(TAG, "refreshExerciseList()");
-        // Create adapter
-        listAdapter = new SessionExpandableListAdapter(SessionActivity.this, session);
-
-        // Attach adapter to list
-        listView.setAdapter(listAdapter);
-
-        // Expand all the lists
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            listView.expandGroup(i);
-        }
-    }
-
-    /**
      * Refreshes the exercise title
      */
     private void refreshTitle() {
         TextView sessionDate = (TextView) findViewById(R.id.sessionDate);
         sessionDate.setText(session.toString());
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        Log.d(TAG, "update(Observable, Object)");
-        initToolbar();
-
-        refreshTitle();
-
-        if (observable.getClass() == PrettyRippedData.class) {
-            //refreshUI();
-        }
     }
 }
