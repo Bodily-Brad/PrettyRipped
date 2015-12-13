@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -222,6 +223,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                     editText.selectAll();
                     editText.setAdapter(arrayAdapter);
 
+
                     // Dialog to get the new exercise name
                     alertDialogBuilder
                             .setIcon(android.R.drawable.ic_menu_edit)
@@ -237,8 +239,15 @@ public class SessionActivity extends AppCompatActivity implements Observer {
 
                                 }
                             })
-                            .setNegativeButton("Cancel", null)
-                            .show();
+                            .setNegativeButton("Cancel", null);
+
+                    final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // pull up keyboard
+                    alertDialog.getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+                    alertDialog.show();
                 }
                 return false;
             }
@@ -297,8 +306,14 @@ public class SessionActivity extends AppCompatActivity implements Observer {
                                 refreshExerciseList();
                             }
                         })
-                        .setNegativeButton(R.string.button_cancel_exercise_name, null)
-                        .show();
+                        .setNegativeButton(R.string.button_cancel_exercise_name, null);
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // pull up keyboard
+                alertDialog.getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+                alertDialog.show();
             }
         });
     }

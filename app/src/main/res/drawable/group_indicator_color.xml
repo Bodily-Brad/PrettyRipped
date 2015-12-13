@@ -3,7 +3,7 @@
     <item android:state_expanded="false">
         <layer-list>
             <item
-                android:width="5dp"
+                android:width="30dp"
                 android:drawable="@drawable/ic_expand_more_black_24dp"/>
         </layer-list>
     </item>
