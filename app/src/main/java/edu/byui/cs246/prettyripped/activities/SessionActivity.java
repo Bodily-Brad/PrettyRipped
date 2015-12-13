@@ -236,6 +236,7 @@ public class SessionActivity extends AppCompatActivity implements Observer {
 
                                     // Update the exercise
                                     data.updateExercise(exercise);
+                                    refreshExerciseList();
 
                                 }
                             })
